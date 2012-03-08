@@ -8,8 +8,9 @@ Authors
 	Written by deroad
 
 Changelog:
-- 0.0.1 -
-	PNG/JPG support
-- 0.0.2 -
-	Now it loads everything correctly.
+-------
+	- 0.0.1 -
+		PNG/JPG support
+	- 0.0.2 -
+		Now it loads everything correctly.
 
