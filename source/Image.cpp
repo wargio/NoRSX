@@ -1,79 +1,55 @@
 #include "Image.h"
-#include "rsxutil.h"
-Image::Image() : Module(){}
-Image::~Image(){
-	
+void Image::LoadPNG(const char* filename, pngData *png){
+	pngLoadFromFile(filename, png);
 }
 
-pngData Image::LoadFromFile_PNG  (const char *Path){
-	pngData png_image;
-	pngLoadFromFile(Path, &png_image);
-	return png_image;
+void Image::LoadJPG(const char* filename, jpgData *jpg){
+	jpgLoadFromFile(filename, jpg);
 }
-pngData Image::LoadFromBuffer_PNG(void *BIN, u32 Size){
-	pngData png_image;
-	pngLoadFromBuffer(BIN, Size, &png_image);
-	return png_image;
+/*
+void Image::LoadPNG_Buf(const void* name, pngData *png){
+	pngLoadFromBuffer(name, name_size, png);
 }
 
-int Image::DrawPNG(int x_png, int y_png, pngData png_image){
-	if(png_image.bmp_out){
-		static int x=0,y=0 ;
-		u32 *scr = color_buffer[curr_fb];
-		u32 *png =  (u32 *) png_image.bmp_out;
-		int n, m;
-		x+=x_png; y+=y_png;
-		scr+=y*display_width+x;
-		for(n=0;n<png_image.height;n++) {
-			if((y+n)>=display_height) break;
-			for(m=0;m<png_image.width;m++) {
-				if((x+m)>=display_width) break;
+void Image::LoadJPG_Buf(const void* name, jpgData *jpg){
+	jpgLoadFromBuffer(name, name_size, jpg);
+}
+*/
+void Image::DrawIMG(int x, int y, pngData *png1){
+	if(png1->bmp_out){
+		u32 *scr = (u32 *)G->buffers[G->currentBuffer].ptr;
+		u32 *png= (u32 *)(void *)png1->bmp_out;
+		unsigned int n, m;
+
+		scr += y*G->buffers[G->currentBuffer].width+x;
+		for(n=0;n<png1->height;n++){
+			if((y+n)>=G->buffers[G->currentBuffer].height) break;
+			for(m=0;m<png1->width;m++){
+				if((x+m)>=G->buffers[G->currentBuffer].width) break;
 				scr[m]=png[m];
 			}
-			png+=png_image.pitch>>2;
-			scr+=display_width;
-			x = 0;
-			y = 0;
+			png+=png1->pitch>>2;
+			scr+=G->buffers[G->currentBuffer].width;
 		}
-		return 0;
-	}else{
-		return -1;
 	}
 }
 
+void Image::DrawIMG(int x, int y, jpgData *jpg1){
+	if(jpg1->bmp_out){
+		u32 *scr = (u32 *)G->buffers[G->currentBuffer].ptr;
+		u32 *jpg= (u32 *)(void *)jpg1->bmp_out;
+		unsigned int n, m;
 
-jpgData Image::LoadFromFile_JPG  (const char *Path){
-	jpgData jpg_image;
-	jpgLoadFromFile(Path, &jpg_image);
-	return jpg_image;
-}
-jpgData Image::LoadFromBuffer_JPG(void *BIN, u32 Size){
-	jpgData jpg_image;
-	jpgLoadFromBuffer(BIN, Size, &jpg_image);
-	return jpg_image;
-}
-
-int Image::DrawJPG(int x_jpg, int y_jpg, jpgData jpg_image){
-	if(jpg_image.bmp_out){
-		static int x=0,y=0 ;
-		u32 *scr = color_buffer[curr_fb];
-		u32 *jpg =  (u32 *) jpg_image.bmp_out;
-		int n, m;
-		x+=x_jpg; y+=y_jpg;
-		scr+=y*display_width+x;
-		for(n=0;n<jpg_image.height;n++) {
-			if((y+n)>=display_height) break;
-			for(m=0;m<jpg_image.width;m++) {
-				if((x+m)>=display_width) break;
+		scr += y*G->buffers[G->currentBuffer].width+x;
+		for(n=0;n<jpg1->height;n++){
+			if((y+n)>=G->buffers[G->currentBuffer].height) break;
+			for(m=0;m<jpg1->width;m++){
+				if((x+m)>=G->buffers[G->currentBuffer].width) break;
 				scr[m]=jpg[m];
 			}
-			jpg+=jpg_image.pitch>>2;
-			scr+=display_width;
-			x = 0;
-			y = 0;
+			jpg+=jpg1->pitch>>2;
+			scr+=G->buffers[G->currentBuffer].width;
 		}
-		return 0;
-	}else{
-		return -1;
 	}
 }
+

@@ -1,46 +1,28 @@
 #include "NoRSX.h"
-#include "memory.h"
+
 
 NoRSX::NoRSX(){
-	host_addr = memalign(1024*1024,HOST_SIZE);
-//	main_addr = (void*)((u64)host_addr + CB_SIZE);
-
-	init_spu();
-	init_screen(host_addr,HOST_SIZE);
-
-	signal_spu_ppu();
-	signal_spu_rsx();
-
-	setRenderTarget(curr_fb);
-	rsxFinish(context,0);
-
-	EventH();
-	atexit(ExitCallBack);
-	Image();
+	currentBuffer = 0;
+	host_addr = memalign(1024*1024, HOST_SIZE);
+	context = initScreen(host_addr, HOST_SIZE);
+	getResolution(&width,&height);
+	for(int i=0;i<2;i++)
+		makeBuffer(&buffers[i],width,height,i);
+	flip(context, 1);
+	setRenderTarget(context, &buffers[currentBuffer]);
 }
 
 NoRSX::~NoRSX(){
-	ExitCallBack();
-}
-
-void NoRSX::ExitCallBack(){
 	gcmSetWaitFlip(context);
-	rsxFinish(context,1);
-
-	shutdown_spu();
-	Unload();
+	for (int i=0;i<2;i++)
+		rsxFree (buffers[i].ptr);
+	rsxFinish (context, 1);
+	free (host_addr);
 }
 
-/*
-void drawFrame()
-{
-
-	wait_signal_spu();
-
-
-	clear_signal_spu();
-	signal_spu_rsx();
-
+void NoRSX::Flip(){
+	flip(context, buffers[currentBuffer].id); // Flip buffer onto screen
+	currentBuffer = !currentBuffer;
+	setRenderTarget(context, &buffers[currentBuffer]) ;
+	waitFlip();
 }
-
-*/

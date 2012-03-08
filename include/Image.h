@@ -1,28 +1,38 @@
+#ifndef __NORSX_IMAGE_H__
+#define __NORSX_IMAGE_H__
+
 #include <pngdec/pngdec.h>
 #include <jpgdec/jpgdec.h>
+#include <sysutil/sysutil.h>
+#include <sysmodule/sysmodule.h>
+#include "Min.h"
 
 
-#ifndef __NORSX_IMAGE__
-#define __NORSX_IMAGE__
-
-#include <ppu-types.h>
-#include "rsxutil.h"
-#include "Modules.h"
-
-class Image : public Module{
+class Image{
 public:
-	Image();
-	~Image();
+	Image(Minimum *g){
+		G=g;
+		sysModuleLoad(SYSMODULE_FS);
+		sysModuleLoad(SYSMODULE_PNGDEC);
+		sysModuleLoad(SYSMODULE_JPGDEC);
+	}
+	~Image(){
+		sysModuleUnload(SYSMODULE_FS);
+		sysModuleUnload(SYSMODULE_PNGDEC);
+		sysModuleUnload(SYSMODULE_JPGDEC);
+	}
+	void LoadPNG(const char* filename, pngData *png);
+	void LoadJPG(const char* filename, jpgData *jpg);
+//	void LoadPNG_Buf(const void* name, pngData *png);
+//	void LoadJPG_Buf(const void* name, jpgData *jpg);.
 
-	jpgData LoadFromFile_JPG  (const char *Path);
-	jpgData LoadFromBuffer_JPG(void *BIN, u32 Size);
+	void DrawIMG(int x, int y, pngData *png1);
+	void DrawIMG(int x, int y, jpgData *jpg1);
 
-	pngData LoadFromFile_PNG  (const char *Path);
-	pngData LoadFromBuffer_PNG(void *BIN, u32 Size);
+private:
+	Minimum *G;
 
-
-	int DrawPNG(int x, int y, pngData png_image);
-	int DrawJPG(int x, int y, jpgData jpg_image);
 };
+
 
 #endif
