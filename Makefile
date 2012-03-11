@@ -24,6 +24,7 @@ INCLUDES	:=	include
 TITLE		:=      NoRSX Example (PNG)
 APPID		:=      NORSX0000
 CONTENTID	:=      UP0001-$(APPID)_00-0000000000000000
+ICON0		:=	$(CURDIR)/ICON0.PNG
 
 #---------------------------------------------------------------------------------
 # options for code generation

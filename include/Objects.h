@@ -15,22 +15,22 @@
  This program was created by Grazioli Giovanni Dante <wargio@libero.it>.
 */
 
-#ifndef __NORSX_MIN_H__
-#define __NORSX_MIN_H__
-#include <rsx/rsx.h>
-#include "rsxutil.h"
-#include <ppu-types.h>
+#ifndef __NORSX_OBJ_H__
+#define __NORSX_OBJ_H__
+#include "Min.h"
+#include "Colors.h"
 
-class Minimum{
+class Object{
 public:
-	u16 width;
-	u16 height;
-
-	rsxBuffer buffers[2];
-	gcmContextData *context;
-	int currentBuffer;
+	 Object(Minimum *g);
+	~Object(){}
+	
+	void Rectangle(u32 X, u32 Y, u32 width, u32 height, s32 Color);
+	
+	
+	
+private:
+	Minimum *G;
 };
 
 #endif
-
-

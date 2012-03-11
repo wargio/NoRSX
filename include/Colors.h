@@ -15,22 +15,17 @@
  This program was created by Grazioli Giovanni Dante <wargio@libero.it>.
 */
 
-#ifndef __NORSX_MIN_H__
-#define __NORSX_MIN_H__
-#include <rsx/rsx.h>
-#include "rsxutil.h"
-#include <ppu-types.h>
+#ifndef __NORSX_COLOR_H__
+#define __NORSX_COLOR_H__
 
-class Minimum{
-public:
-	u16 width;
-	u16 height;
+#define COLOR_WHITE		0xFFFFFF
+#define COLOR_BLACK		0x000000
+#define COLOR_BLUE		0x0000FF
+#define COLOR_GREEN		0x00FF00
+#define COLOR_RED		0xFF0000
+#define COLOR_YELLOW		0xFFFF00
+#define COLOR_CYAN		0X00FFFF
+#define COLOR_GREY		0x808080
 
-	rsxBuffer buffers[2];
-	gcmContextData *context;
-	int currentBuffer;
-};
 
 #endif
-
-

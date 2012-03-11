@@ -1,3 +1,20 @@
+/*
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+ This program was created by Grazioli Giovanni Dante <wargio@libero.it>.
+*/
+
 #include <io/pad.h>
 #include "NoRSX.h"
 #include "psl1ght_png_bin.h" // png in memory
@@ -36,9 +53,11 @@ s32 main(s32 argc, const char* argv[])
 	
 	NoRSX *GFX = new NoRSX();
 	Image IMG(GFX);
-//	LoadPNG_Buf(psl1ght_png_bin,&png);
-	pngLoadFromBuffer((void*)psl1ght_png_bin, psl1ght_png_bin_size, &png);
+	Background BG(GFX);
+	Object OBJ(GFX);
 	
+	IMG.LoadPNG_Buf((void*)psl1ght_png_bin, psl1ght_png_bin_size, &png);
+	u32 x=(GFX->width/2)-(png.width/2),y=(GFX->height/2)-(png.height/2);
 	exitapp = 1;
 	while(exitapp)
 	{
@@ -47,13 +66,17 @@ s32 main(s32 argc, const char* argv[])
 		for(i=0; i<MAX_PADS; i++){
 			if(padinfo.status[i]){
 				ioPadGetData(i, &paddata);
-
 				if(paddata.BTN_CROSS){
 					exitapp = 0;
 				}
 			}
 		}
-		IMG.DrawIMG(300,300,&png);
+		BG.Mono(COLOR_GREY);
+		OBJ.Rectangle(260,100,570,100,COLOR_BLUE);
+		OBJ.Rectangle(300,150,200,400,COLOR_GREEN);
+		OBJ.Rectangle(20,650,58,90,COLOR_YELLOW);
+		OBJ.Rectangle(1060,600,300,300,COLOR_CYAN);
+		IMG.DrawIMG(x,y,&png);
 		GFX->Flip();
 
 		sysUtilCheckCallback(); // check user attention span

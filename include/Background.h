@@ -15,22 +15,22 @@
  This program was created by Grazioli Giovanni Dante <wargio@libero.it>.
 */
 
-#ifndef __NORSX_MIN_H__
-#define __NORSX_MIN_H__
-#include <rsx/rsx.h>
-#include "rsxutil.h"
-#include <ppu-types.h>
+#ifndef __NORSX_BACKGROUND_H__
+#define __NORSX_BACKGROUND_H__
+#include "Min.h"
+#include "Colors.h"
 
-class Minimum{
+class Background{
 public:
-	u16 width;
-	u16 height;
+	 Background(Minimum *g);
+	~Background(){}
 
-	rsxBuffer buffers[2];
-	gcmContextData *context;
-	int currentBuffer;
+	void Mono(s32 Color);
+//	void DoubleGradient(s32 Color1, s32 Color2);
+
+protected:
+	int frame;
+	Minimum *G;
 };
 
 #endif
-
-

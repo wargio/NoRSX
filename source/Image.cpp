@@ -6,15 +6,15 @@ void Image::LoadPNG(const char* filename, pngData *png){
 void Image::LoadJPG(const char* filename, jpgData *jpg){
 	jpgLoadFromFile(filename, jpg);
 }
-/*
-void Image::LoadPNG_Buf(const void* name, pngData *png){
+
+void Image::LoadPNG_Buf(const void* name, u32 name_size, pngData *png){
 	pngLoadFromBuffer(name, name_size, png);
 }
 
-void Image::LoadJPG_Buf(const void* name, jpgData *jpg){
+void Image::LoadJPG_Buf(const void* name, u32 name_size, jpgData *jpg){
 	jpgLoadFromBuffer(name, name_size, jpg);
 }
-*/
+
 void Image::DrawIMG(int x, int y, pngData *png1){
 	if(png1->bmp_out){
 		u32 *scr = (u32 *)G->buffers[G->currentBuffer].ptr;
@@ -53,3 +53,19 @@ void Image::DrawIMG(int x, int y, jpgData *jpg1){
 	}
 }
 
+/* alpha blend routine */
+unsigned int AlphaBlend(const unsigned int bg, const unsigned int src){
+   unsigned int a = src >> 24;    /* alpha */
+
+   /* If source pixel is transparent, just return the background */
+   if (0 == a) 
+      return bg;
+
+   /* alpha blending the source and background colors */
+   unsigned int rb = (((src & 0x00ff00ff) * a) +  
+      ((bg & 0x00ff00ff) * (0xff - a))) & 0xff00ff00;
+   unsigned int    g  = (((src & 0x0000ff00) * a) + 
+      ((bg & 0x0000ff00) * (0xff - a))) & 0x00ff0000;
+
+    return (src & 0xff000000) | ((rb | g) >> 8);
+}
