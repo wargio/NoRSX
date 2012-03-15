@@ -21,7 +21,7 @@ SOURCES		:=	source
 DATA		:=	data
 INCLUDES	:=	include
 
-TITLE		:=      NoRSX Example (PNG)
+TITLE		:=      NoRSX Example
 APPID		:=      NORSX0000
 CONTENTID	:=      UP0001-$(APPID)_00-0000000000000000
 ICON0		:=	$(CURDIR)/ICON0.PNG
@@ -109,7 +109,7 @@ $(BUILD):
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(OUTPUT).elf $(OUTPUT).self
+	@rm -fr $(BUILD) $(OUTPUT).elf $(OUTPUT).self *.pkg
 
 #---------------------------------------------------------------------------------
 run:

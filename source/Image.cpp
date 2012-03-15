@@ -53,6 +53,49 @@ void Image::DrawIMG(int x, int y, jpgData *jpg1){
 	}
 }
 
+
+void Image::DrawPartialImage(int x, int y, unsigned int s_width, unsigned int s_height, unsigned int e_width, unsigned int e_height, unsigned int bg, unsigned int color, pngData *png1){
+	if(png1->bmp_out){
+		u32 *scr = (u32 *)G->buffers[G->currentBuffer].ptr;
+		u32 *png= (u32 *)(void *)png1->bmp_out;
+		unsigned int n, m;
+
+		scr += y*G->buffers[G->currentBuffer].width+x;
+		if(s_height>0) for(unsigned int i=0;i<s_height;i++) png+=png1->pitch>>2;
+		for(n=s_height;n<e_height+s_height;n++){
+			if((y+n)>=G->buffers[G->currentBuffer].height) break;
+			for(m=s_width;m<e_width+s_width;m++){
+				if((x+m)>=G->buffers[G->currentBuffer].width) break;
+				if(png[m]!=bg) scr[m-s_width]=color;
+			}
+			png+=png1->pitch>>2;
+			scr+=G->buffers[G->currentBuffer].width;
+		}
+	}
+}
+
+void Image::DrawPartialImage(int x, int y, unsigned int s_width, unsigned int s_height, unsigned int e_width, unsigned int e_height, unsigned int bg, unsigned int color, jpgData *jpg1){
+	if(jpg1->bmp_out){
+		u32 *scr = (u32 *)G->buffers[G->currentBuffer].ptr;
+		u32 *jpg= (u32 *)(void *)jpg1->bmp_out;
+		unsigned int n, m;
+
+		scr += y*G->buffers[G->currentBuffer].width+x;
+		if(s_height>0) for(unsigned int i=0;i<s_height;i++) jpg+=jpg1->pitch>>2;
+		for(n=s_height;n<e_height+s_height;n++){
+			if((y+n)>=G->buffers[G->currentBuffer].height) break;
+			for(m=s_width;m<e_width+s_width;m++){
+				if((x+m)>=G->buffers[G->currentBuffer].width) break;
+				if(jpg[m]!=bg) scr[m-s_width]=color;
+			}
+			jpg+=jpg1->pitch>>2;
+			scr+=G->buffers[G->currentBuffer].width;
+		}
+	}
+}
+
+
+
 /* alpha blend routine */
 unsigned int AlphaBlend(const unsigned int bg, const unsigned int src){
    unsigned int a = src >> 24;    /* alpha */

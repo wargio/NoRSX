@@ -17,9 +17,9 @@
 
 #include <io/pad.h>
 #include "NoRSX.h"
-#include "psl1ght_png_bin.h" // png in memory
+#include "NoRSX_Image_bin.h"
 
-#define PNG_FILE "/dev_usb/psl1ght_png.bin"
+msgType MSG_OK = (msgType)(MSG_DIALOG_NORMAL | MSG_DIALOG_BTN_TYPE_OK | MSG_DIALOG_DISABLE_CANCEL_ON);
 
 static int exitapp, xmbopen;
 
@@ -47,7 +47,7 @@ s32 main(s32 argc, const char* argv[])
 	int i;
 	sysUtilRegisterCallback(SYSUTIL_EVENT_SLOT0, eventHandler, NULL);
 
-	ioPadInit(7) ;
+	ioPadInit(7);
 
 	pngData png;
 	
@@ -55,13 +55,16 @@ s32 main(s32 argc, const char* argv[])
 	Image IMG(GFX);
 	Background BG(GFX);
 	Object OBJ(GFX);
+	Font F(GFX);
+	MsgDialog Msg(GFX);
 	
-	IMG.LoadPNG_Buf((void*)psl1ght_png_bin, psl1ght_png_bin_size, &png);
+
+	IMG.LoadPNG_Buf((void*)NoRSX_Image_bin, NoRSX_Image_bin_size, &png);
 	u32 x=(GFX->width/2)-(png.width/2),y=(GFX->height/2)-(png.height/2);
 	exitapp = 1;
-	while(exitapp)
-	{
-		/* Check the pads. */
+	
+
+	while(exitapp){
 		ioPadGetInfo(&padinfo);
 		for(i=0; i<MAX_PADS; i++){
 			if(padinfo.status[i]){
@@ -74,14 +77,18 @@ s32 main(s32 argc, const char* argv[])
 		BG.Mono(COLOR_GREY);
 		OBJ.Rectangle(260,100,570,100,COLOR_BLUE);
 		OBJ.Rectangle(300,150,200,400,COLOR_GREEN);
-		OBJ.Rectangle(20,650,58,90,COLOR_YELLOW);
+		OBJ.Rectangle(20,650,500,90,COLOR_YELLOW);
 		OBJ.Rectangle(1060,600,300,300,COLOR_CYAN);
 		IMG.DrawIMG(x,y,&png);
+		F.Print(800,300,"DEROAD IS COOL, BUT NORSX IS BETTER!",COLOR_RED);
+		F.Print(800,330,"1234567890ABCDEFGHILMNOPQRSTUVZ.,!?",COLOR_BLUE);
 		GFX->Flip();
 
-		sysUtilCheckCallback(); // check user attention span
+		sysUtilCheckCallback();
 	}
-
+	Msg.Dialog(MSG_OK, "This is the power of NoRSX\nThis lib was written by deroad http://devram0.blogspot.com/\n\nPress Cross (X) to exit");
+//	Msg.GetResponse(MSG_DIALOG_BTN_OK)
+	GFX->NoRSX_Exit();
 	ioPadEnd();
 	return 0;
 }

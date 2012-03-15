@@ -1,5 +1,6 @@
 #include "NoRSX.h"
 
+static int already_done=0;
 
 NoRSX::NoRSX(){
 	currentBuffer = 0;
@@ -13,11 +14,8 @@ NoRSX::NoRSX(){
 }
 
 NoRSX::~NoRSX(){
-	gcmSetWaitFlip(context);
-	for (int i=0;i<2;i++)
-		rsxFree (buffers[i].ptr);
-	rsxFinish (context, 1);
-	free (host_addr);
+	if(already_done!=0)
+		NoRSX_Exit();
 }
 
 void NoRSX::Flip(){
@@ -26,3 +24,13 @@ void NoRSX::Flip(){
 	setRenderTarget(context, &buffers[currentBuffer]) ;
 	waitFlip();
 }
+
+void NoRSX::NoRSX_Exit(){
+	gcmSetWaitFlip(context);
+	for (int i=0;i<2;i++)
+		rsxFree (buffers[i].ptr);
+	rsxFinish (context, 1);
+	free (host_addr);
+	already_done=1;
+}
+

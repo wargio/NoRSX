@@ -66,6 +66,8 @@ Mono(s32 Color);
 #include "Image.h"
 #include "Background.h"
 #include "Objects.h"
+#include "Font_Test.h"
+#include "Msg.h"
 
 #include <stdio.h>
 #include <malloc.h>
@@ -81,7 +83,7 @@ public:
 	~NoRSX();
 	
 	void Flip();
-	
+	void NoRSX_Exit();
 protected:
 	void *host_addr;
 

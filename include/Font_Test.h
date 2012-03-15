@@ -15,23 +15,23 @@
  This program was created by Grazioli Giovanni Dante <wargio@libero.it>.
 */
 
-#ifndef __NORSX_MIN_H__
-#define __NORSX_MIN_H__
-#include <rsx/rsx.h>
-#include "rsxutil.h"
-#include <ppu-types.h>
-#include <io/pad.h>
+#ifndef __NORSX_TEST_FONT_H__
+#define __NORSX_TEST_FONT_H__
+#include "Min.h"
+#include "Colors.h"
+#include "Image.h"
+#include "Font_Test_bin.h"
 
-class Minimum{
+class Font:public Image{
 public:
-	u16 width;
-	u16 height;
-
-	rsxBuffer buffers[2];
-	gcmContextData *context;
-	int currentBuffer;
+	 Font(Minimum *g);
+	~Font(){}
+	
+	void Print(u32 X, u32 Y, const char *txt, unsigned int Color);
+	
+	
+private:
+	pngData P;
 };
 
 #endif
-
-

@@ -47,8 +47,11 @@ public:
 	void DrawIMG(int x, int y, pngData *png1);
 	void DrawIMG(int x, int y, jpgData *jpg1);
 
-private:
+protected:
 	Minimum *G;
+	void DrawPartialImage(int x, int y, unsigned int s_width, unsigned int s_height, unsigned int e_width, unsigned int e_height, unsigned int bg, unsigned int color, pngData *png1); 
+	void DrawPartialImage(int x, int y, unsigned int s_width, unsigned int s_height, unsigned int e_width, unsigned int e_height, unsigned int bg, unsigned int color, jpgData *jpg1); 
+
 
 };
 

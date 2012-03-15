@@ -3,10 +3,12 @@ NoRSX is a 2D lib for PSL1GHT
 
 This lib is unfinished. i hope to finish to write the text support soon.
 
+Don't be afraid to give me a help! this lib can be very useful!
+
 Authors
 -------
 	deroad
-	kakaroto (rsxutil)
+	kakaroto (for his rsxutil.c)
 
 Changelog:
 -------
@@ -17,4 +19,7 @@ Changelog:
 	- 0.0.3 -
 		Background support.
 		Can generate an object like rectangles
-
+	- 0.0.4 -
+		Added Msg dialog.
+		Added Sperimental Text (NO FONTS for now).
+		Added Partial Image function.
