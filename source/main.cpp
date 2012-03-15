@@ -18,8 +18,7 @@
 #include <io/pad.h>
 #include "NoRSX.h"
 #include "NoRSX_Image_bin.h"
-
-msgType MSG_OK = (msgType)(MSG_DIALOG_NORMAL | MSG_DIALOG_BTN_TYPE_OK | MSG_DIALOG_DISABLE_CANCEL_ON);
+#include <time.h>
 
 static int exitapp, xmbopen;
 
@@ -39,6 +38,7 @@ static inline void eventHandler(u64 status, u64 param, void * userdata)
 	}
 }
 
+msgType MSG_OK = (msgType)(MSG_DIALOG_NORMAL | MSG_DIALOG_BTN_TYPE_OK | MSG_DIALOG_DISABLE_CANCEL_ON);
 
 s32 main(s32 argc, const char* argv[])
 {
@@ -53,18 +53,21 @@ s32 main(s32 argc, const char* argv[])
 	
 	NoRSX *GFX = new NoRSX();
 	Image IMG(GFX);
-	Background BG(GFX);
-	Object OBJ(GFX);
+//	Background BG(GFX);
+//	Object OBJ(GFX);
 	Font F(GFX);
 	MsgDialog Msg(GFX);
 	
 
 	IMG.LoadPNG_Buf((void*)NoRSX_Image_bin, NoRSX_Image_bin_size, &png);
-	u32 x=(GFX->width/2)-(png.width/2),y=(GFX->height/2)-(png.height/2);
 	exitapp = 1;
-	
-
+	int frame=0;
+	Msg.Dialog(MSG_OK, "This is NoRSX\nThis lib was written by deroad http://devram0.blogspot.com/\n\nPress Cross (X) to continue");
 	while(exitapp){
+		static time_t starttime = 0;
+		double fps = 0;
+		if (starttime == 0) starttime = time (NULL);
+		else fps = frame / difftime (time (NULL), starttime);
 		ioPadGetInfo(&padinfo);
 		for(i=0; i<MAX_PADS; i++){
 			if(padinfo.status[i]){
@@ -74,20 +77,16 @@ s32 main(s32 argc, const char* argv[])
 				}
 			}
 		}
-		BG.Mono(COLOR_GREY);
-		OBJ.Rectangle(260,100,570,100,COLOR_BLUE);
-		OBJ.Rectangle(300,150,200,400,COLOR_GREEN);
-		OBJ.Rectangle(20,650,500,90,COLOR_YELLOW);
-		OBJ.Rectangle(1060,600,300,300,COLOR_CYAN);
-		IMG.DrawIMG(x,y,&png);
-		F.Print(800,300,"DEROAD IS COOL, BUT NORSX IS BETTER!",COLOR_RED);
-		F.Print(800,330,"1234567890ABCDEFGHILMNOPQRSTUVZ.,!?",COLOR_BLUE);
+		char a[20];
+		sprintf (a,"FPS %f", fps);
+		IMG.DrawIMG(0,0,&png);
+		F.Print(1000,950,(char*)("NORSX 1920 X 1080 SCREEN TEST!"),COLOR_WHITE);
+		F.Print(1000,990,(char*)("PRESS X TO EXIT"),COLOR_YELLOW);
+		F.Print(200,100,a,COLOR_WHITE);
 		GFX->Flip();
-
+		frame ++;
 		sysUtilCheckCallback();
 	}
-	Msg.Dialog(MSG_OK, "This is the power of NoRSX\nThis lib was written by deroad http://devram0.blogspot.com/\n\nPress Cross (X) to exit");
-//	Msg.GetResponse(MSG_DIALOG_BTN_OK)
 	GFX->NoRSX_Exit();
 	ioPadEnd();
 	return 0;
