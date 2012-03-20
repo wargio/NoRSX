@@ -1,32 +1,37 @@
 #include "Objects.h"
+#include <math.h>
 
 Object::Object(Minimum *g){
 	G=g;
 }
 
 //Object::
-void Object::Rectangle(u32 X, u32 Y, u32 width, u32 height, s32 Color){
+void Object::Rectangle(u32 X, u32 Y, u32 width, u32 height, u32 Color){
 	s32 i, j;
 	for(i = Y; i < (height+Y); i++) {
 		for(j = X; j < (width+X); j++)
-			G->buffers[G->currentBuffer].ptr[i* G->buffers[G->currentBuffer].width + j] = Color;
+			Pixel(i,j,Color);
 	}
 }
 
-/*
-void Object::Circle(u32 X, u32 Y, u32 r, s32 Color){
-	s32 i, j;
-	for(i = 0; i < G->buffers[G->currentBuffer].height; i++) {
-		for(j = 0; j < G->buffers[G->currentBuffer].width; j++)
-			G->buffers[G->currentBuffer].ptr[i* G->buffers[G->currentBuffer].width + j] = Color;
+
+void Object::Circle(u32 X, u32 Y, u32 r, u32 Color){
+	for(u32 y=0;y<r;y++){
+		u32 width=sqrt(r*r-y*y);
+		for(u32 x=0;x<width;x++){
+			Pixel4(X+x, Y+y, Color);
+			Pixel4(X+x, Y-y, Color);
+			Pixel4(X-x, Y+y, Color);
+			Pixel4(X-x, Y-y, Color);
+		}
 	}
 }
-*/
+
 
 void Object::Pixel4(u32 X, u32 Y, u32 Color){
-	Pixel(X,Y,Color);
-	Pixel(X+1,Y,Color);
-	Pixel(X,Y+1,Color);
+	Pixel(X  ,Y  ,Color);
+	Pixel(X+1,Y  ,Color);
+	Pixel(X  ,Y+1,Color);
 	Pixel(X+1,Y+1,Color);
 }
 

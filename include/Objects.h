@@ -25,7 +25,8 @@ public:
 	 Object(Minimum *g);
 	~Object(){}
 	
-	void Rectangle(u32 X, u32 Y, u32 width, u32 height, s32 Color);
+	void Rectangle(u32 X, u32 Y, u32 width, u32 height, u32 Color);
+	void Circle(u32 X, u32 Y, u32 r, u32 Color);
 	void Pixel4(u32 X, u32 Y, u32 Color);
 	
 	

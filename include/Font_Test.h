@@ -27,7 +27,7 @@ public:
 	 Font(Minimum *g);
 	~Font(){}
 	
-	void Print (u32 X, u32 Y, const char *txt, unsigned int Color);
+	void Print (u32 x, u32 y,unsigned int Color ,const char *txt);
 	void Printf(u32 x, u32 y,unsigned int Color ,const char *a, ...);
 	
 	

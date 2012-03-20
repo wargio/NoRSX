@@ -53,7 +53,6 @@ void Image::DrawIMG(int x, int y, jpgData *jpg1){
 	}
 }
 
-
 void Image::DrawPartialImage(int x, int y, unsigned int s_width, unsigned int s_height, unsigned int e_width, unsigned int e_height, unsigned int bg, unsigned int color, pngData *png1){
 	if(png1->bmp_out){
 		u32 *scr = (u32 *)G->buffers[G->currentBuffer].ptr;

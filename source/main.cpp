@@ -53,16 +53,15 @@ s32 main(s32 argc, const char* argv[])
 	
 	NoRSX *GFX = new NoRSX();
 	Image IMG(GFX);
-//	Background BG(GFX);
-//	Object OBJ(GFX);
+	Background BG(GFX);
+	Object OBJ(GFX);
 	Font F(GFX);
-	MsgDialog Msg(GFX);
 	
 
 	IMG.LoadPNG_Buf((void*)NoRSX_Image_bin, NoRSX_Image_bin_size, &png);
+	u32 imgX =(GFX->width/2)-(png.width/2), imgY = (GFX->height/2)-(png.height/2);
 	exitapp = 1;
 	int frame=0;
-	Msg.Dialog(MSG_OK, "This is NoRSX\nThis lib was written by deroad http://devram0.blogspot.com/\n\nPress Cross (X) to continue");
 	while(exitapp){
 		static time_t starttime = 0;
 		double fps = 0;
@@ -77,12 +76,13 @@ s32 main(s32 argc, const char* argv[])
 				}
 			}
 		}
-		char a[20];
-		sprintf (a,"FPS %f", fps);
-		IMG.DrawIMG(0,0,&png);
-		F.Print(1000,950,(char*)("NORSX 1920 X 1080 SCREEN TEST!"),COLOR_WHITE);
-		F.Print(1000,990,(char*)("PRESS X TO EXIT"),COLOR_YELLOW);
-		F.Print(200,100,a,COLOR_WHITE);
+		BG.Mono(COLOR_GREY);
+		OBJ.Circle(400,900,100,COLOR_YELLOW);
+		OBJ.Rectangle(500,400,200,500,COLOR_ORANGE);
+		IMG.DrawIMG(imgX,imgY,&png);
+		F.Printf(150,200,COLOR_BLACK,"SCREEN %d X %d",GFX->width,GFX->height);
+		F.Print(150,250,COLOR_YELLOW,"PRESS X TO EXIT");
+		F.Printf(150,100,COLOR_GREEN,"FPS %f", fps);
 		GFX->Flip();
 		frame ++;
 		sysUtilCheckCallback();

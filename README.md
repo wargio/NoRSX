@@ -26,6 +26,9 @@ Changelog:
 	- 0.0.5 -
 		Added Printf to the Sperimental Text function.
 		Added Pixel.
+	- 0.0.5b -
+		Added Circle.
+		Added Pixel4.
 
 Homebrews built with this lib:
 ------------------------------

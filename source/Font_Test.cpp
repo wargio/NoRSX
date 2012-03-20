@@ -13,7 +13,7 @@ Font::Font(Minimum *g):Image(g){
 	LoadPNG_Buf(Font_Test_bin,Font_Test_bin_size,&P);
 }
 
-void Font::Print(u32 x, u32 y, const char *txt, unsigned int Color){
+void Font::Print(u32 x, u32 y,unsigned int Color ,const char *txt){
 	unsigned int k,H,K;
 	if (x>=0&&y>=0){
 		for(unsigned int i=0; i<strlen(txt); i++){
@@ -47,6 +47,6 @@ void Font::Printf(u32 x, u32 y, unsigned int Color ,const char *a, ...){
 	va_list va;
 	va_start(va, a);
 	vsnprintf(msg, sizeof msg, a, va);
-	Print(x,y, msg, Color);
+	Print(x,y,Color,msg);
 
 }
