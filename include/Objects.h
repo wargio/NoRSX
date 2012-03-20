@@ -26,11 +26,12 @@ public:
 	~Object(){}
 	
 	void Rectangle(u32 X, u32 Y, u32 width, u32 height, s32 Color);
-	
+	void Pixel4(u32 X, u32 Y, u32 Color);
 	
 	
 private:
 	Minimum *G;
+	int Pixel(u32 X, u32 Y, u32 Color);
 };
 
 #endif

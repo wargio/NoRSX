@@ -11,7 +11,7 @@ Authors
 	kakaroto (for his rsxutil.c)
 
 Changelog:
--------
+----------
 	- 0.0.1 -
 		PNG/JPG support
 	- 0.0.2 -
@@ -23,3 +23,12 @@ Changelog:
 		Added Msg dialog.
 		Added Sperimental Text (NO FONTS for now).
 		Added Partial Image function.
+	- 0.0.5 -
+		Added Printf to the Sperimental Text function.
+		Added Pixel.
+
+Homebrews built with this lib:
+------------------------------
+	NoRSX Example  (deroad)
+	PS Seismograph (deroad)
+ 

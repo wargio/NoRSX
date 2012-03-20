@@ -1,5 +1,8 @@
 #include "Font_Test.h"
 #include <string.h>
+#include <cstdarg>
+#include <stdio.h>
+
 
 const char Alphabet[]={  'A','B','C','D','E','F','G','H','I','J','K','L','M'	//12
 			,'N','O','P','Q','R','S','T','U','V','W','X','Y','Z'	//13 (25)
@@ -39,4 +42,11 @@ void Font::Print(u32 x, u32 y, const char *txt, unsigned int Color){
 	}
 }
 
-// 24 20
+void Font::Printf(u32 x, u32 y, unsigned int Color ,const char *a, ...){
+	char msg[1024];
+	va_list va;
+	va_start(va, a);
+	vsnprintf(msg, sizeof msg, a, va);
+	Print(x,y, msg, Color);
+
+}

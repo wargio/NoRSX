@@ -26,6 +26,7 @@
 #define COLOR_YELLOW		0xFFFF00
 #define COLOR_CYAN		0X00FFFF
 #define COLOR_GREY		0x808080
+#define COLOR_ORANGE		0xFF4500
 
 
 #endif
