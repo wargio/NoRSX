@@ -58,7 +58,7 @@ s32 main(s32 argc, const char* argv[])
 	Font F(GFX);
 	
 
-	IMG.LoadPNG_Buf((void*)NoRSX_Image_bin, NoRSX_Image_bin_size, &png);
+	IMG.LoadPNG_Buf(NoRSX_Image_bin,NoRSX_Image_bin_size, &png);
 	u32 imgX =(GFX->width/2)-(png.width/2), imgY = (GFX->height/2)-(png.height/2);
 	exitapp = 1;
 	int frame=0;

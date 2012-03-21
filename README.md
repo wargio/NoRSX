@@ -29,6 +29,8 @@ Changelog:
 	- 0.0.5b -
 		Added Circle.
 		Added Pixel4.
+	- 0.0.5c -
+		Added AlphaBlending.
 
 Homebrews built with this lib:
 ------------------------------
