@@ -47,7 +47,6 @@ public:
 	void DrawIMG(int x, int y, pngData *png1);
 	void DrawIMG(int x, int y, jpgData *jpg1);
 	void AlphaDrawIMG(int x, int y, pngData *png1);
-	void AlphaDrawIMG(int x, int y, jpgData *jpg1);
 
 protected:
 	Minimum *G;

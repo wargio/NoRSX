@@ -21,7 +21,7 @@
 #include "rsxutil.h"
 #include <ppu-types.h>
 #include <io/pad.h>
-
+#include <ppu_intrinsics.h>
 class Minimum{
 public:
 	u16 width;

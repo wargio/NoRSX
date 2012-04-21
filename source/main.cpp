@@ -44,7 +44,6 @@ s32 main(s32 argc, const char* argv[])
 {
 	padInfo padinfo ;
 	padData paddata ;
-	int i;
 	sysUtilRegisterCallback(SYSUTIL_EVENT_SLOT0, eventHandler, NULL);
 
 	ioPadInit(7);
@@ -68,18 +67,17 @@ s32 main(s32 argc, const char* argv[])
 		if (starttime == 0) starttime = time (NULL);
 		else fps = frame / difftime (time (NULL), starttime);
 		ioPadGetInfo(&padinfo);
-		for(i=0; i<MAX_PADS; i++){
-			if(padinfo.status[i]){
-				ioPadGetData(i, &paddata);
-				if(paddata.BTN_CROSS){
-					exitapp = 0;
-				}
+		if(padinfo.status[0]){
+			ioPadGetData(0, &paddata);
+			if(paddata.BTN_CROSS){
+				exitapp = 0;
 			}
 		}
-		BG.Mono(COLOR_GREY);
+		BG.Mono(0xb4e83a); //a green hex color (you can use hex colors insted of COLOR_XXXXXXX)
 		OBJ.Circle(400,900,100,COLOR_YELLOW);
 		OBJ.Rectangle(500,400,200,500,COLOR_ORANGE);
-		IMG.DrawIMG(imgX,imgY,&png);
+		OBJ.Line(400,400,900,100,COLOR_GREY);
+		IMG.AlphaDrawIMG(imgX,imgY,&png);
 		F.Printf(150,200,COLOR_BLACK,"SCREEN %d X %d",GFX->width,GFX->height);
 		F.Print(150,250,COLOR_YELLOW,"PRESS X TO EXIT");
 		F.Printf(150,100,COLOR_GREEN,"FPS %f", fps);

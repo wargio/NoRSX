@@ -30,7 +30,12 @@ Changelog:
 		Added Circle.
 		Added Pixel4.
 	- 0.0.5c -
-		Added AlphaBlending.
+		Added AlphaBlending (15 fps).
+	- 0.0.6 -
+		Added line.
+	- 0.0.7 -
+		Added AlphaBlending (30 fps).
+
 
 Homebrews built with this lib:
 ------------------------------

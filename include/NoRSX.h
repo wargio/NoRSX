@@ -20,6 +20,8 @@
 #ifndef __NORSX_MAIN_H__
 #define __NORSX_MAIN_H__
 
+
+
 #include "Image.h"
 #include "Background.h"
 #include "Objects.h"
@@ -41,6 +43,7 @@ public:
 	
 	void Flip();
 	void NoRSX_Exit();
+
 protected:
 	void *host_addr;
 

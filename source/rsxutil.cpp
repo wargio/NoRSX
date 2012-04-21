@@ -27,7 +27,7 @@ static u32 *depth_buffer;
 
 void waitFlip(){
 	while(gcmGetFlipStatus() != 0)
-		usleep(200);	/* Sleep, to not stress the cpu. */
+		usleep(100);	/* Sleep, to not stress the cpu. */
 	gcmResetFlipStatus();
 }
 
