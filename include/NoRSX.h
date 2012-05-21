@@ -26,6 +26,7 @@
 #include "Background.h"
 #include "Objects.h"
 #include "Font_Test.h"
+#include "Font.h"
 #include "Msg.h"
 
 #include <stdio.h>

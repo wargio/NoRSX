@@ -1,8 +1,6 @@
 NoRSX is a 2D lib for PSL1GHT
 =============================
 
-This lib is unfinished. i hope to finish to write the text support soon.
-
 Don't be afraid to give me a help! this lib can be very useful!
 
 Authors
@@ -35,6 +33,8 @@ Changelog:
 		Added line.
 	- 0.0.7 -
 		Added AlphaBlending (30 fps).
+	- 0.0.8 -
+		Added TTF support (be careful when using it! it's still sperimental).
 
 
 Homebrews built with this lib:
