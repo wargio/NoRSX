@@ -17,7 +17,8 @@
 
 #include <io/pad.h>
 #include "NoRSX.h"
-#include "NoRSX_Image_bin.h"
+#include "NoRSX_Image_png.h"
+#include "Sans_ttf.h"
 #include <time.h>
 
 static int exitapp, xmbopen;
@@ -54,10 +55,11 @@ s32 main(s32 argc, const char* argv[])
 	Image IMG(GFX);
 	Background BG(GFX);
 	Object OBJ(GFX);
-	Font F(GFX);
+	Font F1(COLOR_BLUE, 40,Sans_ttf,Sans_ttf_size ,GFX);   //Loaded from Memory
+	Font F2(COLOR_RED, 40,"/dev_hdd0/game/NORSX0000/GOODTIME.ttf" ,GFX);  //Loaded from File!
 	
 
-	IMG.LoadPNG_Buf(NoRSX_Image_bin,NoRSX_Image_bin_size, &png);
+	IMG.LoadPNG_Buf(NoRSX_Image_png,NoRSX_Image_png_size, &png);
 	u32 imgX =(GFX->width/2)-(png.width/2), imgY = (GFX->height/2)-(png.height/2);
 	exitapp = 1;
 	int frame=0;
@@ -77,10 +79,11 @@ s32 main(s32 argc, const char* argv[])
 		OBJ.Circle(400,900,100,COLOR_YELLOW);
 		OBJ.Rectangle(500,400,200,500,COLOR_ORANGE);
 		OBJ.Line(400,400,900,100,COLOR_GREY);
-		IMG.AlphaDrawIMG(imgX,imgY,&png);
-		F.Printf(150,200,COLOR_BLACK,"SCREEN %d X %d",GFX->width,GFX->height);
-		F.Print(150,250,COLOR_YELLOW,"PRESS X TO EXIT");
-		F.Printf(150,100,COLOR_GREEN,"FPS %f", fps);
+		IMG.DrawIMG(imgX,imgY,&png);
+		F1.Printf(150,200,"Screen %d x %d",GFX->width,GFX->height);
+		F1.Printf(150,250,"Press X to exit!");
+		F1.Printf(150,100,"FPS %f", fps);
+		F2.Printf(150,300,"FreeType2 with TTF support :)");
 		GFX->Flip();
 		frame ++;
 		sysUtilCheckCallback();

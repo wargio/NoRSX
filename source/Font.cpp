@@ -12,11 +12,9 @@
 #define B(argb)  ( (argb)        & 0xFF)
 
 
-Fonts::Fonts(u32 Color, u32 Size,const void *MemFont, u32 MemFont_size, Minimum *min){
-//	BackGroundColor = BackGround;
+Font::Font(u32 Color, u32 Size,const void *MemFont, u32 MemFont_size, Minimum *min){
 	FontColor = Color;
 	FontSize = Size;
-//	FontPath;
 	Pointer = (FT_Byte*)MemFont;
 	Lenght = MemFont_size;
 	m = min;
@@ -27,23 +25,42 @@ Fonts::Fonts(u32 Color, u32 Size,const void *MemFont, u32 MemFont_size, Minimum 
 	Kerning = FT_HAS_KERNING(face);
 	FT_Set_Pixel_Sizes(face,0,FontSize);
 	
-	rsxAddressToOffset(m->buffers[m->currentBuffer].ptr, &color_offset);
-	disabled_font=0;
+	font=0;
 }
 
-Fonts::~Fonts(){
-	if(disabled_font==0)
+Font::Font(u32 Color, u32 Size, const char *Font_Path, Minimum *min){
+	FontColor = Color;
+	FontSize = Size;
+	Lenght = 0;
+	m = min;
+	FT_Init_FreeType(&library);
+	FT_New_Face(library,Font_Path,0,&face);
+	FT_Stroker_New(library,&stroker);
+	Kerning = FT_HAS_KERNING(face);
+	FT_Set_Pixel_Sizes(face,0,FontSize);
+	font=0;
+}
+Font::~Font(){
+	if(font==0)
 		Disable_Fonts();
 }
 
-void Fonts::Printf(u32 x, u32 y,const char *a, ...){
+void Font::Disable_Fonts(){
+	FT_Done_Glyph(glyph);
+	FT_Stroker_Done(stroker);
+	FT_Done_Face(face);
+	FT_Done_FreeType(library);
+	font=1;
+}
+
+void Font::Printf(u32 x, u32 y,const char *a, ...){
+	char text[1024];
+	va_list va;
+	va_start(va, a);
+	vsnprintf(text, sizeof text, a, va);
 	size_t len = strlen(a);
 	if(len>0){
-		char text[len+1];
-		va_list va;
-		va_start(va, a);
-		vsnprintf(text, sizeof text, a, va);
-
+		len=strlen(text);
 		vec.x = 0;
 		vec.y = FontSize;
 		FT_GlyphSlot slot = face->glyph;
@@ -66,12 +83,11 @@ void Fonts::Printf(u32 x, u32 y,const char *a, ...){
 			vec.x += slot->advance.x >> 6;
 			vec.y += slot->advance.y >> 6;
 		}
-		
 	}
 }
 
 
-void Fonts::FontDrawBitmap(FT_Bitmap *bitmap, s32 offset, s32 top){
+void Font::FontDrawBitmap(FT_Bitmap *bitmap, s32 offset, s32 top){
 	static s32 color, a, r, g, b ;
 	FT_Int x, y, i, j ;
 	FT_Int x_max = offset + bitmap->width ;
@@ -90,64 +106,15 @@ void Fonts::FontDrawBitmap(FT_Bitmap *bitmap, s32 offset, s32 top){
 		for ( y = top, j = 0 ; y < y_max ; y++, j++ ){
 			if ( y >= (s32)M_height ) break ;
 			color = bitmap->buffer[bitmap->width * j + i] ;
-			a = ( ( fgA * color + 255 ) >> 8 ) ;
-			r = ( ( fgR * color + 255 ) >> 8 ) ;
-			g = ( ( fgG * color + 255 ) >> 8 ) ;
-			b = ( ( fgB * color + 255 ) >> 8 ) ;
-			*(m->buffers[m->currentBuffer].ptr + m->width * y + x ) = COLOR_TO_ARGB(a, r, g, b);
+			if(CHROMAKEY==color){
+				a = ( ( fgA * color + 255 ) >> 8 ) ;
+				r = ( ( fgR * color + 255 ) >> 8 ) ;
+				g = ( ( fgG * color + 255 ) >> 8 ) ;
+				b = ( ( fgB * color + 255 ) >> 8 ) ;
+				*(m->buffers[m->currentBuffer].ptr + m->width * y + x ) = COLOR_TO_ARGB(a, r, g, b);
+			}
 		}
 	}
 }
 
-void Fonts::DrawFont(){
-	color_depth = sizeof(u32) ;
-	color_pitch = width*color_depth;
-	gcmTransferScale xferscale ;
-	memset ( &xferscale, 0, sizeof ( xferscale ) ) ;
 
-	gcmTransferSurface xfersurface ;
-	memset ( &xfersurface, 0, sizeof ( xfersurface ) ) ;
-
-	/* configure transfer scale */
-	xferscale.conversion = GCM_TRANSFER_CONVERSION_TRUNCATE ;
-	xferscale.format = GCM_TRANSFER_SCALE_FORMAT_A8R8G8B8 ;
-	xferscale.operation = GCM_TRANSFER_OPERATION_SRCCOPY_AND ;
-	xferscale.clipX = 0 ;
-	xferscale.clipY = 0 ;
-	xferscale.clipW = m->width ;
-	xferscale.clipH = m->height ;
-	xferscale.outX = 0 ;
-	xferscale.outY = 0 ;
-	xferscale.outW = m->width;
-	xferscale.outH = m->height;
-	xferscale.inW = width;
-	xferscale.inH = height;
-
-	xferscale.ratioX = rsxGetFixedSint32 ( (float)xferscale.inW / (float)xferscale.outW ) ;
-	xferscale.ratioY = rsxGetFixedSint32 ( (float)xferscale.inH / (float)xferscale.outH ) ;
-
-	xferscale.pitch = color_pitch;
-	xferscale.origin = GCM_TRANSFER_ORIGIN_CORNER ;
-	xferscale.interp = GCM_TRANSFER_INTERPOLATOR_NEAREST ;
-	xferscale.offset = color_offset;
-
-	xferscale.inX = rsxGetFixedUint16 ( 1.0f ) ;
-	xferscale.inY = rsxGetFixedUint16 ( 1.0f ) ;
-
-	/* configure destination surface for transfer */
-	xfersurface.format = GCM_TRANSFER_SURFACE_FORMAT_A8R8G8B8 ;
-	xfersurface.pitch = color_pitch ;
-	xfersurface.offset = color_offset ;
-
-	/* blit font buffer */
-	rsxSetTransferScaleMode(m->context, GCM_TRANSFER_LOCAL_TO_LOCAL, GCM_TRANSFER_SURFACE);
-	rsxSetTransferScaleSurface(m->context, &xferscale, &xfersurface);
-}
-
-void Fonts::Disable_Fonts(){
-	FT_Done_FreeType(library);
-	FT_Stroker_Done(stroker);
-	FT_Done_Glyph(glyph);
-	free(Pointer);
-	disabled_font=1;
-}

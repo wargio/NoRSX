@@ -35,6 +35,9 @@ Changelog:
 		Added AlphaBlending (30 fps).
 	- 0.0.8 -
 		Added TTF support (be careful when using it! it's still sperimental).
+	- 0.0.9 -
+		Now TTF support is perfect!
+		Removed old font support.
 
 
 Homebrews built with this lib:
