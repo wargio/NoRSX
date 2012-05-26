@@ -38,10 +38,18 @@ Changelog:
 	- 0.0.9 -
 		Now TTF support is perfect!
 		Removed old font support.
+	- 0.0.9b -
+		Added a few options!.
 
 
 Homebrews built with this lib:
 ------------------------------
 	NoRSX Example  (deroad)
 	PS Seismograph (deroad)
+
+
+Fonts
+-----
+
+All the fonts included with this lib aren't mine..
  

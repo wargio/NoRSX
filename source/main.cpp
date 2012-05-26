@@ -55,8 +55,8 @@ s32 main(s32 argc, const char* argv[])
 	Image IMG(GFX);
 	Background BG(GFX);
 	Object OBJ(GFX);
-	Font F1(COLOR_BLUE, 40,Sans_ttf,Sans_ttf_size ,GFX);   //Loaded from Memory
-	Font F2(COLOR_RED, 40,"/dev_hdd0/game/NORSX0000/GOODTIME.ttf" ,GFX);  //Loaded from File!
+	Font F1(Sans_ttf,Sans_ttf_size ,GFX);   //Loaded from Memory
+	Font F2("/dev_hdd0/game/NORSX0000/GOODTIME.ttf" ,GFX);  //Loaded from File!
 	
 
 	IMG.LoadPNG_Buf(NoRSX_Image_png,NoRSX_Image_png_size, &png);
@@ -76,14 +76,11 @@ s32 main(s32 argc, const char* argv[])
 			}
 		}
 		BG.Mono(0xb4e83a); //a green hex color (you can use hex colors insted of COLOR_XXXXXXX)
-		OBJ.Circle(400,900,100,COLOR_YELLOW);
-		OBJ.Rectangle(500,400,200,500,COLOR_ORANGE);
-		OBJ.Line(400,400,900,100,COLOR_GREY);
 		IMG.DrawIMG(imgX,imgY,&png);
-		F1.Printf(150,200,"Screen %d x %d",GFX->width,GFX->height);
-		F1.Printf(150,250,"Press X to exit!");
+		F1.Printf(150,200,COLOR_RED,"Screen %d x %d",GFX->width,GFX->height);
+		F1.Printf(150,250,COLOR_BLUE, 35,"Press X to exit!");
 		F1.Printf(150,100,"FPS %f", fps);
-		F2.Printf(150,300,"FreeType2 with TTF support :)");
+		F2.Printf(150,300,COLOR_GREEN,"FreeType2 with TTF support :)");
 		GFX->Flip();
 		frame ++;
 		sysUtilCheckCallback();

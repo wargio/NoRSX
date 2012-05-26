@@ -22,8 +22,8 @@ DATA		:=	data
 INCLUDES	:=	include
 PKGFILES	:=	$(CURDIR)/pkgfiles
 
-TITLE		:=      NoRSX Example
-APPID		:=      NORSX0000
+TITLE		:=	NoRSX Example
+APPID		:=	NORSX0000
 CONTENTID	:=      UP0001-$(APPID)_00-0000000000000000
 ICON0		:=	$(CURDIR)/ICON0.PNG
 

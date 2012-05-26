@@ -13,19 +13,24 @@
 #include FT_STROKER_H
 
 #define CHROMAKEY		0x000000ff
-#define LINE_INDENT		40
-#define LINE_SIZE		40
+#define DEFAULT_FONT_SIZE	40
 
 class Font{
 public:
 	Font(u32 Color, u32 Size, const void *MemFont, u32 MemFont_size, Minimum *min);
 	Font(u32 Color, u32 Size, const char *Font_Path, Minimum *min);
+	Font(u32 Size, const void *MemFont, u32 MemFont_size, Minimum *min);
+	Font(u32 Size, const char *Font_Path, Minimum *min);
+	Font(const void *MemFont, u32 MemFont_size, Minimum *min);
+	Font(const char *Font_Path, Minimum *min);
 	~Font();
 	u32 FontColor;
 	u32 FontSize;
 	s32 width;
 	s32 height;
 	void Printf(u32 x, u32 y,const char *a, ...);
+	void Printf(u32 x, u32 y, u32 Color,const char *a, ...);
+	void Printf(u32 x, u32 y, u32 Color, u32 Size,const char *a, ...);
 	u32 color_depth;
 	u32 color_pitch;
 	u32 color_offset;
