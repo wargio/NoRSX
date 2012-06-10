@@ -6,11 +6,11 @@ void Bitmap::GenerateBitmap(NoRSX_Bitmap *a){
 }
 
 void Bitmap::ClearBitmap(NoRSX_Bitmap *a){
-	delete [] a;
+	free(a->bitmap);
 }
 
-void Bitmap::RigenBitmap(NoRSX_Bitmap *a){
-	delete [] a;
+void Bitmap::RegenBitmap(NoRSX_Bitmap *a){
+	delete [] a->bitmap;
 	a->bitmap = new uint32_t[(sizeof(u32) * G->width * G->height)];
 }
 

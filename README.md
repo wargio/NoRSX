@@ -42,7 +42,8 @@ Changelog:
 		Added a few options!.
 	- 0.1.0 -
 		Added Bitmap!.
-
+	- 0.1.0b -
+		Fixed Bitmap when exit.
 
 Homebrews built with this lib:
 ------------------------------

@@ -36,7 +36,7 @@ public:
 
 	void GenerateBitmap(NoRSX_Bitmap *a);
 	void ClearBitmap(NoRSX_Bitmap *a);
-	void RigenBitmap(NoRSX_Bitmap *a);
+	void RegenBitmap(NoRSX_Bitmap *a);
 	void DrawBitmap(NoRSX_Bitmap *a);
 
 	
