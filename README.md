@@ -40,6 +40,8 @@ Changelog:
 		Removed old font support.
 	- 0.0.9b -
 		Added a few options!.
+	- 0.1.0 -
+		Added Bitmap!.
 
 
 Homebrews built with this lib:

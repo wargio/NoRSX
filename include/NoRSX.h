@@ -27,6 +27,7 @@
 #include "Objects.h"
 #include "Font.h"
 #include "Msg.h"
+#include "Bitmap.h"
 
 #include <stdio.h>
 #include <malloc.h>

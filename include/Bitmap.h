@@ -15,26 +15,33 @@
  This program was created by Grazioli Giovanni Dante <wargio@libero.it>.
 */
 
-#ifndef __NORSX_BACKGROUND_H__
-#define __NORSX_BACKGROUND_H__
+#ifndef __NORSX_BITMAP_H__
+#define __NORSX_BITMAP_H__
+
 #include "Min.h"
-#include "Colors.h"
-#include "Bitmap.h"
 
-class Background{
+typedef struct {
+	uint32_t *bitmap;
+} NoRSX_Bitmap;
+
+class Bitmap{
 public:
-	 Background(Minimum *g);
-	~Background(){}
+	Bitmap(Minimum *g){
+		G=g;
+	}
 
-	void Mono(s32 Color);
-//	void DoubleGradient(s32 Color1, s32 Color2);
+	Bitmap(){
 
+	}	
 
-	void MonoBitmap(s32 Color, NoRSX_Bitmap *a);
+	void GenerateBitmap(NoRSX_Bitmap *a);
+	void ClearBitmap(NoRSX_Bitmap *a);
+	void RigenBitmap(NoRSX_Bitmap *a);
+	void DrawBitmap(NoRSX_Bitmap *a);
 
+	
 
-protected:
-	int frame;
+private:
 	Minimum *G;
 };
 

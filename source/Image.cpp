@@ -117,3 +117,48 @@ void Image::DrawPartialImage(int x, int y, unsigned int s_width, unsigned int s_
 	}
 }
 
+void Image::DrawIMGtoBitmap(int x, int y, pngData *png1, NoRSX_Bitmap *a){
+	if(png1->bmp_out){
+		u32 *scr = (u32 *)a->bitmap;
+		u32 *png= (u32 *)(void *)png1->bmp_out;
+		unsigned int n, m;
+
+		scr += y*G->buffers[G->currentBuffer].width+x;
+		for(n=0;n<png1->height;n++){
+			if((y+n)>=G->buffers[G->currentBuffer].height) break;
+			for(m=0;m<png1->width;m+=4){
+				if((x+m)>=G->buffers[G->currentBuffer].width) break;
+				scr[m]=png[m];
+				scr[m+1]=png[m+1];
+				scr[m+2]=png[m+2];
+				scr[m+3]=png[m+3];
+			}
+			png+=png1->pitch>>2;
+			scr+=G->buffers[G->currentBuffer].width;
+		}
+	}
+}
+
+void Image::AlphaDrawIMGtoBitmap(int x, int y, pngData *png1, NoRSX_Bitmap *a){
+	if(png1->bmp_out){
+		u32 *scr = (u32 *)a->bitmap;
+		u32 *png = (u32 *)(void *)png1->bmp_out;
+		unsigned int n, m;
+
+		scr += y*G->buffers[G->currentBuffer].width+x;
+		for(n=0;n<png1->height;n++){
+			if((y+n)>=G->buffers[G->currentBuffer].height) break;
+			for(m=0;m<png1->width;m++){
+				if((x+m)>=G->buffers[G->currentBuffer].width) break;
+				unsigned int a = png[m] >> 24;	 // alpha 
+				if (0 != a) 
+					scr[m] = (png[m] & 0xff000000) | ( (((((png[m] & 0x00ff00ff) * a) + ((scr[m] & 0x00ff00ff) *
+						 (0xff - a))) & 0xff00ff00) | ((((png[m] & 0x0000ff00) * a) + ((scr[m] & 0x0000ff00) *
+						 (0xff - a))) & 0x00ff0000)) >> 8);
+			}
+			png+=png1->pitch>>2;
+			scr+=G->buffers[G->currentBuffer].width;
+		}
+	}
+}
+

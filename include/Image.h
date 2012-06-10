@@ -23,6 +23,7 @@
 #include <sysutil/sysutil.h>
 #include <sysmodule/sysmodule.h>
 #include "Min.h"
+#include "Bitmap.h"
 
 //#define CROMAKEY	0xffbcbc222
 
@@ -47,6 +48,9 @@ public:
 	void DrawIMG(int x, int y, pngData *png1);
 	void DrawIMG(int x, int y, jpgData *jpg1);
 	void AlphaDrawIMG(int x, int y, pngData *png1);
+
+	void DrawIMGtoBitmap(int x, int y, pngData *png1, NoRSX_Bitmap *a);
+	void AlphaDrawIMGtoBitmap(int x, int y, pngData *png1, NoRSX_Bitmap *a);
 
 protected:
 	Minimum *G;
