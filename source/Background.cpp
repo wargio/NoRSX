@@ -13,10 +13,9 @@ void Background::Mono(s32 Color){
 }
 
 void Background::MonoBitmap(s32 Color, NoRSX_Bitmap *a){
-	s32 i, j;
-	for(i = 0; i < G->buffers[G->currentBuffer].height; i++) {
-		for(j = 0; j < G->buffers[G->currentBuffer].width; j++)
-			a->bitmap[i* G->buffers[G->currentBuffer].width + j] = Color;
+	s32 size = G->buffers[G->currentBuffer].height * G->buffers[G->currentBuffer].width;
+	for(s32 i = 0; i < size; i++) {
+		a->bitmap[i] = Color;
 	}
 }
 

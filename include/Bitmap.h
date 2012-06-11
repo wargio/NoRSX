@@ -22,6 +22,7 @@
 
 typedef struct {
 	uint32_t *bitmap;
+	int load;
 } NoRSX_Bitmap;
 
 class Bitmap{

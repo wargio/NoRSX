@@ -19,6 +19,7 @@
 #define __NORSX_OBJ_H__
 #include "Min.h"
 #include "Colors.h"
+#include "Bitmap.h"
 
 class Object{
 public:
@@ -29,11 +30,15 @@ public:
 	void Circle(u32 X, u32 Y, u32 r, u32 Color);
 	void Line(u32 X, u32 Y, u32 X1, u32 Y1, u32 Color);
 	void Pixel4(u32 X, u32 Y, u32 Color);
+
+	void RectangleToBitmap(u32 X, u32 Y, u32 width, u32 height, u32 Color, NoRSX_Bitmap *a);
+	void CircleToBitmap(u32 X, u32 Y, u32 r, u32 Color, NoRSX_Bitmap *a);
 	
 	
 private:
 	Minimum *G;
 	int Pixel(u32 X, u32 Y, u32 Color);
+	int PixelToBuffer(u32 X, u32 Y, u32 Color, NoRSX_Bitmap *a);
 };
 
 #endif

@@ -28,6 +28,28 @@ void Object::Circle(u32 X, u32 Y, u32 r, u32 Color){
 	}
 }
 
+void Object::RectangleToBitmap(u32 X, u32 Y, u32 width, u32 height, u32 Color, NoRSX_Bitmap *a){
+	s32 i, j;
+	for(i = Y; i < (height+Y); i++) {
+		for(j = X; j < (width+X); j++)
+			PixelToBuffer(X, Y, Color, a);
+	}
+}
+
+
+void Object::CircleToBitmap(u32 X, u32 Y, u32 r, u32 Color, NoRSX_Bitmap *a){
+	u32 rr = r*r;
+	for(u32 y=0;y<r;y++){
+		u32 width=sqrt(rr-y*y);
+		for(u32 x=0;x<width;x++){
+			PixelToBuffer(X+x, Y+y, Color,a);
+			PixelToBuffer(X+x, Y-y, Color,a);
+			PixelToBuffer(X-x, Y+y, Color,a);
+			PixelToBuffer(X-x, Y-y, Color,a);
+		}
+	}
+}
+
 void Object::Line(u32 X, u32 Y, u32 X1, u32 Y1, u32 Color){
 	int t, distance;
 	int xerr=0, yerr=0, delta_x, delta_y;
@@ -81,3 +103,9 @@ int Object::Pixel(u32 X, u32 Y, u32 Color){
 	return 1;
 }
 
+int Object::PixelToBuffer(u32 X, u32 Y, u32 Color, NoRSX_Bitmap *a){
+	if(Y>=(unsigned int)G->buffers[G->currentBuffer].height || Y<(unsigned int)0) return -1;
+	if(X>=(unsigned int)G->buffers[G->currentBuffer].width  || X<(unsigned int)0) return -1;
+	a->bitmap[Y* G->buffers[G->currentBuffer].width + X] = Color;
+	return 1;
+}

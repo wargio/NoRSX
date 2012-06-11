@@ -22,7 +22,11 @@
 //#include <freetype2/freetype/freetype.h>
 #include "Min.h"
 #include "Colors.h"
+#include "Bitmap.h"
 #include "rsxutil.h"
+
+
+
 #include FT_FREETYPE_H
 #include FT_GLYPH_H
 #include FT_OUTLINE_H
@@ -52,6 +56,11 @@ public:
 	u32 color_pitch;
 	u32 color_offset;
 	void Disable_Fonts();
+
+	void PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap,const char *a, ...);
+	void PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color,const char *a, ...);
+	void PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color, u32 Size,const char *a, ...);
+
 protected:
 	bool Kerning;
 	FT_Byte *Pointer;
@@ -68,7 +77,7 @@ protected:
 	Minimum *m;
 
 	void FontDrawBitmap(FT_Bitmap *bitmap, s32 offset, s32 top);
-	void Draw(FT_Bitmap *bitmap, s32 offset, s32 top);
+	void FontDrawBitmapToBitmap(FT_Bitmap *bitmap, NoRSX_Bitmap* bmap, s32 offset, s32 top);
 
 };
 

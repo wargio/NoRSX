@@ -47,6 +47,8 @@ Changelog:
 		Fixed Bitmap when exit.
 	- 0.1.0c -
 		Performance Patch by KDSBest (thanks for them. most of the stuffs that go to 24 FPS, now go to 30 FPS).
+	- 0.1.0d -
+		Performance Patch by Deroad/Wargio ~40 FPS.
 
 Homebrews built with this lib:
 ------------------------------

@@ -237,4 +237,129 @@ void Font::FontDrawBitmap(FT_Bitmap *bitmap, s32 offset, s32 top){
 	}
 }
 
+void Font::PrintfToBitmap(u32 x, u32 y,NoRSX_Bitmap* bmap,const char *a, ...){
+	char text[1024];
+	va_list va;
+	va_start(va, a);
+	vsnprintf(text, sizeof text, a, va);
+	size_t len = strlen(a);
+	if(len>0){
+		len=strlen(text);
+		vec.x = 0;
+		vec.y = FontSize;
+		FT_GlyphSlot slot = face->glyph;
+		FT_UInt glyph_index = 0;
+		FT_UInt previous_glyph = 0;
+		Kerning = FT_HAS_KERNING(face);
 
+		for(unsigned int i=0;i<len;i++){
+			glyph_index = FT_Get_Char_Index(face, text[i]);
+			if(Kerning && previous_glyph && glyph_index){
+				FT_Vector delta;
+				FT_Get_Kerning(face, previous_glyph, glyph_index, FT_KERNING_DEFAULT, &delta);
+				vec.x += delta.x >> 6;
+			}
+			FT_Load_Glyph(face, glyph_index,FT_LOAD_RENDER);
+			FT_Get_Glyph(face->glyph, &glyph);
+			FT_Glyph_StrokeBorder(&glyph,stroker,0,0);
+			FontDrawBitmapToBitmap(&slot->bitmap,bmap,vec.x + slot->bitmap_left + x, (vec.y - slot->bitmap_top + y -FontSize));
+			previous_glyph = glyph_index;
+			vec.x += slot->advance.x >> 6;
+			vec.y += slot->advance.y >> 6;
+		}
+	}
+}
+
+void Font::PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color,const char *a, ...){
+	char text[1024];
+	va_list va;
+	va_start(va, a);
+	vsnprintf(text, sizeof text, a, va);
+	size_t len = strlen(a);
+	if(len>0){
+		u32 C_TMP = FontColor;
+		FontColor = Color;
+		len=strlen(text);
+		vec.x = 0;
+		vec.y = FontSize;
+		FT_GlyphSlot slot = face->glyph;
+		FT_UInt glyph_index = 0;
+		FT_UInt previous_glyph = 0;
+		Kerning = FT_HAS_KERNING(face);
+
+		for(unsigned int i=0;i<len;i++){
+			glyph_index = FT_Get_Char_Index(face, text[i]);
+			if(Kerning && previous_glyph && glyph_index){
+				FT_Vector delta;
+				FT_Get_Kerning(face, previous_glyph, glyph_index, FT_KERNING_DEFAULT, &delta);
+				vec.x += delta.x >> 6;
+			}
+			FT_Load_Glyph(face, glyph_index,FT_LOAD_RENDER);
+			FT_Get_Glyph(face->glyph, &glyph);
+			FT_Glyph_StrokeBorder(&glyph,stroker,0,0);
+			FontDrawBitmapToBitmap(&slot->bitmap,bmap,vec.x + slot->bitmap_left + x, (vec.y - slot->bitmap_top + y -FontSize));
+			previous_glyph = glyph_index;
+			vec.x += slot->advance.x >> 6;
+			vec.y += slot->advance.y >> 6;
+		}
+		FontColor = C_TMP;
+	}
+}
+
+void Font::PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color, u32 Size,const char *a, ...){
+	char text[1024];
+	va_list va;
+	va_start(va, a);
+	vsnprintf(text, sizeof text, a, va);
+	size_t len = strlen(a);
+	if(len>0){
+		u32 C_TMP = FontColor, S_TMP = FontSize;
+		FontColor = Color;
+		FontSize = Size;
+		len=strlen(text);
+		vec.x = 0;
+		vec.y = FontSize;
+		FT_GlyphSlot slot = face->glyph;
+		FT_UInt glyph_index = 0;
+		FT_UInt previous_glyph = 0;
+		Kerning = FT_HAS_KERNING(face);
+
+		for(unsigned int i=0;i<len;i++){
+			glyph_index = FT_Get_Char_Index(face, text[i]);
+			if(Kerning && previous_glyph && glyph_index){
+				FT_Vector delta;
+				FT_Get_Kerning(face, previous_glyph, glyph_index, FT_KERNING_DEFAULT, &delta);
+				vec.x += delta.x >> 6;
+			}
+			FT_Load_Glyph(face, glyph_index,FT_LOAD_RENDER);
+			FT_Get_Glyph(face->glyph, &glyph);
+			FT_Glyph_StrokeBorder(&glyph,stroker,0,0);
+			FontDrawBitmapToBitmap(&slot->bitmap,bmap,vec.x + slot->bitmap_left + x, (vec.y - slot->bitmap_top + y -FontSize));
+			previous_glyph = glyph_index;
+			vec.x += slot->advance.x >> 6;
+			vec.y += slot->advance.y >> 6;
+		}
+		FontColor = C_TMP;
+		FontSize = S_TMP;
+	}
+}
+
+void Font::FontDrawBitmapToBitmap(FT_Bitmap *bitmap, NoRSX_Bitmap* bmap, s32 offset, s32 top){
+	static s32 color;
+	FT_Int x, y, i, j;
+	FT_Int x_max = offset + bitmap->width;
+	FT_Int y_max = top + bitmap->rows;
+
+	u32 M_width = m->width;
+	u32 M_height = m->height;
+
+	for(x = offset, i = 0;x < x_max;x++, i++ ){
+		if(x >= (s32)M_width)break;
+		for(y = top, j = 0;y < y_max;y++, j++ ){
+			if(y >= (s32) M_height) break;
+			color = bitmap->buffer[bitmap->width * j + i];
+			if(CHROMAKEY==color)
+				*(bmap->bitmap + m->width * y + x) = FontColor;
+		}
+	}
+}

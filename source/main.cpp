@@ -55,12 +55,26 @@ s32 main(s32 argc, const char* argv[])
 	Image IMG(GFX);
 	Background BG(GFX);
 	Object OBJ(GFX);
+	Bitmap BMap(GFX);
+
+	NoRSX_Bitmap Precalculated_Layer;	
+	
+	BMap.GenerateBitmap(&Precalculated_Layer);
+	
 	Font F1(Sans_ttf,Sans_ttf_size ,GFX);   //Loaded from Memory
 	Font F2("/dev_hdd0/game/NORSX0000/GOODTIME.ttf" ,GFX);  //Loaded from File!
 	
 
 	IMG.LoadPNG_Buf(NoRSX_Image_png,NoRSX_Image_png_size, &png);
 	u32 imgX =(GFX->width/2)-(png.width/2), imgY = (GFX->height/2)-(png.height/2);
+
+	BG.MonoBitmap(0xb4e83a,&Precalculated_Layer); //a green hex color (you can use hex colors insted of COLOR_XXXXXXX)
+	IMG.DrawIMGtoBitmap(imgX,imgY,&png,&Precalculated_Layer);
+	OBJ.CircleToBitmap(500,500,50,COLOR_YELLOW,&Precalculated_Layer);
+	F1.PrintfToBitmap(150,200,&Precalculated_Layer,COLOR_RED,"Screen %d x %d",GFX->width,GFX->height);
+	F1.PrintfToBitmap(150,250,&Precalculated_Layer,COLOR_BLUE, 35,"Press X to exit!");
+	F2.PrintfToBitmap(150,300,&Precalculated_Layer,COLOR_GREEN,20,"FreeType2 with TTF support :)");
+
 	exitapp = 1;
 	int frame=0;
 	while(exitapp){
@@ -75,7 +89,10 @@ s32 main(s32 argc, const char* argv[])
 				exitapp = 0;
 			}
 		}
-		BG.Mono(0xb4e83a); //a green hex color (you can use hex colors insted of COLOR_XXXXXXX)
+
+
+		BMap.DrawBitmap(&Precalculated_Layer);
+/*		BG.Mono(0xb4e83a); //a green hex color (you can use hex colors insted of COLOR_XXXXXXX)
 		IMG.DrawIMG(imgX,imgY,&png);
 		OBJ.Circle(500,500,50,COLOR_YELLOW);
 
@@ -83,10 +100,17 @@ s32 main(s32 argc, const char* argv[])
 		F1.Printf(150,250,COLOR_BLUE, 35,"Press X to exit!");
 		F1.Printf(150,100,"FPS %f", fps);
 		F2.Printf(150,300,COLOR_GREEN,20,"FreeType2 with TTF support :)");
+*/
+		F1.Printf(150,100,"FPS %f", fps);
+
 		GFX->Flip();
 		frame ++;
 		sysUtilCheckCallback();
 	}
+
+	//You need to clean the Bitmap before exit
+	BMap.ClearBitmap(&Precalculated_Layer);
+
 	GFX->NoRSX_Exit();
 	ioPadEnd();
 	return 0;
