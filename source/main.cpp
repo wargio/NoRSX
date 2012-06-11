@@ -77,10 +77,12 @@ s32 main(s32 argc, const char* argv[])
 		}
 		BG.Mono(0xb4e83a); //a green hex color (you can use hex colors insted of COLOR_XXXXXXX)
 		IMG.DrawIMG(imgX,imgY,&png);
+		OBJ.Circle(500,500,50,COLOR_YELLOW);
+
 		F1.Printf(150,200,COLOR_RED,"Screen %d x %d",GFX->width,GFX->height);
 		F1.Printf(150,250,COLOR_BLUE, 35,"Press X to exit!");
 		F1.Printf(150,100,"FPS %f", fps);
-		F2.Printf(150,300,COLOR_GREEN,"FreeType2 with TTF support :)");
+		F2.Printf(150,300,COLOR_GREEN,20,"FreeType2 with TTF support :)");
 		GFX->Flip();
 		frame ++;
 		sysUtilCheckCallback();

@@ -66,10 +66,11 @@ void Image::AlphaDrawIMG(int x, int y, pngData *png1){
 			for(m=0;m<png1->width;m++){
 				if((x+m)>=G->buffers[G->currentBuffer].width) break;
 				unsigned int a = png[m] >> 24;	 // alpha 
+				u32 OxFF_A = 0xff - a;
 				if (0 != a) 
 					scr[m] = (png[m] & 0xff000000) | ( (((((png[m] & 0x00ff00ff) * a) + ((scr[m] & 0x00ff00ff) *
-						 (0xff - a))) & 0xff00ff00) | ((((png[m] & 0x0000ff00) * a) + ((scr[m] & 0x0000ff00) *
-						 (0xff - a))) & 0x00ff0000)) >> 8);
+						 (OxFF_A))) & 0xff00ff00) | ((((png[m] & 0x0000ff00) * a) + ((scr[m] & 0x0000ff00) *
+						 (OxFF_A))) & 0x00ff0000)) >> 8);
 			}
 			png+=png1->pitch>>2;
 			scr+=G->buffers[G->currentBuffer].width;

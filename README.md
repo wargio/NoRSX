@@ -7,6 +7,7 @@ Authors
 -------
 	deroad
 	kakaroto (for his rsxutil.c)
+	KDSBest (for some performance patches)
 
 Changelog:
 ----------
@@ -44,6 +45,8 @@ Changelog:
 		Added Bitmap!.
 	- 0.1.0b -
 		Fixed Bitmap when exit.
+	- 0.1.0c -
+		Performance Patch by KDSBest (thanks for them. most of the stuffs that go to 24 FPS, now go to 30 FPS).
 
 Homebrews built with this lib:
 ------------------------------

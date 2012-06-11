@@ -16,8 +16,9 @@ void Object::Rectangle(u32 X, u32 Y, u32 width, u32 height, u32 Color){
 
 
 void Object::Circle(u32 X, u32 Y, u32 r, u32 Color){
+	u32 rr = r*r;
 	for(u32 y=0;y<r;y++){
-		u32 width=sqrt(r*r-y*y);
+		u32 width=sqrt(rr-y*y);
 		for(u32 x=0;x<width;x++){
 			Pixel(X+x, Y+y, Color);
 			Pixel(X+x, Y-y, Color);
