@@ -43,8 +43,8 @@ msgType MSG_OK = (msgType)(MSG_DIALOG_NORMAL | MSG_DIALOG_BTN_TYPE_OK | MSG_DIAL
 
 s32 main(s32 argc, const char* argv[])
 {
-	padInfo padinfo ;
-	padData paddata ;
+	padInfo padinfo;
+	padData paddata;
 	sysUtilRegisterCallback(SYSUTIL_EVENT_SLOT0, eventHandler, NULL);
 
 	ioPadInit(7);

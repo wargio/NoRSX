@@ -7,8 +7,10 @@ void Bitmap::GenerateBitmap(NoRSX_Bitmap *a){
 }
 
 void Bitmap::ClearBitmap(NoRSX_Bitmap *a){
-	free(a->bitmap);
-	a->load = 0;
+	if(a->load==1){
+		free(a->bitmap);
+		a->load = 0;
+	}
 }
 
 void Bitmap::RegenBitmap(NoRSX_Bitmap *a){

@@ -49,6 +49,14 @@ Changelog:
 		Performance Patch by KDSBest (thanks for them. most of the stuffs that go to 24 FPS, now go to 30 FPS).
 	- 0.1.0d -
 		Performance Patch by Deroad/Wargio ~40 FPS.
+	- 0.1.1 -
+		Added Change Screen Size.
+		Screen Size Supported:
+			RESOLUTION_1920x1080
+			RESOLUTION_1280x720
+			RESOLUTION_720x576
+			RESOLUTION_720x480
+			They needs to be initialized as this Example: NoRSX GFX(RESOLUTION_1280x720);
 
 Homebrews built with this lib:
 ------------------------------
