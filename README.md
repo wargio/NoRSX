@@ -58,6 +58,7 @@ Changelog:
 			RESOLUTION_720x480
 			They needs to be initialized as this Example: NoRSX GFX(RESOLUTION_1280x720);
 
+
 Homebrews built with this lib:
 ------------------------------
 	NoRSX Example  (deroad)
