@@ -51,7 +51,7 @@ s32 main(s32 argc, const char* argv[])
 
 	pngData png;
 	
-	NoRSX *GFX = new NoRSX();
+	NoRSX *GFX = new NoRSX(RESOLUTION_1280x720); //set defined screen resolution
 	Image IMG(GFX);
 	Background BG(GFX);
 	Object OBJ(GFX);

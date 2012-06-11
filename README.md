@@ -57,6 +57,8 @@ Changelog:
 			RESOLUTION_720x576
 			RESOLUTION_720x480
 			They needs to be initialized as this Example: NoRSX GFX(RESOLUTION_1280x720);
+	- 0.1.1b -
+		Fixed Screen Size bugs.
 
 
 Homebrews built with this lib:

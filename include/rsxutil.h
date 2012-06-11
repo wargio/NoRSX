@@ -35,7 +35,7 @@ int makeBuffer (rsxBuffer * buffer, u16 width, u16 height, int id);
 /* Get current screen resolution. returns TRUE on success */
 int getResolution (u16 *width, u16 *height);
 /* Initilize the RSX properly. Returns NULL on error */
-gcmContextData *initScreen (void *host_addr, u32 size);
+gcmContextData *initScreen (void *host_addr, u32 size, u32 vid_id,u16 width, u16 height);
 /* Sets the target buffer to render to */
 void setRenderTarget(gcmContextData *context, rsxBuffer *buffer);
 

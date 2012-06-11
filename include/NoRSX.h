@@ -20,8 +20,6 @@
 #ifndef __NORSX_MAIN_H__
 #define __NORSX_MAIN_H__
 
-
-
 #include "Image.h"
 #include "Background.h"
 #include "Objects.h"
@@ -36,16 +34,17 @@
 #include <unistd.h>
 #include "rsxutil.h"
 
-#define RESOLUTION_1920x1080		0
-#define RESOLUTION_1280x720		1
-#define RESOLUTION_720x576		2
-#define RESOLUTION_720x480		3
+#define RESOLUTION_1920x1080		1
+#define RESOLUTION_1280x720		2
+#define RESOLUTION_720x576		5
+#define RESOLUTION_720x480		4
+
 
 class NoRSX : public Minimum{
 public:
 
 	 NoRSX();
-	 NoRSX(int screen_type);
+	 NoRSX(int id_type);
 	~NoRSX();
 	
 	void Flip();
@@ -53,7 +52,7 @@ public:
 
 protected:
 	void *host_addr;
-
+	int id_scr;
 };
 
 #endif

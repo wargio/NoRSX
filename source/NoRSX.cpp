@@ -6,34 +6,34 @@ static int already_done=0;
 NoRSX::NoRSX(){
 	currentBuffer = 0;
 	host_addr = memalign(1024*1024, HOST_SIZE);
-	context = initScreen(host_addr, HOST_SIZE);
 	getResolution(&width,&height);
+	context = initScreen(host_addr, HOST_SIZE,0, width, height);
 	for(int i=0;i<2;i++)
 		makeBuffer(&buffers[i],width,height,i);
 	flip(context, 1);
 	setRenderTarget(context, &buffers[currentBuffer]);
 }
 
-NoRSX::NoRSX(int screen_type){
+NoRSX::NoRSX(int id_type){
+	id_scr=id_type;
 	currentBuffer = 0;
 	host_addr = memalign(1024*1024, HOST_SIZE);
-	context = initScreen(host_addr, HOST_SIZE);
-	getResolution(&width,&height);
-
-	if(screen_type==RESOLUTION_1280x720){
+	
+	if(id_type==RESOLUTION_1280x720){
 		width=1280;height=720;
 		buffers[0].width=1280;buffers[0].height=720;
 		buffers[1].width=1280;buffers[1].height=720;
-	}else if(screen_type==RESOLUTION_720x576){
+	}else if(id_type==RESOLUTION_720x576){
 		width=720;height=576;
 		buffers[0].width=720;buffers[0].height=576;
 		buffers[1].width=720;buffers[1].height=576;
-	}else if(screen_type==RESOLUTION_720x480){
+	}else if(id_type==RESOLUTION_720x480){
 		width=720;height=480;
 		buffers[0].width=720;buffers[0].height=480;
 		buffers[1].width=720;buffers[1].height=480;
 	}
-
+	context = initScreen(host_addr, HOST_SIZE, id_type, width, height);
+//	getResolution(&width,&height);
 
 	for(int i=0;i<2;i++)
 		makeBuffer(&buffers[i],width,height,i);
@@ -49,7 +49,7 @@ NoRSX::~NoRSX(){
 void NoRSX::Flip(){
 	flip(context, buffers[currentBuffer].id); // Flip buffer onto screen
 	currentBuffer = !currentBuffer;
-	setRenderTarget(context, &buffers[currentBuffer]) ;
+	setRenderTarget(context, &buffers[currentBuffer]);
 	waitFlip();
 }
 

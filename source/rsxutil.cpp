@@ -90,7 +90,7 @@ int getResolution(u16 *width, u16 *height){
 	return FALSE;
 }
 
-gcmContextData *initScreen(void *host_addr, u32 size){
+gcmContextData *initScreen(void *host_addr, u32 size, u32 vid_id, u16 width, u16 height){
 	gcmContextData *context = NULL; /* Context to keep track of the RSX buffer. */
 	videoState state;
 	videoConfiguration vconfig;
@@ -115,11 +115,15 @@ gcmContextData *initScreen(void *host_addr, u32 size){
 
 	/* Configure the buffer format to xRGB */
 	memset(&vconfig, 0, sizeof(videoConfiguration));
-	vconfig.resolution = state.displayMode.resolution;
+	if(vid_id==0)
+		vconfig.resolution = state.displayMode.resolution;
+	else
+		vconfig.resolution = vid_id;
 	vconfig.format = VIDEO_BUFFER_FORMAT_XRGB;
-	vconfig.pitch = res.width * sizeof(u32);
-	vconfig.aspect = state.displayMode.aspect;
 
+	vconfig.pitch = width * sizeof(u32);
+
+	vconfig.aspect = state.displayMode.aspect;
 	waitRSXIdle(context);
 
 	if(videoConfigure(0, &vconfig, NULL, 0) != 0)
@@ -130,8 +134,8 @@ gcmContextData *initScreen(void *host_addr, u32 size){
 
 	gcmSetFlipMode(GCM_FLIP_VSYNC); // Wait for VSYNC to flip
 
-	depth_pitch = res.width * sizeof(u32);
-	depth_buffer =(u32 *) rsxMemalign(64,(res.height * depth_pitch)* 2);
+	depth_pitch = width * sizeof(u32);
+	depth_buffer =(u32 *) rsxMemalign(64,(height * depth_pitch)* 2);
 	rsxAddressToOffset(depth_buffer, &depth_offset);
 
 	gcmResetFlipStatus();
@@ -205,3 +209,4 @@ void setRenderTarget(gcmContextData *context, rsxBuffer *buffer){
 
 	rsxSetSurface(context, &sf);
 }
+
