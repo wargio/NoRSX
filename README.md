@@ -59,6 +59,9 @@ Changelog:
 			They needs to be initialized as this Example: NoRSX GFX(RESOLUTION_1280x720);
 	- 0.1.1b -
 		Fixed Screen Size bugs.
+	- 0.1.1c -
+		Performance Patch by KDSBest (Just for Images).
+		Added DrawIMGtoBitmap function for JPG (I forgot this one!)
 
 
 Homebrews built with this lib:

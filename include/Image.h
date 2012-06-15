@@ -50,6 +50,7 @@ public:
 	void AlphaDrawIMG(int x, int y, pngData *png1);
 
 	void DrawIMGtoBitmap(int x, int y, pngData *png1, NoRSX_Bitmap *a);
+	void DrawIMGtoBitmap(int x, int y, jpgData *jpg1, NoRSX_Bitmap *a);
 	void AlphaDrawIMGtoBitmap(int x, int y, pngData *png1, NoRSX_Bitmap *a);
 
 protected:

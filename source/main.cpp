@@ -39,7 +39,7 @@ static inline void eventHandler(u64 status, u64 param, void * userdata)
 	}
 }
 
-msgType MSG_OK = (msgType)(MSG_DIALOG_NORMAL | MSG_DIALOG_BTN_TYPE_OK | MSG_DIALOG_DISABLE_CANCEL_ON);
+//msgType MSG_OK = (msgType)(MSG_DIALOG_NORMAL | MSG_DIALOG_BTN_TYPE_OK | MSG_DIALOG_DISABLE_CANCEL_ON);
 
 s32 main(s32 argc, const char* argv[])
 {
@@ -51,7 +51,7 @@ s32 main(s32 argc, const char* argv[])
 
 	pngData png;
 	
-	NoRSX *GFX = new NoRSX(RESOLUTION_1280x720); //set defined screen resolution
+	NoRSX *GFX = new NoRSX(RESOLUTION_1280x720); //set defined screen resolution You can change it to: RESOLUTION_720x480 | RESOLUTION_720x576 | RESOLUTION_1280x720 | RESOLUTION_1920x1080
 	Image IMG(GFX);
 	Background BG(GFX);
 	Object OBJ(GFX);
@@ -59,7 +59,7 @@ s32 main(s32 argc, const char* argv[])
 
 	NoRSX_Bitmap Precalculated_Layer;	
 	
-	BMap.GenerateBitmap(&Precalculated_Layer);
+	BMap.GenerateBitmap(&Precalculated_Layer); //Initialize the Bitmap
 	
 	Font F1(Sans_ttf,Sans_ttf_size ,GFX);   //Loaded from Memory
 	Font F2("/dev_hdd0/game/NORSX0000/GOODTIME.ttf" ,GFX);  //Loaded from File!
@@ -69,8 +69,12 @@ s32 main(s32 argc, const char* argv[])
 	u32 imgX =(GFX->width/2)-(png.width/2), imgY = (GFX->height/2)-(png.height/2);
 
 	BG.MonoBitmap(0xb4e83a,&Precalculated_Layer); //a green hex color (you can use hex colors insted of COLOR_XXXXXXX)
+
 	IMG.DrawIMGtoBitmap(imgX,imgY,&png,&Precalculated_Layer);
+
 	OBJ.CircleToBitmap(500,500,50,COLOR_YELLOW,&Precalculated_Layer);
+
+
 	F1.PrintfToBitmap(150,200,&Precalculated_Layer,COLOR_RED,"Screen %d x %d",GFX->width,GFX->height);
 	F1.PrintfToBitmap(150,250,&Precalculated_Layer,COLOR_BLUE, 35,"Press X to exit!");
 	F2.PrintfToBitmap(150,300,&Precalculated_Layer,COLOR_GREEN,20,"FreeType2 with TTF support :)");

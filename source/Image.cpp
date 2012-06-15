@@ -17,18 +17,24 @@ void Image::LoadJPG_Buf(const void* name, u32 name_size, jpgData *jpg){
 }
 
 void Image::DrawIMG(int x, int y, pngData *png1){
+
 	if(png1->bmp_out){
 		u32 *scr = (u32 *)G->buffers[G->currentBuffer].ptr;
 		u32 *png= (u32 *)(void *)png1->bmp_out;
 		unsigned int n, m;
 
 		scr += y*G->buffers[G->currentBuffer].width+x;
-		for(n=0;n<png1->height;n++){
-			if((y+n)>=G->buffers[G->currentBuffer].height) break;
-			for(m=0;m<png1->width;m++){
-				if((x+m)>=G->buffers[G->currentBuffer].width) break;
+		u32 height = png1->height;
+		if((y+height) >= G->buffers[G->currentBuffer].height)
+			height = G->buffers[G->currentBuffer].height;
+
+		u32 width = png1->width;
+		if((x+width) >=G->buffers[G->currentBuffer].width)
+			width = G->buffers[G->currentBuffer].width;
+
+		for(n=0;n < height;n++){
+			for(m=0;m < width;m++)
 				scr[m]=png[m];
-			}
 			png+=png1->pitch>>2;
 			scr+=G->buffers[G->currentBuffer].width;
 		}
@@ -42,12 +48,17 @@ void Image::DrawIMG(int x, int y, jpgData *jpg1){
 		unsigned int n, m;
 
 		scr += y*G->buffers[G->currentBuffer].width+x;
-		for(n=0;n<jpg1->height;n++){
-			if((y+n)>=G->buffers[G->currentBuffer].height) break;
-			for(m=0;m<jpg1->width;m++){
-				if((x+m)>=G->buffers[G->currentBuffer].width) break;
+		u32 height = jpg1->height;
+		if((y+height) >= G->buffers[G->currentBuffer].height)
+			height = G->buffers[G->currentBuffer].height;
+
+		u32 width = jpg1->width;
+		if((x+width) >=G->buffers[G->currentBuffer].width)
+			width = G->buffers[G->currentBuffer].width;
+
+		for(n=0;n < height;n++){
+			for(m=0;m < width;m++)
 				scr[m]=jpg[m];
-			}
 			jpg+=jpg1->pitch>>2;
 			scr+=G->buffers[G->currentBuffer].width;
 		}
@@ -60,6 +71,28 @@ void Image::AlphaDrawIMG(int x, int y, pngData *png1){
 		u32 *png= (u32 *)(void *)png1->bmp_out;
 		unsigned int n, m;
 
+		scr += y*G->buffers[G->currentBuffer].width+x;
+		u32 height = png1->height;
+		if((y+height) >= G->buffers[G->currentBuffer].height)
+			height = G->buffers[G->currentBuffer].height;
+
+		u32 width = png1->width;
+		if((x+width) >=G->buffers[G->currentBuffer].width)
+			width = G->buffers[G->currentBuffer].width;
+
+		for(n=0;n < height;n++){
+			for(m=0;m < width;m++){
+				unsigned int a = png[m] >> 24;	 // alpha 
+				u32 OxFF_A = 0xff - a;
+				if (0 != a) 
+					scr[m] = (png[m] & 0xff000000) | ( (((((png[m] & 0x00ff00ff) * a) + ((scr[m] & 0x00ff00ff) *
+						 (OxFF_A))) & 0xff00ff00) | ((((png[m] & 0x0000ff00) * a) + ((scr[m] & 0x0000ff00) *
+						 (OxFF_A))) & 0x00ff0000)) >> 8);
+			}
+			png+=png1->pitch>>2;
+			scr+=G->buffers[G->currentBuffer].width;
+		}
+/*
 		scr += y*G->buffers[G->currentBuffer].width+x;
 		for(n=0;n<png1->height;n++){
 			if((y+n)>=G->buffers[G->currentBuffer].height) break;
@@ -75,6 +108,7 @@ void Image::AlphaDrawIMG(int x, int y, pngData *png1){
 			png+=png1->pitch>>2;
 			scr+=G->buffers[G->currentBuffer].width;
 		}
+*/
 	}
 }
 
@@ -125,37 +159,72 @@ void Image::DrawIMGtoBitmap(int x, int y, pngData *png1, NoRSX_Bitmap *a){
 		unsigned int n, m;
 
 		scr += y*G->buffers[G->currentBuffer].width+x;
-		for(n=0;n<png1->height;n++){
-			if((y+n)>=G->buffers[G->currentBuffer].height) break;
-			for(m=0;m<png1->width;m+=4){
-				if((x+m)>=G->buffers[G->currentBuffer].width) break;
+		u32 height = png1->height;
+		if((y+height) >= G->buffers[G->currentBuffer].height)
+			height = G->buffers[G->currentBuffer].height;
+
+		u32 width = png1->width;
+		if((x+width) >=G->buffers[G->currentBuffer].width)
+			width = G->buffers[G->currentBuffer].width;
+
+		for(n=0;n < height;n++){
+			for(m=0;m < width;m++)
 				scr[m]=png[m];
-				scr[m+1]=png[m+1];
-				scr[m+2]=png[m+2];
-				scr[m+3]=png[m+3];
-			}
 			png+=png1->pitch>>2;
 			scr+=G->buffers[G->currentBuffer].width;
 		}
 	}
 }
 
-void Image::AlphaDrawIMGtoBitmap(int x, int y, pngData *png1, NoRSX_Bitmap *a){
-	if(png1->bmp_out){
+
+void Image::DrawIMGtoBitmap(int x, int y, jpgData *jpg1, NoRSX_Bitmap *a){
+	if(jpg1->bmp_out){
 		u32 *scr = (u32 *)a->bitmap;
-		u32 *png = (u32 *)(void *)png1->bmp_out;
+		u32 *jpg= (u32 *)(void *)jpg1->bmp_out;
 		unsigned int n, m;
 
 		scr += y*G->buffers[G->currentBuffer].width+x;
-		for(n=0;n<png1->height;n++){
-			if((y+n)>=G->buffers[G->currentBuffer].height) break;
-			for(m=0;m<png1->width;m++){
-				if((x+m)>=G->buffers[G->currentBuffer].width) break;
+		u32 height = jpg1->height;
+		if((y+height) >= G->buffers[G->currentBuffer].height)
+			height = G->buffers[G->currentBuffer].height;
+
+		u32 width = jpg1->width;
+		if((x+width) >=G->buffers[G->currentBuffer].width)
+			width = G->buffers[G->currentBuffer].width;
+
+		for(n=0;n < height;n++){
+			for(m=0;m < width;m++)
+				scr[m]=jpg[m];
+			jpg+=jpg1->pitch>>2;
+			scr+=G->buffers[G->currentBuffer].width;
+		}
+	}
+}
+
+
+void Image::AlphaDrawIMGtoBitmap(int x, int y, pngData *png1, NoRSX_Bitmap *a){
+	if(png1->bmp_out){
+		u32 *scr = (u32 *)a->bitmap;
+		u32 *png= (u32 *)(void *)png1->bmp_out;
+		unsigned int n, m;
+
+		scr += y*G->buffers[G->currentBuffer].width+x;
+		u32 height = png1->height;
+		if((y+height) >= G->buffers[G->currentBuffer].height)
+			height = G->buffers[G->currentBuffer].height;
+
+		u32 width = png1->width;
+		if((x+width) >=G->buffers[G->currentBuffer].width)
+			width = G->buffers[G->currentBuffer].width;
+
+		for(n=0;n < height;n++){
+			for(m=0;m < width;m++){
 				unsigned int a = png[m] >> 24;	 // alpha 
+				u32 OxFF_A = 0xff - a;
 				if (0 != a) 
 					scr[m] = (png[m] & 0xff000000) | ( (((((png[m] & 0x00ff00ff) * a) + ((scr[m] & 0x00ff00ff) *
-						 (0xff - a))) & 0xff00ff00) | ((((png[m] & 0x0000ff00) * a) + ((scr[m] & 0x0000ff00) *
-						 (0xff - a))) & 0x00ff0000)) >> 8);
+						 (OxFF_A))) & 0xff00ff00) | ((((png[m] & 0x0000ff00) * a) + ((scr[m] & 0x0000ff00) *
+						 (OxFF_A))) & 0x00ff0000)) >> 8);
 			}
 			png+=png1->pitch>>2;
 			scr+=G->buffers[G->currentBuffer].width;
