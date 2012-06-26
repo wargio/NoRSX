@@ -62,7 +62,10 @@ Changelog:
 	- 0.1.1c -
 		Performance Patch by KDSBest (Just for Images).
 		Added DrawIMGtoBitmap function for JPG (I forgot this one!)
-
+	- 0.1.1d -
+		Added PS3 Font PATHS
+	- 0.1.1e -
+		Font Size..
 
 Homebrews built with this lib:
 ------------------------------

@@ -62,7 +62,7 @@ s32 main(s32 argc, const char* argv[])
 	BMap.GenerateBitmap(&Precalculated_Layer); //Initialize the Bitmap
 	
 	Font F1(Sans_ttf,Sans_ttf_size ,GFX);   //Loaded from Memory
-	Font F2("/dev_hdd0/game/NORSX0000/GOODTIME.ttf" ,GFX);  //Loaded from File!
+	Font F2("/dev_flash/data/font/SCE-PS3-VR-R-LATIN2.TTF" ,GFX);  //Loaded from File!
 	
 
 	IMG.LoadPNG_Buf(NoRSX_Image_png,NoRSX_Image_png_size, &png);

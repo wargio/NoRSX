@@ -12,6 +12,7 @@
 #define B(argb) ((argb)        & 0xFF)
 
 
+
 Font::Font(u32 Color, u32 Size,const void *MemFont, u32 MemFont_size, Minimum *min){
 	FontColor = Color;
 	FontSize = Size;
@@ -87,6 +88,31 @@ Font::Font(const void *MemFont, u32 MemFont_size, Minimum *min){
 }
 
 Font::Font(const char *Font_Path, Minimum *min){
+	FontColor = COLOR_BLACK;
+	FontSize = DEFAULT_FONT_SIZE;
+	Lenght = 0;
+	m = min;
+	FT_Init_FreeType(&library);
+	FT_New_Face(library,Font_Path,0,&face);
+	FT_Stroker_New(library,&stroker);
+	Kerning = FT_HAS_KERNING(face);
+	FT_Set_Pixel_Sizes(face,0,FontSize);
+	font=0;
+}
+
+Font::Font(const int ID, Minimum *min){
+	const char *Font_Path;
+	if(ID==JPN)
+		Font_Path = "/dev_flash/data/font/SCE-PS3-NR-R-JPN.TTF";
+	else if(ID==KOR)	
+		Font_Path = "/dev_flash/data/font/SCE-PS3-YG-R-KOR.TTF";
+	else if(ID==CGB)
+		Font_Path = "/dev_flash/data/font/SCE-PS3-DH-R-CGB.TTF";
+	else if(ID==KANA)
+		Font_Path =  "/dev_flash/data/font/SCE-PS3-CP-R-KANA.TTF";
+	else
+		Font_Path = "/dev_flash/data/font/SCE-PS3-VR-R-LATIN2.TTF";
+
 	FontColor = COLOR_BLACK;
 	FontSize = DEFAULT_FONT_SIZE;
 	Lenght = 0;
@@ -198,6 +224,7 @@ void Font::Printf(u32 x, u32 y, u32 Color, u32 Size,const char *a, ...){
 		FT_UInt glyph_index = 0;
 		FT_UInt previous_glyph = 0;
 		Kerning = FT_HAS_KERNING(face);
+		FT_Set_Pixel_Sizes(face,0,FontSize);
 
 		for(unsigned int i=0;i<len;i++){
 			glyph_index = FT_Get_Char_Index(face, text[i]);
@@ -216,6 +243,8 @@ void Font::Printf(u32 x, u32 y, u32 Color, u32 Size,const char *a, ...){
 		}
 		FontColor = C_TMP;
 		FontSize = S_TMP;
+		FT_Set_Pixel_Sizes(face,0,FontSize);
+
 	}
 }
 
@@ -319,6 +348,7 @@ void Font::PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color, u32 Size,
 		len=strlen(text);
 		vec.x = 0;
 		vec.y = FontSize;
+		FT_Set_Pixel_Sizes(face,0,FontSize);
 		FT_GlyphSlot slot = face->glyph;
 		FT_UInt glyph_index = 0;
 		FT_UInt previous_glyph = 0;
@@ -341,6 +371,7 @@ void Font::PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color, u32 Size,
 		}
 		FontColor = C_TMP;
 		FontSize = S_TMP;
+		FT_Set_Pixel_Sizes(face,0,FontSize);
 	}
 }
 

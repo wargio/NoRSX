@@ -36,6 +36,12 @@
 #define CHROMAKEY		0x000000ff
 #define DEFAULT_FONT_SIZE	40
 
+#define LATIN2			0
+#define JPN			1
+#define KOR			2
+#define CGB			3
+#define KANA			4
+
 class Font{
 public:
 	Font(u32 Color, u32 Size, const void *MemFont, u32 MemFont_size, Minimum *min);
@@ -44,6 +50,7 @@ public:
 	Font(u32 Size, const char *Font_Path, Minimum *min);
 	Font(const void *MemFont, u32 MemFont_size, Minimum *min);
 	Font(const char *Font_Path, Minimum *min);
+	Font(const int ID, Minimum *min);
 	~Font();
 	u32 FontColor;
 	u32 FontSize;
