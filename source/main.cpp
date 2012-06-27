@@ -63,6 +63,7 @@ s32 main(s32 argc, const char* argv[])
 	
 	Font F1(Sans_ttf,Sans_ttf_size ,GFX);   //Loaded from Memory
 	Font F2("/dev_flash/data/font/SCE-PS3-VR-R-LATIN2.TTF" ,GFX);  //Loaded from File!
+	Font F3(JPN ,GFX);  //I'm Using PS3 Original Fonts! These are the available on the ps3: LATIN2 | JPN | KOR | CGB | KANA
 	
 
 	IMG.LoadPNG_Buf(NoRSX_Image_png,NoRSX_Image_png_size, &png);
@@ -77,7 +78,8 @@ s32 main(s32 argc, const char* argv[])
 
 	F1.PrintfToBitmap(150,200,&Precalculated_Layer,COLOR_RED,"Screen %d x %d",GFX->width,GFX->height);
 	F1.PrintfToBitmap(150,250,&Precalculated_Layer,COLOR_BLUE, 35,"Press X to exit!");
-	F2.PrintfToBitmap(150,300,&Precalculated_Layer,COLOR_GREEN,20,"FreeType2 with TTF support :)");
+	F2.PrintfToBitmap(150,300,&Precalculated_Layer,COLOR_GREEN,60,"FreeType2 with TTF support :)");
+	F3.PrintfToBitmap(150,500,&Precalculated_Layer,"Written by deroad");
 
 	exitapp = 1;
 	int frame=0;
@@ -96,15 +98,6 @@ s32 main(s32 argc, const char* argv[])
 
 
 		BMap.DrawBitmap(&Precalculated_Layer);
-/*		BG.Mono(0xb4e83a); //a green hex color (you can use hex colors insted of COLOR_XXXXXXX)
-		IMG.DrawIMG(imgX,imgY,&png);
-		OBJ.Circle(500,500,50,COLOR_YELLOW);
-
-		F1.Printf(150,200,COLOR_RED,"Screen %d x %d",GFX->width,GFX->height);
-		F1.Printf(150,250,COLOR_BLUE, 35,"Press X to exit!");
-		F1.Printf(150,100,"FPS %f", fps);
-		F2.Printf(150,300,COLOR_GREEN,20,"FreeType2 with TTF support :)");
-*/
 		F1.Printf(150,100,"FPS %f", fps);
 
 		GFX->Flip();

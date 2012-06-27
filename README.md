@@ -66,6 +66,8 @@ Changelog:
 		Added PS3 Font PATHS
 	- 0.1.1e -
 		Font Size..
+	- 0.1.2 -
+		Fixed Font ChromaKey. now fonts are better displayed 
 
 Homebrews built with this lib:
 ------------------------------
