@@ -16,28 +16,13 @@
 */
 
 #include <io/pad.h>
-#include "NoRSX.h"
+
+#include <NoRSX.h> //This is the new HEADER!!! Now it's a real new lib!!
+
 #include "NoRSX_Image_png.h"
 #include "Sans_ttf.h"
 #include <time.h>
 
-static int exitapp, xmbopen;
-
-static inline void eventHandler(u64 status, u64 param, void * userdata)
-{
-	switch(status)
-	{
-		case SYSUTIL_EXIT_GAME:
-			exitapp = 0;
-			break;
-		case SYSUTIL_MENU_OPEN:
-			xmbopen = 1;
-			break;
-		case SYSUTIL_MENU_CLOSE:
-			xmbopen = 0;
-			break;
-	}
-}
 
 //msgType MSG_OK = (msgType)(MSG_DIALOG_NORMAL | MSG_DIALOG_BTN_TYPE_OK | MSG_DIALOG_DISABLE_CANCEL_ON);
 
@@ -45,7 +30,6 @@ s32 main(s32 argc, const char* argv[])
 {
 	padInfo padinfo;
 	padData paddata;
-	sysUtilRegisterCallback(SYSUTIL_EVENT_SLOT0, eventHandler, NULL);
 
 	ioPadInit(7);
 
@@ -81,9 +65,9 @@ s32 main(s32 argc, const char* argv[])
 	F2.PrintfToBitmap(150,300,&Precalculated_Layer,COLOR_GREEN,60,"FreeType2 with TTF support :)");
 	F3.PrintfToBitmap(150,500,&Precalculated_Layer,"Written by deroad");
 
-	exitapp = 1;
+	GFX->AppStart();
 	int frame=0;
-	while(exitapp){
+	while(GFX->GetAppStatus()){
 		static time_t starttime = 0;
 		double fps = 0;
 		if (starttime == 0) starttime = time (NULL);
@@ -92,7 +76,7 @@ s32 main(s32 argc, const char* argv[])
 		if(padinfo.status[0]){
 			ioPadGetData(0, &paddata);
 			if(paddata.BTN_CROSS){
-				exitapp = 0;
+				GFX->AppExit();
 			}
 		}
 
@@ -102,7 +86,6 @@ s32 main(s32 argc, const char* argv[])
 
 		GFX->Flip();
 		frame ++;
-		sysUtilCheckCallback();
 	}
 
 	//You need to clean the Bitmap before exit

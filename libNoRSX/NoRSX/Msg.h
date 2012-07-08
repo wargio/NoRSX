@@ -17,7 +17,7 @@
 
 #ifndef __NORSX_MSG_DIALOG_H__
 #define __NORSX_MSG_DIALOG_H__
-#include "Min.h"
+#include <NoRSX/Min.h>
 #include <sysutil/msg.h>
 #include <sysutil/sysutil.h>
 

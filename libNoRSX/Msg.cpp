@@ -1,4 +1,4 @@
-#include "Msg.h"
+#include <NoRSX/Msg.h>
 
 static vs32 dialog_action = 0;
 

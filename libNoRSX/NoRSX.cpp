@@ -1,9 +1,9 @@
-#include "NoRSX.h"
+#include <NoRSX.h>
 
 
 static int already_done=0;
 
-NoRSX::NoRSX(){
+NoRSX::NoRSX() : EventHandler(){
 	currentBuffer = 0;
 	host_addr = memalign(1024*1024, HOST_SIZE);
 	getResolution(&width,&height);
@@ -12,9 +12,10 @@ NoRSX::NoRSX(){
 		makeBuffer(&buffers[i],width,height,i);
 	flip(context, 1);
 	setRenderTarget(context, &buffers[currentBuffer]);
+	RegisterCallBack(EVENT_SLOT0);
 }
 
-NoRSX::NoRSX(int id_type){
+NoRSX::NoRSX(int id_type) : EventHandler(){
 	id_scr=id_type;
 	currentBuffer = 0;
 	host_addr = memalign(1024*1024, HOST_SIZE);
@@ -39,6 +40,7 @@ NoRSX::NoRSX(int id_type){
 		makeBuffer(&buffers[i],width,height,i);
 	flip(context, 1);
 	setRenderTarget(context, &buffers[currentBuffer]);
+	RegisterCallBack(EVENT_SLOT0);
 }
 
 NoRSX::~NoRSX(){
@@ -51,6 +53,7 @@ void NoRSX::Flip(){
 	currentBuffer = !currentBuffer;
 	setRenderTarget(context, &buffers[currentBuffer]);
 	waitFlip();
+	CheckCallBack();
 }
 
 void NoRSX::NoRSX_Exit(){
@@ -59,6 +62,7 @@ void NoRSX::NoRSX_Exit(){
 		rsxFree (buffers[i].ptr);
 	rsxFinish (context, 1);
 	free (host_addr);
+	UnregisterCallBack(EVENT_SLOT0);
 	already_done=1;
 }
 

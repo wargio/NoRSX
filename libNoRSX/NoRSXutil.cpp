@@ -15,7 +15,7 @@
 #include <time.h>
 #include <math.h>
 
-#include "rsxutil.h"
+#include <NoRSX/NoRSXutil.h>
 
 #define GCM_LABEL_INDEX		255
 

@@ -1,4 +1,4 @@
-#include "Background.h"
+#include <NoRSX/Background.h>
 
 Background::Background(Minimum *g){
 	G=g;

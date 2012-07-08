@@ -1,8 +1,7 @@
 NoRSX is a 2D lib for PSL1GHT
 =============================
 
-NOW IT'S A REAL PSL1GHT LIB
-This lib will be installed inside the PORTLIBS
+Don't be afraid to give me a help! this lib can be very useful!
 
 Authors
 -------
@@ -69,11 +68,6 @@ Changelog:
 		Font Size..
 	- 0.1.2 -
 		Fixed Font ChromaKey. now fonts are better displayed 
-	- 0.1.5 -
-		Now it's a real lib. to use it you will need to add in the Makefile the -lNoRSX flag
-		New Header. now to include NoRSX inside your code, you will need to add the new header <NoRSX.h>
-		Added EventHandler. it is included with <NoRSX.h> you don't need to use it. it's already configured by the lib.
-		
 
 Homebrews built with this lib:
 ------------------------------
@@ -84,5 +78,5 @@ Homebrews built with this lib:
 Fonts
 -----
 
-All the fonts included with the example aren't mine..
+All the fonts included with this lib aren't mine..
  

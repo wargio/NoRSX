@@ -20,11 +20,10 @@
 
 #include <ft2build.h>
 //#include <freetype2/freetype/freetype.h>
-#include "Min.h"
-#include "Colors.h"
-#include "Bitmap.h"
-#include "rsxutil.h"
-
+#include <NoRSX/Min.h>
+#include <NoRSX/Colors.h>
+#include <NoRSX/Bitmap.h>
+#include <NoRSX/NoRSXutil.h>
 
 
 #include FT_FREETYPE_H

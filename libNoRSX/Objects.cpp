@@ -1,4 +1,4 @@
-#include "Objects.h"
+#include <NoRSX/Objects.h>
 #include <math.h>
 
 Object::Object(Minimum *g){

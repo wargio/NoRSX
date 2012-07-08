@@ -20,19 +20,20 @@
 #ifndef __NORSX_MAIN_H__
 #define __NORSX_MAIN_H__
 
-#include "Image.h"
-#include "Background.h"
-#include "Objects.h"
-#include "Font.h"
-#include "Msg.h"
-#include "Bitmap.h"
+#include <NoRSX/Image.h>
+#include <NoRSX/Background.h>
+#include <NoRSX/Objects.h>
+#include <NoRSX/Font.h>
+#include <NoRSX/Msg.h>
+#include <NoRSX/Bitmap.h>
+#include <NoRSX/EventHandler.h>
 
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
 #include <assert.h>
 #include <unistd.h>
-#include "rsxutil.h"
+#include <NoRSX/NoRSXutil.h>
 
 #define RESOLUTION_1920x1080		1
 #define RESOLUTION_1280x720		2
@@ -40,7 +41,7 @@
 #define RESOLUTION_720x480		4
 
 
-class NoRSX : public Minimum{
+class NoRSX : public Minimum, public EventHandler{
 public:
 
 	 NoRSX();

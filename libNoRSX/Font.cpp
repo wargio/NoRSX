@@ -1,4 +1,4 @@
-#include "Font.h"
+#include <NoRSX/Font.h>
 
 #define COLOR_TO_ARGB(alpha, red, green, blue) (((alpha) << 24) | ((red) << 16) | ((green) << 8) | (blue))
 #define COLOR_TO_RGB(red, green, blue) (((red) << 16) | ((green) << 8) | (blue))

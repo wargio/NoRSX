@@ -18,7 +18,7 @@
 #ifndef __NORSX_MIN_H__
 #define __NORSX_MIN_H__
 #include <rsx/rsx.h>
-#include "rsxutil.h"
+#include <NoRSX/NoRSXutil.h>
 #include <ppu-types.h>
 #include <io/pad.h>
 #include <ppu_intrinsics.h>

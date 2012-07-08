@@ -1,4 +1,4 @@
-#include "Bitmap.h"
+#include <NoRSX/Bitmap.h>
 
 
 void Bitmap::GenerateBitmap(NoRSX_Bitmap *a){
