@@ -7,7 +7,7 @@ Object::Object(Minimum *g){
 
 //Object::
 void Object::Rectangle(u32 X, u32 Y, u32 width, u32 height, u32 Color){
-	s32 i, j;
+	u32 i, j;
 	for(i = Y; i < (height+Y); i++) {
 		for(j = X; j < (width+X); j++)
 			G->buffers[G->currentBuffer].ptr[i* G->buffers[G->currentBuffer].width + j] = Color;
@@ -29,7 +29,7 @@ void Object::Circle(u32 X, u32 Y, u32 r, u32 Color){
 }
 
 void Object::RectangleToBitmap(u32 X, u32 Y, u32 width, u32 height, u32 Color, NoRSX_Bitmap *a){
-	s32 i, j;
+	u32 i, j;
 	for(i = Y; i < (height+Y); i++) {
 		for(j = X; j < (width+X); j++)
 			PixelToBuffer(X, Y, Color, a);

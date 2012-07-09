@@ -53,7 +53,7 @@ void NoRSX::Flip(){
 	currentBuffer = !currentBuffer;
 	setRenderTarget(context, &buffers[currentBuffer]);
 	waitFlip();
-	CheckCallBack();
+	sysUtilCheckCallback();
 }
 
 void NoRSX::NoRSX_Exit(){
