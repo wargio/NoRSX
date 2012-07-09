@@ -26,11 +26,11 @@ public:
 	 Background(Minimum *g);
 	~Background(){}
 
-	void Mono(s32 Color);
-//	void DoubleGradient(s32 Color1, s32 Color2);
+	void Mono(u32 Color);
+	void Gradient(u32 Color1, u32 Color2);
 
-
-	void MonoBitmap(s32 Color, NoRSX_Bitmap *a);
+	void MonoBitmap(u32 Color, NoRSX_Bitmap *a);
+	void GradientBitmap(u32 Color1, u32 Color2, NoRSX_Bitmap *a);
 
 
 protected:

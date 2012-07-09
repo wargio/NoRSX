@@ -73,7 +73,8 @@ Changelog:
 		Now it's a real lib. to use it you will need to add in the Makefile the -lNoRSX flag
 		New Header. now to include NoRSX inside your code, you will need to add the new header <NoRSX.h>
 		Added EventHandler. it is included with <NoRSX.h> you don't need to use it. it's already configured by the lib.
-		
+	- 0.1.6 -
+		added gradient for background color.
 
 Homebrews built with this lib:
 ------------------------------

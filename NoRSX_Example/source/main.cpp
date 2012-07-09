@@ -53,7 +53,7 @@ s32 main(s32 argc, const char* argv[])
 	IMG.LoadPNG_Buf(NoRSX_Image_png,NoRSX_Image_png_size, &png);
 	u32 imgX =(GFX->width/2)-(png.width/2), imgY = (GFX->height/2)-(png.height/2);
 
-	BG.MonoBitmap(0xb4e83a,&Precalculated_Layer); //a green hex color (you can use hex colors insted of COLOR_XXXXXXX)
+	BG.GradientBitmap(0xb4e83a,COLOR_RED,&Precalculated_Layer); //a green hex color (you can use hex colors insted of COLOR_XXXXXXX)
 
 	IMG.DrawIMGtoBitmap(imgX,imgY,&png,&Precalculated_Layer);
 
