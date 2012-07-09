@@ -73,6 +73,7 @@ Homebrews built with this lib:
 ------------------------------
 	NoRSX Example  (deroad)
 	PS Seismograph (deroad)
+	XMB Manager Plus (XMBM+ Team)
 
 
 Fonts
