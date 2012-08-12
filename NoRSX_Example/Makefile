@@ -98,7 +98,7 @@ export OFILES	:=	$(addsuffix .o,$(BINFILES)) \
 #---------------------------------------------------------------------------------
 # build a list of include paths
 #---------------------------------------------------------------------------------
-export INCLUDE	:=	-I$(PORTLIBS)/include/freetyp2 \
+export INCLUDE	:=	-I$(PORTLIBS)/include/freetype2 \
 			$(foreach dir,$(INCLUDES), -I$(CURDIR)/$(dir)) \
 					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
 					$(LIBPSL1GHT_INC) \
