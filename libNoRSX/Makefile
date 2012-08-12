@@ -33,7 +33,7 @@ endif
 LIBRARY		:=	$(LIBDIR)/libNoRSX
 
 #---------------------------------------------------------------------------------
-DEFINCS		:=	-I$(PORTLIBS)/include/ -I$(PORTLIBS)/include/NoRSX -I$(PORTLIBS)/include/ -I$(PSL1GHT)/ppu/include -I$(PSL1GHT)/ppu/include/rsx -I$(PSL1GHT)/ppu/include/lv2 -I$(PSL1GHT)/ppu/include/sys
+DEFINCS		:=	-I$(PORTLIBS)/include/freetype2 -I$(PORTLIBS)/include/ -I$(PORTLIBS)/include/NoRSX -I$(PORTLIBS)/include/ -I$(PSL1GHT)/ppu/include -I$(PSL1GHT)/ppu/include/rsx -I$(PSL1GHT)/ppu/include/lv2 -I$(PSL1GHT)/ppu/include/sys
 INCLUDES	:=	$(DEFINCS)
 
 CFLAGS		:=	-O2 -mregnames -Wall -mcpu=cell $(MACHDEP) $(INCLUDES) -Wl,-mcell
