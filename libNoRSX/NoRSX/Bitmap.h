@@ -22,6 +22,9 @@
 
 typedef struct {
 	uint32_t *bitmap;
+	uint32_t width;
+	uint32_t height;
+
 	int load;
 } NoRSX_Bitmap;
 
@@ -36,8 +39,10 @@ public:
 	}	
 
 	void GenerateBitmap(NoRSX_Bitmap *a);
+	void GenerateCustomBitmap(uint32_t width, uint32_t height, NoRSX_Bitmap *a);
 	void ClearBitmap(NoRSX_Bitmap *a);
 	void RegenBitmap(NoRSX_Bitmap *a);
+	void DrawCustomBitmap(uint32_t start_width, uint32_t start_height, uint32_t end_width, uint32_t end_height, NoRSX_Bitmap *a);
 	void DrawBitmap(NoRSX_Bitmap *a);
 
 	

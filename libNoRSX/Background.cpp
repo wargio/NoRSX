@@ -72,7 +72,7 @@ void Background::Gradient(u32 Color1, u32 Color2){ //G->buffers[G->currentBuffer
 }
 
 void Background::GradientBitmap(u32 Color1, u32 Color2, NoRSX_Bitmap *a){
-	s32 size = G->buffers[G->currentBuffer].height * G->buffers[G->currentBuffer].width;
+	u32 size = G->height * G->width;
 	u8 Color_Red   = R(Color2);
 	u8 Color_Blue  = B(Color2);
 	u8 Color_Green = G(Color2);

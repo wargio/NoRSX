@@ -27,6 +27,7 @@
 #include <NoRSX/Msg.h>
 #include <NoRSX/Bitmap.h>
 #include <NoRSX/EventHandler.h>
+#include <NoRSX/Animation.h>
 
 #include <stdio.h>
 #include <malloc.h>

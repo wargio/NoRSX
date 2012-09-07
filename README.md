@@ -74,7 +74,10 @@ Changelog:
 		New Header. now to include NoRSX inside your code, you will need to add the new header <NoRSX.h>
 		Added EventHandler. it is included with <NoRSX.h> you don't need to use it. it's already configured by the lib.
 	- 0.1.6 -
-		added gradient for background color.
+		Added gradient for background color.
+	- 0.1.8 -
+		Added Animation.cpp and Animation.h to create animations
+		New Bitmap Functions
 
 Homebrews built with this lib:
 ------------------------------
