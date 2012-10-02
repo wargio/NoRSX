@@ -78,6 +78,9 @@ Changelog:
 	- 0.1.8 -
 		Added Animation.cpp and Animation.h to create animations
 		New Bitmap Functions
+	- 0.1.9 -
+		Added Spu.cpp to use spu stuff
+		Added NoRSX error list (incomplete)
 
 Homebrews built with this lib:
 ------------------------------

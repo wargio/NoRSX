@@ -28,6 +28,8 @@
 #include <NoRSX/Bitmap.h>
 #include <NoRSX/EventHandler.h>
 #include <NoRSX/Animation.h>
+#include <NoRSX/Errors.h>
+#include <NoRSX/Spu.h>
 
 #include <stdio.h>
 #include <malloc.h>
