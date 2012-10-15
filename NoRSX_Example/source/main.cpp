@@ -35,7 +35,8 @@ s32 main(s32 argc, const char* argv[])
 
 	pngData png;
 	
-	NoRSX *GFX = new NoRSX(RESOLUTION_1280x720); //set defined screen resolution You can change it to: RESOLUTION_720x480 | RESOLUTION_720x576 | RESOLUTION_1280x720 | RESOLUTION_1920x1080
+	NoRSX *GFX = new NoRSX(RESOLUTION_1920x1080); //set defined screen resolution You can change it to:
+						      //RESOLUTION_720x480 | RESOLUTION_720x576 | RESOLUTION_1280x720 | RESOLUTION_1920x1080
 	Image IMG(GFX);
 	Background BG(GFX);
 	Object OBJ(GFX);
@@ -80,9 +81,8 @@ s32 main(s32 argc, const char* argv[])
 			}
 		}
 
-
 		BMap.DrawBitmap(&Precalculated_Layer);
-		F1.Printf(150,100,"FPS %f", fps);
+		F1.Printf(150,100,COLOR_RED,60,"FPS %f", fps);
 
 		GFX->Flip();
 		frame ++;

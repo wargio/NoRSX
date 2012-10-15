@@ -43,7 +43,8 @@ CXXFLAGS	:=	$(CFLAGS)
 VPATH		:=	$(BASEDIR)
 
 #---------------------------------------------------------------------------------
-OBJS		:= 	Background.o Font.o Min.o NoRSX.o NoRSXutil.o Bitmap.o Image.o Msg.o Objects.o EventHandler.o Animation.o Spu.o
+OBJS		:= 	Background.o Font.o Min.o NoRSX.o NoRSXutil.o Bitmap.o Image.o\
+			Msg.o Objects.o EventHandler.o Animation.o Spu.o Printf.o
 
 #---------------------------------------------------------------------------------
 all: install-headers ppu install

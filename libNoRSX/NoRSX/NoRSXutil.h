@@ -38,5 +38,6 @@ int getResolution (u16 *width, u16 *height);
 gcmContextData *initScreen (void *host_addr, u32 size, u32 vid_id,u16 width, u16 height);
 /* Sets the target buffer to render to */
 void setRenderTarget(gcmContextData *context, rsxBuffer *buffer);
-
+//void copyToBuffer(gcmContextData *context, u32 buf_width, u32 buf_height, rsxBuffer *buffer, u32 *bitmap);
+//void RescaleBuffer(gcmContextData *context, u32 width, u32 height, rsxBuffer *buffer);
 #endif /* __RSXUTIL_H__ */

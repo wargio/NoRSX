@@ -17,7 +17,7 @@
 */
 
 #include <NoRSX/Bitmap.h>
-
+#include <NoRSX/NoRSXutil.h>
 void Bitmap::GenerateBitmap(NoRSX_Bitmap *a){
 	a->bitmap = new uint32_t[G->width * G->height];
 	a->height = G->height;
@@ -43,7 +43,7 @@ void Bitmap::ClearBitmap(NoRSX_Bitmap *a){
 
 void Bitmap::RegenBitmap(NoRSX_Bitmap *a){
 	if(a->load==1){
-		delete [] a->bitmap;
+		free(a->bitmap);
 		a->bitmap = new uint32_t[(sizeof(u32) * G->width * G->height)];
 	}else{
 		a->bitmap = new uint32_t[(sizeof(u32) * G->width * G->height)];

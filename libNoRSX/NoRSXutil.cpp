@@ -209,4 +209,123 @@ void setRenderTarget(gcmContextData *context, rsxBuffer *buffer){
 
 	rsxSetSurface(context, &sf);
 }
+/*
+void copyToBuffer(gcmContextData *context, u32 buf_width, u32 buf_height, rsxBuffer *buffer, u32 *bitmap, u32 bitmap_off){
+	gcmTransferScale xferscale;
+	memset(&xferscale, 0, sizeof(xferscale));
 
+	gcmTransferSurface xfersurface;
+	memset(&xfersurface, 0, sizeof(xfersurface));
+
+	// configure transfer scale 
+	xferscale.conversion = GCM_TRANSFER_CONVERSION_TRUNCATE;
+	xferscale.format = GCM_TRANSFER_SCALE_FORMAT_A8R8G8B8;
+	xferscale.operation = GCM_TRANSFER_OPERATION_SRCCOPY;
+	xferscale.clipX = 0;
+	xferscale.clipY = 0;
+	xferscale.clipW = buffer->width;
+	xferscale.clipH = buffer->height;
+	xferscale.outX  = 0;
+	xferscale.outY  = 0;
+	xferscale.outW  = buffer->width;
+	xferscale.outH  = buffer->height;
+	xferscale.inW   = buf_width;
+	xferscale.inH   = buf_height;
+
+	xferscale.ratioX = rsxGetFixedSint32((float)xferscale.inW / (float)xferscale.outW);
+	xferscale.ratioY = rsxGetFixedSint32((float)xferscale.inH / (float)xferscale.outH);
+
+	xferscale.pitch = depth_pitch;
+	xferscale.origin = GCM_TRANSFER_ORIGIN_CORNER;
+	xferscale.interp = GCM_TRANSFER_INTERPOLATOR_NEAREST;
+	xferscale.offset = bitmap_off;
+
+	xferscale.inX = rsxGetFixedUint16(1.0f);
+	xferscale.inY = rsxGetFixedUint16(1.0f);
+
+	// configure destination surface for transfer //
+	xfersurface.format = GCM_TRANSFER_SURFACE_FORMAT_A8R8G8B8;
+	xfersurface.pitch = depth_pitch;
+	xfersurface.offset = depth_offset;
+
+	// blit font buffer //
+	rsxSetTransferScaleMode(context, GCM_TRANSFER_LOCAL_TO_LOCAL, GCM_TRANSFER_SURFACE);
+	rsxSetTransferScaleSurface(context, &xferscale, &xfersurface);
+}
+*/
+
+void RescaleBuffer(gcmContextData *context, u32 width, u32 height, rsxBuffer *buffer){
+	gcmTransferScale xferscale;
+	memset(&xferscale, 0, sizeof(xferscale));
+
+	gcmTransferSurface xfersurface;
+	memset(&xfersurface, 0, sizeof(xfersurface));
+
+	// configure transfer scale //
+	xferscale.conversion = GCM_TRANSFER_CONVERSION_TRUNCATE;
+	xferscale.format = GCM_TRANSFER_SCALE_FORMAT_A8R8G8B8;
+	xferscale.operation = GCM_TRANSFER_OPERATION_SRCCOPY;
+	xferscale.clipX = 0;
+	xferscale.clipY = 0;
+	xferscale.clipW = buffer->width;
+	xferscale.clipH = buffer->height;
+	xferscale.outX  = 0;
+	xferscale.outY  = 0;
+	xferscale.outW  = width;
+	xferscale.outH  = height;
+	xferscale.inW   = buffer->width;
+	xferscale.inH   = buffer->height;
+
+	xferscale.ratioX = rsxGetFixedSint32((float)xferscale.inW / (float)xferscale.outW);
+	xferscale.ratioY = rsxGetFixedSint32((float)xferscale.inH / (float)xferscale.outH);
+
+	xferscale.pitch  = depth_pitch;
+	xferscale.origin = GCM_TRANSFER_ORIGIN_CORNER;
+	xferscale.interp = GCM_TRANSFER_INTERPOLATOR_NEAREST;
+	xferscale.offset = depth_offset;
+
+	xferscale.inX = rsxGetFixedUint16(1.0f);
+	xferscale.inY = rsxGetFixedUint16(1.0f);
+
+	// configure destination surface for transfer //
+	xfersurface.format = GCM_TRANSFER_SURFACE_FORMAT_A8R8G8B8;
+	xfersurface.pitch  = depth_pitch;
+	xfersurface.offset = depth_offset;
+
+	// blit to buffer //
+	rsxSetTransferScaleMode(context, GCM_TRANSFER_LOCAL_TO_LOCAL, GCM_TRANSFER_SURFACE);
+	rsxSetTransferScaleSurface(context, &xferscale, &xfersurface);
+
+	gcmSurface sf;
+
+	sf.colorFormat = GCM_TF_COLOR_X8R8G8B8;
+	sf.colorTarget = GCM_TF_TARGET_0;
+	sf.colorLocation[0] = GCM_LOCATION_RSX;
+	sf.colorOffset[0]   = buffer->offset;
+	sf.colorPitch[0]    = depth_pitch;
+
+	sf.colorLocation[1] = GCM_LOCATION_RSX;
+	sf.colorLocation[2] = GCM_LOCATION_RSX;
+	sf.colorLocation[3] = GCM_LOCATION_RSX;
+	sf.colorOffset[1] = 0;
+	sf.colorOffset[2] = 0;
+	sf.colorOffset[3] = 0;
+	sf.colorPitch[1] = 64;
+	sf.colorPitch[2] = 64;
+	sf.colorPitch[3] = 64;
+
+	sf.depthFormat   = GCM_TF_ZETA_Z16;
+	sf.depthLocation = GCM_LOCATION_RSX;
+	sf.depthOffset   = depth_offset;
+	sf.depthPitch    = depth_pitch;
+
+	sf.type         = GCM_TF_TYPE_LINEAR;
+	sf.antiAlias 	= GCM_TF_CENTER_1;
+
+	sf.width  = width;
+	sf.height = height;
+	sf.x = 0;
+	sf.y = 0;
+
+	rsxSetSurface(context, &sf);
+}

@@ -31,6 +31,8 @@
 #include <NoRSX/Errors.h>
 #include <NoRSX/Spu.h>
 
+#include <NoRSX/Printf.h>
+
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>

@@ -255,24 +255,6 @@ void Font::Printf(u32 x, u32 y, u32 Color, u32 Size,const char *a, ...){
 	}
 }
 
-void Font::FontDrawBitmap(FT_Bitmap *bitmap, s32 offset, s32 top){
-	static s32 color;
-	FT_Int x, y, i, j;
-	FT_Int x_max = offset + bitmap->width;
-	FT_Int y_max = top + bitmap->rows;
-	u32 M_width = m->width;
-	u32 M_height = m->height;
-	for(x = offset, i = 0; x < x_max; x++, i++){
-		if(x >= (s32)M_width) break;
-		for(y = top, j = 0; y < y_max; y++, j++){
-			if(y >= (s32)M_height) break;
-			color = bitmap->buffer[bitmap->width * j + i];
-			if(CHROMAKEY!=color)
-				*(m->buffers[m->currentBuffer].ptr + m->width * y + x) = FontColor;
-		}
-	}
-}
-
 void Font::PrintfToBitmap(u32 x, u32 y,NoRSX_Bitmap* bmap,const char *a, ...){
 	char text[1024];
 	va_list va;
@@ -380,22 +362,53 @@ void Font::PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color, u32 Size,
 	}
 }
 
+void Font::FontDrawBitmap(FT_Bitmap *bitmap, s32 offset, s32 top){
+
+	FT_Int x, y, i, j;
+	FT_Int x_max = offset + bitmap->width;
+	FT_Int y_max = top + bitmap->rows;
+	u32 M_width = m->width;
+	u32 M_height = m->height;
+
+	u32 *ptr = m->buffers[m->currentBuffer].ptr;
+
+
+	if(y_max >= (s32)M_height)
+		y_max = M_height;
+	if(x_max >= (s32)M_width)
+		x_max = M_width;
+
+	for(x = offset, i = 0;x < x_max;x++, i++ ){
+		for(y = top, j = 0;y < y_max;y++, j++ ){
+			u32 color = bitmap->buffer[bitmap->width * j + i];
+			if(color>0x30)
+				ptr[m->width * y + x] = ((color)*0x01010101)&FontColor;
+		}
+	}
+}
+
+
 void Font::FontDrawBitmapToBitmap(FT_Bitmap *bitmap, NoRSX_Bitmap* bmap, s32 offset, s32 top){
-	static s32 color;
+
 	FT_Int x, y, i, j;
 	FT_Int x_max = offset + bitmap->width;
 	FT_Int y_max = top + bitmap->rows;
 
+	u32 *ptr = bmap->bitmap;
+	
 	u32 M_width = m->width;
 	u32 M_height = m->height;
+	if(y_max >= (s32)M_height)
+		y_max = M_height;
+	if(x_max >= (s32)M_width)
+		x_max = M_width;
 
 	for(x = offset, i = 0;x < x_max;x++, i++ ){
-		if(x >= (s32)M_width)break;
 		for(y = top, j = 0;y < y_max;y++, j++ ){
-			if(y >= (s32) M_height) break;
-			color = bitmap->buffer[bitmap->width * j + i];
-			if(CHROMAKEY!=color)
-				*(bmap->bitmap + m->width * y + x) = FontColor;
+			u32 color = bitmap->buffer[bitmap->width * j + i];
+			if(color>0xa0)
+				ptr[m->width * y + x] = ((color)*0x01010101)&FontColor;
 		}
 	}
 }
+
