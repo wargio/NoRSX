@@ -24,14 +24,17 @@
 #include <time.h>
 
 
-//msgType MSG_OK = (msgType)(MSG_DIALOG_NORMAL | MSG_DIALOG_BTN_TYPE_OK | MSG_DIALOG_DISABLE_CANCEL_ON);
+msgType MSG_OK = (msgType)(MSG_DIALOG_NORMAL | MSG_DIALOG_BTN_TYPE_OK | MSG_DIALOG_DISABLE_CANCEL_ON);
 
 s32 main(s32 argc, const char* argv[])
 {
 	padInfo padinfo;
 	padData paddata;
-
 	ioPadInit(7);
+
+	int Bx=0;
+	int By=0;
+
 
 	pngData png;
 	
@@ -41,6 +44,7 @@ s32 main(s32 argc, const char* argv[])
 	Background BG(GFX);
 	Object OBJ(GFX);
 	Bitmap BMap(GFX);
+	MsgDialog Msg(GFX);
 
 	NoRSX_Bitmap Precalculated_Layer;	
 	
@@ -54,15 +58,15 @@ s32 main(s32 argc, const char* argv[])
 	IMG.LoadPNG_Buf(NoRSX_Image_png,NoRSX_Image_png_size, &png);
 	u32 imgX =(GFX->width/2)-(png.width/2), imgY = (GFX->height/2)-(png.height/2);
 
-	BG.GradientBitmap(0xb4e83a,COLOR_RED,&Precalculated_Layer); //a green hex color (you can use hex colors insted of COLOR_XXXXXXX)
+	BG.MonoBitmap(0xb4e83a,&Precalculated_Layer); //a green hex color (you can use hex colors insted of COLOR_XXXXXXX)
 
-	IMG.DrawIMGtoBitmap(imgX,imgY,&png,&Precalculated_Layer);
+//	IMG.DrawIMGtoBitmap(imgX,imgY,&png,&Precalculated_Layer);
 
 	OBJ.CircleToBitmap(500,500,50,COLOR_YELLOW,&Precalculated_Layer);
 
 
 	F1.PrintfToBitmap(150,200,&Precalculated_Layer,COLOR_RED,"Screen %d x %d",GFX->width,GFX->height);
-	F1.PrintfToBitmap(150,250,&Precalculated_Layer,COLOR_BLUE, 35,"Press X to exit!");
+	F1.PrintfToBitmap(150,250,&Precalculated_Layer,COLOR_BLUE, 35,"Press X to exit! (Start to skip Message Dialogs and exit)");
 	F2.PrintfToBitmap(150,300,&Precalculated_Layer,COLOR_GREEN,60,"FreeType2 with TTF support :)");
 	F3.PrintfToBitmap(150,500,&Precalculated_Layer,"Written by deroad");
 
@@ -79,18 +83,84 @@ s32 main(s32 argc, const char* argv[])
 			if(paddata.BTN_CROSS){
 				GFX->AppExit();
 			}
+			if(paddata.BTN_START){
+				GFX->AppExit();
+				goto end;
+			}
 		}
-
 		BMap.DrawBitmap(&Precalculated_Layer);
+		IMG.DrawIMG(imgX,imgY,&png);
 		F1.Printf(150,100,COLOR_RED,60,"FPS %f", fps);
 
 		GFX->Flip();
 		frame ++;
 	}
 
+	GFX->AppStart();
+	while(GFX->GetAppStatus()){
+		static time_t starttime = 0;
+		double fps = 0;
+		if (starttime == 0) starttime = time (NULL);
+		else fps = frame / difftime (time (NULL), starttime);
+		ioPadGetInfo(&padinfo);
+		if(padinfo.status[0]){
+			ioPadGetData(0, &paddata);
+			if(paddata.BTN_CROSS){
+				GFX->AppExit();
+			}
+		}
+		BG.Mono(0xb4e83a);
+		F1.Printf(150,100,COLOR_RED,60,"FPS %f", fps);
+
+		GFX->Flip();
+		frame ++;
+	}
+
+
 	//You need to clean the Bitmap before exit
 	BMap.ClearBitmap(&Precalculated_Layer);
 
+	Msg.TimerErrorDialog(0xdeadbeef, 5000.f);
+
+	Msg.TimerDialog(MSG_OK, "Timer Dialog!", 5000.f);
+	Msg.TimerErrorDialog(0xdeadbeef, 5000.f);
+
+
+	GFX->AppStart();
+	frame = 0;
+	Msg.SingleProgressBarDialog("Single progress bar!!", "Deroad Bar text");
+	while(GFX->GetAppStatus() && Bx<100){
+		Msg.ProgressBarDialogFlip();
+		frame ++;
+		if(frame%55==0){
+			Msg.SingleProgressBarDialogIncrease(10);
+			Bx+=10;
+		}
+	}
+	Msg.ProgressBarDialogAbort();
+
+
+	GFX->AppStart();
+	Msg.DoubleProgressBarDialog("Double progress bar!!", "Deroad Bar1 text", "Deroad Bar2 text");
+	Bx=0;
+	By=0;
+	while(GFX->GetAppStatus() && By<=100){
+		Msg.ProgressBarDialogFlip();
+		frame ++;
+		if(frame%55==0){
+			Bx+=10;
+			Msg.DoubleProgressBarDialogIncreaseFirstBar(10);
+		 }
+
+		if(Bx>100){
+			Bx=0;
+			Msg.DoubleProgressBarDialogResetFirstBar();
+			Msg.DoubleProgressBarDialogIncreaseSecondBar(20);
+			By+=20;
+		}
+	}
+	Msg.ProgressBarDialogAbort();
+end:
 	GFX->NoRSX_Exit();
 	ioPadEnd();
 	return 0;

@@ -12,6 +12,16 @@ Authors
 
 Changelog:
 ----------
+	- 0.2.1 -
+		Added new Message Dialog functions:
+			Single Progress Bar.
+			Double Progress Bar
+			Dialog with timer.
+			Error Dialog with timer.
+		Performance Patches for:
+			bitmap rendering.
+			image rendering.
+		Implemented print function. now is a class.
 	- 0.2.0 -
 		Text rendering improved with performance test
 		Fixed XMB Flip. Now is much more better.

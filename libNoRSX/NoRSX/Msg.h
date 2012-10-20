@@ -27,8 +27,27 @@ public:
 	 MsgDialog(Minimum *g);
 	~MsgDialog();
 
-	void Dialog(msgType md, const char *message);
 	int  GetResponse(vs32 button);
+	void Dialog(msgType md, const char *message);
+
+	void ErrorDialog(u32 errorCode);
+	void TimerDialog(msgType md, const char *message, u32 Milliseconds);
+	void TimerErrorDialog(u32 errorCode, u32 Milliseconds);
+
+	void SingleProgressBarDialog(const char *dialog_message, const char* bar_message);
+	void SingleProgressBarDialogIncrease(u32 percent);
+	void SingleProgressBarDialogChangeMessage(const char* bar_message);
+
+	void DoubleProgressBarDialog(const char *dialog_message, const char* bar1_message, const char* bar2_message);
+	void DoubleProgressBarDialogChangeMessageFirstBar(const char* bar_message);
+	void DoubleProgressBarDialogChangeMessageSecondBar(const char* bar_message);
+	void DoubleProgressBarDialogIncreaseFirstBar(u32 percent);
+	void DoubleProgressBarDialogResetFirstBar();
+	void DoubleProgressBarDialogIncreaseSecondBar(u32 percent);
+
+	void ProgressBarDialogFlip();  /*This is needed for both progress bar type*/
+	void ProgressBarDialogAbort(); /*This is needed for both progress bar type*/
+
 protected:
 	Minimum *G;
 };

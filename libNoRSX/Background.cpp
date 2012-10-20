@@ -34,14 +34,14 @@ Background::Background(Minimum *g){
 }
 
 void Background::Mono(u32 Color){
-	s32 size = G->buffers[G->currentBuffer].height * G->buffers[G->currentBuffer].width;
+	s32 size = G->height * G->width;
 	for(s32 i = 0; i < size; i++) {
 	G->buffers[G->currentBuffer].ptr[i] = Color;
 	}
 }
 
 void Background::MonoBitmap(u32 Color, NoRSX_Bitmap *a){
-	s32 size = G->buffers[G->currentBuffer].height * G->buffers[G->currentBuffer].width;
+	s32 size = G->height * G->width;
 	for(s32 i = 0; i < size; i++) {
 		a->bitmap[i] = Color;
 	}
@@ -49,7 +49,7 @@ void Background::MonoBitmap(u32 Color, NoRSX_Bitmap *a){
 
 
 void Background::Gradient(u32 Color1, u32 Color2){ //G->buffers[G->currentBuffer].ptr[i]
-	s32 size = G->buffers[G->currentBuffer].height * G->buffers[G->currentBuffer].width;
+	s32 size = G->height * G->width;
 	u8 Color_Red   = R(Color2);
 	u8 Color_Blue  = B(Color2);
 	u8 Color_Green = G(Color2);

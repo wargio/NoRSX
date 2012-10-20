@@ -18,6 +18,8 @@
 
 #ifndef __NORSX_PRINTF__
 #define __NORSX_PRINTF__
+#include <fstream>
+
 /*
  * 
  * This will allow to write a debug message into a file
@@ -27,8 +29,13 @@
  * 
  */
 
-int init_print(const char* filename);
-int print(const char *a, ...);
-void end_print();
-
+class Printf{
+public:
+	 Printf(const char* filename);
+	~Printf();
+	int printf(const char *a, ...);
+protected:
+	std::fstream f;
+	int can_print;
+};
 #endif
