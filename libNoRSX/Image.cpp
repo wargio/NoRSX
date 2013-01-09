@@ -230,3 +230,61 @@ void Image::AlphaDrawIMGtoBitmap(int x, int y, pngData *png1, NoRSX_Bitmap *a){
 	}
 }
 
+void Image::ScaleLine(u32 *Target, u32 *Source, u32 SrcWidth, u32 TgtWidth){
+ //Thanks to: http://www.compuphase.com/graphic/scale.htm
+	int NumPixels = TgtWidth;
+	int IntPart = SrcWidth / TgtWidth;
+	int FractPart = SrcWidth % TgtWidth;
+	int E = 0;
+
+	while (NumPixels-- > 0) {
+		*Target++ = *Source;
+		Source += IntPart;
+		E += FractPart;
+		if (E >= (int)TgtWidth) {
+			E -= TgtWidth;
+			Source++;
+		} /* if */
+	} /* while */
+}
+
+pngData * Image::ResizeImage(pngData *png_in, u32 TgtWidth, u32 TgtHeight){
+ //Thanks to: http://www.compuphase.com/graphic/scale.htm
+	if(png_in->bmp_out){
+		pngData *png_out = new pngData;
+		png_out->bmp_out = (u32 *) malloc(TgtHeight*TgtWidth*sizeof(u32));
+		u32 *Source = (u32 *)(void *)png_in->bmp_out;
+		u32 *Target = (u32 *)(void *)png_out->bmp_out;
+
+		png_out->height = TgtHeight;
+		png_out->width  = TgtWidth;
+		png_out->pitch  = TgtWidth*4;
+
+		int NumPixels = TgtHeight;
+		int IntPart = (png_in->height / TgtHeight) * png_in->width;
+		int FractPart = png_in->height % TgtHeight;
+		int E = 0;
+		u32 *PrevSource = NULL;
+
+		while (NumPixels-- > 0) {
+			if (Source == PrevSource) {
+				memcpy(Target, Target-TgtWidth, TgtWidth*sizeof(*Target));
+			} else {
+				ScaleLine(Target, Source, png_in->width, TgtWidth);
+				PrevSource = Source;
+			}
+			Target += TgtWidth;
+			Source += IntPart;
+			E += FractPart;
+			if (E >= (int)TgtHeight) {
+				E -= TgtHeight;
+				Source += png_in->width;
+			}
+		}
+		return png_out;
+	}
+	return NULL;
+}
+
+
+

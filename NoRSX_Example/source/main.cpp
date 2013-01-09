@@ -36,7 +36,7 @@ s32 main(s32 argc, const char* argv[])
 	int By=0;
 
 
-	pngData png;
+	pngData *png = new pngData;
 	
 	NoRSX *GFX = new NoRSX(RESOLUTION_1920x1080); //set defined screen resolution You can change it to:
 						      //RESOLUTION_720x480 | RESOLUTION_720x576 | RESOLUTION_1280x720 | RESOLUTION_1920x1080
@@ -55,12 +55,15 @@ s32 main(s32 argc, const char* argv[])
 	Font F3(JPN ,GFX);  //I'm Using PS3 Original Fonts! These are the available on the ps3: LATIN2 | JPN | KOR | CGB | KANA
 	
 
-	IMG.LoadPNG_Buf(NoRSX_Image_png,NoRSX_Image_png_size, &png);
-	u32 imgX =(GFX->width/2)-(png.width/2), imgY = (GFX->height/2)-(png.height/2);
+	IMG.LoadPNG_Buf(NoRSX_Image_png,NoRSX_Image_png_size, png);
+
+	png = IMG.ResizeImage(png, 500, 500); //pngData* IMG.ResizeImage(pngData*, new width, new height)
+
+	u32 imgX =(GFX->width/2)-(png->width/2), imgY = (GFX->height/2)-(png->height/2);
 
 	BG.MonoBitmap(0xb4e83a,&Precalculated_Layer); //a green hex color (you can use hex colors insted of COLOR_XXXXXXX)
 
-//	IMG.DrawIMGtoBitmap(imgX,imgY,&png,&Precalculated_Layer);
+//	IMG.DrawIMGtoBitmap(imgX,imgY,png,&Precalculated_Layer);
 
 	OBJ.CircleToBitmap(500,500,50,COLOR_YELLOW,&Precalculated_Layer);
 
@@ -89,7 +92,7 @@ s32 main(s32 argc, const char* argv[])
 			}
 		}
 		BMap.DrawBitmap(&Precalculated_Layer);
-		IMG.DrawIMG(imgX,imgY,&png);
+		IMG.DrawIMG(imgX,imgY,png);
 		F1.Printf(150,100,COLOR_RED,60,"FPS %f", fps);
 
 		GFX->Flip();

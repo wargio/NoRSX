@@ -17,6 +17,11 @@
 */
 
 #include <NoRSX.h>
+#include <sys/process.h>
+
+/* Allocate 1MB stack to avoid overflows */
+SYS_PROCESS_PARAM(1001, 0x100000);
+
 static int already_done=0;
 
 NoRSX::NoRSX() : EventHandler(){

@@ -37,7 +37,7 @@ DEFINCS		:=	-I$(PORTLIBS)/include/freetype2 -I$(PORTLIBS)/include/ -I$(PORTLIBS)
 INCLUDES	:=	$(DEFINCS)
 
 CFLAGS		:=	-O2 -mregnames -Wall -mcpu=cell $(MACHDEP) $(INCLUDES) -Wl,-mcell
-CXXFLAGS	:=	$(CFLAGS)
+CXXFLAGS	:=	$(CFLAGS) 
 
 #---------------------------------------------------------------------------------
 VPATH		:=	$(BASEDIR)

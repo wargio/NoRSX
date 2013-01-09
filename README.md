@@ -13,6 +13,8 @@ Authors
 Changelog:
 ----------
 	- 0.2.1 -
+		Added Image Resize Algorithm ( Thanks to: http://www.compuphase.com/graphic/scale.htm )
+	- 0.2.1 -
 		Added new Message Dialog functions:
 			Single Progress Bar.
 			Double Progress Bar

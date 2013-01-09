@@ -53,11 +53,14 @@ public:
 	void DrawIMGtoBitmap(int x, int y, jpgData *jpg1, NoRSX_Bitmap *a);
 	void AlphaDrawIMGtoBitmap(int x, int y, pngData *png1, NoRSX_Bitmap *a);
 
+	pngData *ResizeImage(pngData *png_in, u32 TgtWidth, u32 TgtHeight);
+
 protected:
 	Minimum *G;
 	void DrawPartialImage(int x, int y, unsigned int s_width, unsigned int s_height, unsigned int e_width, unsigned int e_height, unsigned int bg, unsigned int color, pngData *png1); 
 	void DrawPartialImage(int x, int y, unsigned int s_width, unsigned int s_height, unsigned int e_width, unsigned int e_height, unsigned int bg, unsigned int color, jpgData *jpg1); 
 
+	void ScaleLine(u32 *Target, u32 *Source, u32 SrcWidth, u32 TgtWidth);
 
 };
 
