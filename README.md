@@ -12,7 +12,7 @@ Authors
 
 Changelog:
 ----------
-	- 0.2.1 -
+	- 0.2.2 -
 		Added Image Resize Algorithm ( Thanks to: http://www.compuphase.com/graphic/scale.htm )
 	- 0.2.1 -
 		Added new Message Dialog functions:
