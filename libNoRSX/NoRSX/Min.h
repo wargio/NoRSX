@@ -30,7 +30,11 @@ public:
 
 	rsxBuffer buffers[2];
 	gcmContextData *context;
+
 	int currentBuffer;
+
+	uint32_t *buffer;
+	uint32_t buffer_size;
 };
 
 #endif

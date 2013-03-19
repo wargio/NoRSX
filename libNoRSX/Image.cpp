@@ -37,7 +37,7 @@ void Image::LoadJPG_Buf(const void* name, u32 name_size, jpgData *jpg){
 void Image::DrawIMG(int x, int y, pngData *png1){
 
 	if(png1->bmp_out){
-		u32 *scr = (u32 *)G->buffers[G->currentBuffer].ptr;
+		u32 *scr = (u32 *)G->buffer;
 		u32 *png = (u32 *)(void *)png1->bmp_out;
 
 		scr += y*G->width+x;
@@ -60,7 +60,7 @@ void Image::DrawIMG(int x, int y, pngData *png1){
 
 void Image::DrawIMG(int x, int y, jpgData *jpg1){
 	if(jpg1->bmp_out){
-		u32 *scr = (u32 *)G->buffers[G->currentBuffer].ptr;
+		u32 *scr = (u32 *)G->buffer;
 		u32 *jpg = (u32 *)(void *)jpg1->bmp_out;
 
 		scr += y*G->width+x;
@@ -83,7 +83,7 @@ void Image::DrawIMG(int x, int y, jpgData *jpg1){
 
 void Image::AlphaDrawIMG(int x, int y, pngData *png1){
 	if(png1->bmp_out){
-		u32 *scr = (u32 *)G->buffers[G->currentBuffer].ptr;
+		u32 *scr = (u32 *)G->buffer;
 		u32 *png = (u32 *)(void *)png1->bmp_out;
 		unsigned int m;
 
@@ -114,7 +114,7 @@ void Image::AlphaDrawIMG(int x, int y, pngData *png1){
 
 void Image::DrawPartialImage(int x, int y, unsigned int s_width, unsigned int s_height, unsigned int e_width, unsigned int e_height, unsigned int bg, unsigned int color, pngData *png1){
 	if(png1->bmp_out){
-		u32 *scr = (u32 *)G->buffers[G->currentBuffer].ptr;
+		u32 *scr = (u32 *)G->buffer;
 		u32 *png = (u32 *)(void *)png1->bmp_out;
 		unsigned int n, m;
 
@@ -134,7 +134,7 @@ void Image::DrawPartialImage(int x, int y, unsigned int s_width, unsigned int s_
 
 void Image::DrawPartialImage(int x, int y, unsigned int s_width, unsigned int s_height, unsigned int e_width, unsigned int e_height, unsigned int bg, unsigned int color, jpgData *jpg1){
 	if(jpg1->bmp_out){
-		u32 *scr = (u32 *)G->buffers[G->currentBuffer].ptr;
+		u32 *scr = (u32 *)G->buffer;
 		u32 *jpg = (u32 *)(void *)jpg1->bmp_out;
 		unsigned int n, m;
 
@@ -282,6 +282,44 @@ pngData * Image::ResizeImage(pngData *png_in, u32 TgtWidth, u32 TgtHeight){
 			}
 		}
 		return png_out;
+	}
+	return NULL;
+}
+
+jpgData * Image::ResizeImage(jpgData *jpg_in, u32 TgtWidth, u32 TgtHeight){
+ //Thanks to: http://www.compuphase.com/graphic/scale.htm
+	if(jpg_in->bmp_out){
+		jpgData *jpg_out = new jpgData;
+		jpg_out->bmp_out = (u32 *) malloc(TgtHeight*TgtWidth*sizeof(u32));
+		u32 *Source = (u32 *)(void *)jpg_in->bmp_out;
+		u32 *Target = (u32 *)(void *)jpg_out->bmp_out;
+
+		jpg_out->height = TgtHeight;
+		jpg_out->width  = TgtWidth;
+		jpg_out->pitch  = TgtWidth*4;
+
+		int NumPixels = TgtHeight;
+		int IntPart = (jpg_in->height / TgtHeight) * jpg_in->width;
+		int FractPart = jpg_in->height % TgtHeight;
+		int E = 0;
+		u32 *PrevSource = NULL;
+
+		while (NumPixels-- > 0) {
+			if (Source == PrevSource) {
+				memcpy(Target, Target-TgtWidth, TgtWidth*sizeof(*Target));
+			} else {
+				ScaleLine(Target, Source, jpg_in->width, TgtWidth);
+				PrevSource = Source;
+			}
+			Target += TgtWidth;
+			Source += IntPart;
+			E += FractPart;
+			if (E >= (int)TgtHeight) {
+				E -= TgtHeight;
+				Source += jpg_in->width;
+			}
+		}
+		return jpg_out;
 	}
 	return NULL;
 }

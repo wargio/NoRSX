@@ -12,6 +12,9 @@ Authors
 
 Changelog:
 ----------
+	- 0.2.9 -
+		Ingame XMB Bug Fully fixed! now it works very very well!
+		Added ExitSignalStatus() that returns NO_SIGNAL ( = 0) and EXIT_SIGNAL ( = 1) to check if the use pressed exit game on the XMB menu.
 	- 0.2.2 -
 		Added Image Resize Algorithm ( Thanks to: http://www.compuphase.com/graphic/scale.htm )
 	- 0.2.1 -

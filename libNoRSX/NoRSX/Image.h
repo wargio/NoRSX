@@ -54,6 +54,7 @@ public:
 	void AlphaDrawIMGtoBitmap(int x, int y, pngData *png1, NoRSX_Bitmap *a);
 
 	pngData *ResizeImage(pngData *png_in, u32 TgtWidth, u32 TgtHeight);
+	jpgData *ResizeImage(jpgData *jpg_in, u32 TgtWidth, u32 TgtHeight);
 
 protected:
 	Minimum *G;

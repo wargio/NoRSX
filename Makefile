@@ -10,3 +10,4 @@ all:
 clean:
 	@$(MAKE) -C libNoRSX clean --no-print-directory
 	@$(MAKE) -C NoRSX_Example clean --no-print-directory
+	@rm -rf *~

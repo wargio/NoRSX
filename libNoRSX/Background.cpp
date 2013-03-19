@@ -36,7 +36,7 @@ Background::Background(Minimum *g){
 void Background::Mono(u32 Color){
 	s32 size = G->height * G->width;
 	for(s32 i = 0; i < size; i++) {
-	G->buffers[G->currentBuffer].ptr[i] = Color;
+		G->buffer[i] = Color;
 	}
 }
 
@@ -48,7 +48,7 @@ void Background::MonoBitmap(u32 Color, NoRSX_Bitmap *a){
 }
 
 
-void Background::Gradient(u32 Color1, u32 Color2){ //G->buffers[G->currentBuffer].ptr[i]
+void Background::Gradient(u32 Color1, u32 Color2){ //G->buffer[i]
 	s32 size = G->height * G->width;
 	u8 Color_Red   = R(Color2);
 	u8 Color_Blue  = B(Color2);
@@ -64,7 +64,7 @@ void Background::Gradient(u32 Color1, u32 Color2){ //G->buffers[G->currentBuffer
 		u8 blue  = (Color1_Blue *(100-percent)/100) + (Color_Blue *percent/100);
 		u8 green = (Color1_Green*(100-percent)/100) + (Color_Green*percent/100);
 
-		G->buffers[G->currentBuffer].ptr[i] = COLOR_TO_RGB(red,green,blue);
+		G->buffer[i] = COLOR_TO_RGB(red,green,blue);
 		if(percent_old!=percent){
 			percent_old = percent;
 		}

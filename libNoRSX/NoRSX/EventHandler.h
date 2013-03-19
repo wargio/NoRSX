@@ -23,6 +23,9 @@
 
 
 /*Return*/
+#define NO_SIGNAL				0
+#define EXIT_SIGNAL				1
+
 #define APP_EXIT				0
 #define APP_START				1
 
@@ -49,11 +52,12 @@ public:
 	void UnregisterCallBack(s32 SLOT);
 	int  GetAppStatus() const;
 	int  GetXMBStatus() const;
+	int  ExitSignalStatus() const;
 	void AppStart();
 	void AppExit();
 private:
 	static void EvHandler(u64 status, u64 param, void * userdata);
-	static int app_status, xmb_status;
+	static int app_status, xmb_status, app_signal;
 
 };
 

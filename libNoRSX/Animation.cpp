@@ -143,7 +143,7 @@ void Animation::DrawAnimation (uint32_t X, uint32_t Y, uint32_t frame, NoRSX_Ani
 			y_pos++;
 		}
 
-		u32 *screen = (uint32_t *)G->buffers[G->currentBuffer].ptr;
+		u32 *screen = (uint32_t *)G->buffer;
 		u32 *bitmap = (uint32_t *)anim->bitmap;
 		uint32_t n, m,j, pos = 0;
 
@@ -175,7 +175,7 @@ void Animation::AlphaDrawAnimation (uint32_t X, uint32_t Y, uint32_t frame, NoRS
 			y_pos++;
 		}
 
-		u32 *screen = (uint32_t *)G->buffers[G->currentBuffer].ptr;
+		u32 *screen = (uint32_t *)G->buffer;
 		u32 *bitmap = (uint32_t *)anim->bitmap;
 		uint32_t n, m, j, pos = 0;
 

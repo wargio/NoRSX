@@ -31,7 +31,8 @@ NoRSX::NoRSX() : EventHandler(){
 	context = initScreen(host_addr, HOST_SIZE,0, width, height);
 	for(int i=0;i<2;i++)
 		makeBuffer(&buffers[i],width,height,i);
-	flip(context, 1);
+	buffer = makeMemBuffer(width,height,&buffer_size);
+	flip(context, 0);
 	setRenderTarget(context, &buffers[currentBuffer]);
 	RegisterCallBack(EVENT_SLOT0);
 }
@@ -41,31 +42,41 @@ NoRSX::NoRSX(int id_type) : EventHandler(){
 	currentBuffer = 0;
 	host_addr = memalign(1024*1024, HOST_SIZE);
 	
-	if(id_type==RESOLUTION_1920x1080){
-		width=1920;height=1080;
-		buffers[0].width=1920;buffers[0].height=1080;
-		buffers[1].width=1920;buffers[1].height=1080;
-	}else if(id_type==RESOLUTION_1280x720){
-		width=1280;height=720;
-		buffers[0].width=1280;buffers[0].height=720;
-		buffers[1].width=1280;buffers[1].height=720;
-	}else if(id_type==RESOLUTION_720x576){
-		width=720;height=576;
-		buffers[0].width=720;buffers[0].height=576;
-		buffers[1].width=720;buffers[1].height=576;
-	}else if(id_type==RESOLUTION_720x480){
-		width=720;height=480;
-		buffers[0].width=720;buffers[0].height=480;
-		buffers[1].width=720;buffers[1].height=480;
-	}else{
-		getResolution(&width,&height);
+	switch(id_type){
+		case RESOLUTION_1920x1080: {
+			width=1920;height=1080;
+			buffers[0].width=1920;buffers[0].height=1080;
+			buffers[1].width=1920;buffers[1].height=1080;
+		} break;
+		case RESOLUTION_1280x720: {
+			width=1280;height=720;
+			buffers[0].width=1280;buffers[0].height=720;
+			buffers[1].width=1280;buffers[1].height=720;
+		} break;
+		case RESOLUTION_720x576: {
+			width=720;height=576;
+			buffers[0].width=720;buffers[0].height=576;
+			buffers[1].width=720;buffers[1].height=576;
+		} break;
+		case RESOLUTION_720x480: {
+			width=720;height=480;
+			buffers[0].width=720;buffers[0].height=480;
+			buffers[1].width=720;buffers[1].height=480;
+		} break;
+		default:
+			getResolution(&width,&height);
+			buffers[0].width=width;buffers[0].height=height;
+			buffers[1].width=width;buffers[1].height=height;
+		  break;
 	}
 	context = initScreen(host_addr, HOST_SIZE, id_type, width, height);
 
 	for(int i=0;i<2;i++)
 		makeBuffer(&buffers[i],width,height,i);
-	flip(context, 1);
-	setRenderTarget(context, &buffers[currentBuffer]);
+		
+	buffer = makeMemBuffer(width,height,&buffer_size);
+	flip(context, 0);
+	setRenderTarget(context, &buffers[0]);
 	RegisterCallBack(EVENT_SLOT0);
 }
 
@@ -75,15 +86,12 @@ NoRSX::~NoRSX(){
 }
 
 void NoRSX::Flip(){
-	if(GetXMBStatus() == XMB_OPEN){
-		flip(context, buffers[!currentBuffer].id);
-	}else{
-		flip(context, buffers[currentBuffer].id); // Flip buffer onto screen
-		currentBuffer = !currentBuffer;
-	}
+	waitFlip();
+	memcpy(buffers[currentBuffer].ptr, buffer, buffer_size);
+	flip(context, currentBuffer);
+	currentBuffer = !currentBuffer;
 	setRenderTarget(context, &buffers[currentBuffer]);
 	sysUtilCheckCallback();
-	waitFlip();
 }
 
 void NoRSX::NoRSX_Exit(){
@@ -92,6 +100,7 @@ void NoRSX::NoRSX_Exit(){
 		rsxFree (buffers[i].ptr);
 	rsxFinish (context, 1);
 	free (host_addr);
+	free (buffer);
 	UnregisterCallBack(EVENT_SLOT0);
 	already_done=1;
 }

@@ -18,11 +18,12 @@
 
 #include <NoRSX/EventHandler.h>
 
-int EventHandler::app_status, EventHandler::xmb_status;
+int EventHandler::app_status, EventHandler::xmb_status, EventHandler::app_signal;
 
 EventHandler::EventHandler(){
 	app_status = APP_EXIT;
 	xmb_status = XMB_CLOSE;
+	app_signal = NO_SIGNAL;
 }
 
 EventHandler::~EventHandler(){
@@ -33,6 +34,7 @@ void EventHandler::EvHandler(u64 status, u64 param, void * userdata){
 	switch(status){
 		case SYSUTIL_EXIT_GAME:
 			app_status = APP_EXIT;
+			app_signal = EXIT_SIGNAL;
 			break;
 		case SYSUTIL_MENU_OPEN:
 			xmb_status = XMB_OPEN;
@@ -60,6 +62,10 @@ void EventHandler::UnregisterCallBack(s32 SLOT){
 
 int EventHandler::GetAppStatus() const {
 	return app_status;
+}
+
+int EventHandler::ExitSignalStatus() const {
+	return app_signal;
 }
 
 int EventHandler::GetXMBStatus() const {

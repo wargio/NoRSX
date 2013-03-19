@@ -10,7 +10,7 @@ void Object::Rectangle(u32 X, u32 Y, u32 width, u32 height, u32 Color){
 	u32 i, j;
 	for(i = Y; i < (height+Y); i++) {
 		for(j = X; j < (width+X); j++)
-			G->buffers[G->currentBuffer].ptr[i* G->buffers[G->currentBuffer].width + j] = Color;
+			G->buffer[i* G->width + j] = Color;
 	}
 }
 
@@ -97,15 +97,15 @@ void Object::Pixel4(u32 X, u32 Y, u32 Color){
 
 
 int Object::Pixel(u32 X, u32 Y, u32 Color){
-	if(Y>=(unsigned int)G->buffers[G->currentBuffer].height || Y<(unsigned int)0) return -1;
-	if(X>=(unsigned int)G->buffers[G->currentBuffer].width  || X<(unsigned int)0) return -1;
-	G->buffers[G->currentBuffer].ptr[Y* G->buffers[G->currentBuffer].width + X] = Color;
+	if(Y>=(unsigned int)G->height || Y<(unsigned int)0) return -1;
+	if(X>=(unsigned int)G->width  || X<(unsigned int)0) return -1;
+	G->buffer[Y* G->width + X] = Color;
 	return 1;
 }
 
 int Object::PixelToBuffer(u32 X, u32 Y, u32 Color, NoRSX_Bitmap *a){
-	if(Y>=(unsigned int)G->buffers[G->currentBuffer].height || Y<(unsigned int)0) return -1;
-	if(X>=(unsigned int)G->buffers[G->currentBuffer].width  || X<(unsigned int)0) return -1;
-	a->bitmap[Y* G->buffers[G->currentBuffer].width + X] = Color;
+	if(Y>=(unsigned int)G->height || Y<(unsigned int)0) return -1;
+	if(X>=(unsigned int)G->width  || X<(unsigned int)0) return -1;
+	a->bitmap[Y* G->width + X] = Color;
 	return 1;
 }

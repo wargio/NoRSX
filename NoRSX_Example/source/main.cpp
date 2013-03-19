@@ -73,8 +73,11 @@ s32 main(s32 argc, const char* argv[])
 	F2.PrintfToBitmap(150,300,&Precalculated_Layer,COLOR_GREEN,60,"FreeType2 with TTF support :)");
 	F3.PrintfToBitmap(150,500,&Precalculated_Layer,"Written by deroad");
 
-	GFX->AppStart();
 	int frame=0;
+	/*
+	// Bitmap
+	
+	GFX->AppStart();
 	while(GFX->GetAppStatus()){
 		static time_t starttime = 0;
 		double fps = 0;
@@ -98,7 +101,7 @@ s32 main(s32 argc, const char* argv[])
 		GFX->Flip();
 		frame ++;
 	}
-
+	*/
 	GFX->AppStart();
 	while(GFX->GetAppStatus()){
 		static time_t starttime = 0;
@@ -108,17 +111,25 @@ s32 main(s32 argc, const char* argv[])
 		ioPadGetInfo(&padinfo);
 		if(padinfo.status[0]){
 			ioPadGetData(0, &paddata);
-			if(paddata.BTN_CROSS){
+			if(paddata.BTN_TRIANGLE){
 				GFX->AppExit();
+			}
+			if(paddata.BTN_START){
+				GFX->AppExit();
+				goto end;
 			}
 		}
 		BG.Mono(0xb4e83a);
 		F1.Printf(150,100,COLOR_RED,60,"FPS %f", fps);
+		F1.Printf(150,200,COLOR_RED,"Screen %d x %d",GFX->width,GFX->height);
+		F1.Printf(150,250,COLOR_BLUE, 35,"Press /\\ to exit! (Start to skip Message Dialogs and exit)");
+		F2.Printf(150,300,COLOR_GREEN,60,"FreeType2 with TTF support :)");
+		F3.Printf(150,500,"Written by deroad");
 
 		GFX->Flip();
 		frame ++;
 	}
-
+	if(GFX->ExitSignalStatus()) goto end;
 
 	//You need to clean the Bitmap before exit
 	BMap.ClearBitmap(&Precalculated_Layer);

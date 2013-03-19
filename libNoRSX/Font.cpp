@@ -388,7 +388,7 @@ void Font::FontDrawBitmap(FT_Bitmap *bitmap, s32 offset, s32 top){
 	u32 M_width = m->width;
 	u32 M_height = m->height;
 
-	u32 *ptr = m->buffers[m->currentBuffer].ptr;
+	u32 *ptr = m->buffer;
 
 
 	if(y_max >= (s32)M_height)

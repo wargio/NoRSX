@@ -27,7 +27,7 @@ static u32 *depth_buffer;
 
 void waitFlip(){
 	while(gcmGetFlipStatus() != 0)
-		usleep(100);	/* Sleep, to not stress the cpu. */
+		usleep(300);	/* Sleep, to not stress the cpu. */
 	gcmResetFlipStatus();
 }
 
@@ -36,12 +36,16 @@ int flip(gcmContextData *context, s32 buffer){
 		rsxFlushBuffer(context);
 		// Prevent the RSX from continuing until the flip has finished.
 		gcmSetWaitFlip(context);
-
 		return TRUE;
 	}
 	return FALSE;
 }
 
+u32 *makeMemBuffer(u16 width, u16 height, u32 *buffer_size){
+	u32 size = width * height * sizeof(u32);
+	*buffer_size = size;
+	return (u32*) malloc(size);
+}
 
 int makeBuffer(rsxBuffer * buffer, u16 width, u16 height, int id){
 	int depth = sizeof(u32);
