@@ -38,8 +38,8 @@ s32 main(s32 argc, const char* argv[])
 
 	pngData *png = new pngData;
 	
-	NoRSX *GFX = new NoRSX(RESOLUTION_1920x1080); //set defined screen resolution You can change it to:
-						      //RESOLUTION_720x480 | RESOLUTION_720x576 | RESOLUTION_1280x720 | RESOLUTION_1920x1080
+	NoRSX *GFX = new NoRSX(RESOLUTION_AUTO, RESOLUTION_1280x720); //set defined screen resolution You can change it to:
+						    			  //RESOLUTION_720x480 | RESOLUTION_720x576 | RESOLUTION_1280x720 | RESOLUTION_1920x1080
 	Image IMG(GFX);
 	Background BG(GFX);
 	Object OBJ(GFX);
@@ -125,8 +125,8 @@ s32 main(s32 argc, const char* argv[])
 		F1.Printf(150,250,COLOR_BLUE, 35,"Press /\\ to exit! (Start to skip Message Dialogs and exit)");
 		F2.Printf(150,300,COLOR_GREEN,60,"FreeType2 with TTF support :)");
 		F3.Printf(150,500,"Written by deroad");
-
-		GFX->Flip();
+		IMG.DrawIMG(imgX,imgY,png);
+		GFX->RescaleFlip();
 		frame ++;
 	}
 	if(GFX->ExitSignalStatus()) goto end;

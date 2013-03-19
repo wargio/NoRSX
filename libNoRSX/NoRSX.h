@@ -40,6 +40,7 @@
 #include <unistd.h>
 #include <NoRSX/NoRSXutil.h>
 
+#define RESOLUTION_AUTO			0
 #define RESOLUTION_1920x1080		1
 #define RESOLUTION_1280x720		2
 #define RESOLUTION_720x576		5
@@ -51,14 +52,19 @@ public:
 
 	 NoRSX();
 	 NoRSX(int id_type);
+	 NoRSX(int real_screen_type, int buffer_screen_type);
 	~NoRSX();
 	
 	void Flip();
+	void RescaleFlip();
 	void NoRSX_Exit();
 
 protected:
 	void *host_addr;
-	int id_scr;
+	int  screen_type;
+	int  buffer_type;
+	void ScaleLine(u32 *Target, u32 *Source, u32 SrcWidth, u32 TgtWidth);
+	void ResizeBuffer();
 };
 
 #endif

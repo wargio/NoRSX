@@ -12,6 +12,9 @@ Authors
 
 Changelog:
 ----------
+	- 0.2.9a -
+		Added Sperimental Software Rescaling (probably this will be rewritten with an SPU code)
+		Added RESOLUTION_AUTO flag to autodetect resolution with the NoRSX(int) & NoRSX(int,int) constructor.
 	- 0.2.9 -
 		Ingame XMB Bug Fully fixed! now it works very very well!
 		Added ExitSignalStatus() that returns NO_SIGNAL ( = 0) and EXIT_SIGNAL ( = 1) to check if the use pressed exit game on the XMB menu.
