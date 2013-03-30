@@ -159,6 +159,7 @@ void NoRSX::RescaleFlip(){
 	currentBuffer = !currentBuffer;
 	setRenderTarget(context, &buffers[currentBuffer]);
 	sysUtilCheckCallback();
+	return;
 }
 
 void NoRSX::Flip(){
@@ -168,6 +169,7 @@ void NoRSX::Flip(){
 	currentBuffer = !currentBuffer;
 	setRenderTarget(context, &buffers[currentBuffer]);
 	sysUtilCheckCallback();
+	return;
 }
 
 void NoRSX::NoRSX_Exit(){
@@ -179,6 +181,7 @@ void NoRSX::NoRSX_Exit(){
 	free (buffer);
 	UnregisterCallBack(EVENT_SLOT0);
 	already_done=1;
+	return;
 }
 
 void NoRSX::ScaleLine(u32 *Target, u32 *Source, u32 SrcWidth, u32 TgtWidth){
@@ -197,6 +200,7 @@ void NoRSX::ScaleLine(u32 *Target, u32 *Source, u32 SrcWidth, u32 TgtWidth){
 			Source++;
 		} /* if */
 	} /* while */
+	return;
 }
 
 void NoRSX::ResizeBuffer(){
@@ -229,5 +233,6 @@ void NoRSX::ResizeBuffer(){
 			Source += width;
 		}
 	}
+	return;
 }
 

@@ -170,6 +170,8 @@ void Font::Printf(u32 x, u32 y,const char *a, ...){
 	va_list va;
 	va_start(va, a);
 	vsnprintf(text, sizeof text, a, va);
+	va_end(va);
+	
 	size_t len = strlen(a);
 	if(len>0){
 		len=strlen(text);
@@ -194,6 +196,7 @@ void Font::Printf(u32 x, u32 y,const char *a, ...){
 			previous_glyph = glyph_index;
 			vec.x += slot->advance.x >> 6;
 			vec.y += slot->advance.y >> 6;
+			FT_Done_Glyph(glyph);
 		}
 	}
 }
@@ -203,6 +206,8 @@ void Font::Printf(u32 x, u32 y, u32 Color,const char *a, ...){
 	va_list va;
 	va_start(va, a);
 	vsnprintf(text, sizeof text, a, va);
+	va_end(va);
+	
 	size_t len = strlen(a);
 	if(len>0){
 		u32 C_TMP = FontColor;
@@ -229,6 +234,7 @@ void Font::Printf(u32 x, u32 y, u32 Color,const char *a, ...){
 			previous_glyph = glyph_index;
 			vec.x += slot->advance.x >> 6;
 			vec.y += slot->advance.y >> 6;
+			FT_Done_Glyph(glyph);
 		}
 		FontColor = C_TMP;
 	}
@@ -239,6 +245,8 @@ void Font::Printf(u32 x, u32 y, u32 Color, u32 Size,const char *a, ...){
 	va_list va;
 	va_start(va, a);
 	vsnprintf(text, sizeof text, a, va);
+	va_end(va);
+	
 	size_t len = strlen(a);
 	if(len>0){
 		u32 C_TMP = FontColor;
@@ -266,6 +274,7 @@ void Font::Printf(u32 x, u32 y, u32 Color, u32 Size,const char *a, ...){
 			previous_glyph = glyph_index;
 			vec.x += slot->advance.x >> 6;
 			vec.y += slot->advance.y >> 6;
+			FT_Done_Glyph(glyph);
 		}
 		FontColor = C_TMP;
 		FT_Set_Pixel_Sizes(face,0,FontSize);
@@ -278,6 +287,8 @@ void Font::PrintfToBitmap(u32 x, u32 y,NoRSX_Bitmap* bmap,const char *a, ...){
 	va_list va;
 	va_start(va, a);
 	vsnprintf(text, sizeof text, a, va);
+	va_end(va);
+	
 	size_t len = strlen(a);
 	if(len>0){
 		len=strlen(text);
@@ -302,6 +313,7 @@ void Font::PrintfToBitmap(u32 x, u32 y,NoRSX_Bitmap* bmap,const char *a, ...){
 			previous_glyph = glyph_index;
 			vec.x += slot->advance.x >> 6;
 			vec.y += slot->advance.y >> 6;
+			FT_Done_Glyph(glyph);
 		}
 	}
 }
@@ -311,6 +323,8 @@ void Font::PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color,const char
 	va_list va;
 	va_start(va, a);
 	vsnprintf(text, sizeof text, a, va);
+	va_end(va);
+	
 	size_t len = strlen(a);
 	if(len>0){
 		u32 C_TMP = FontColor;
@@ -337,6 +351,7 @@ void Font::PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color,const char
 			previous_glyph = glyph_index;
 			vec.x += slot->advance.x >> 6;
 			vec.y += slot->advance.y >> 6;
+			FT_Done_Glyph(glyph);
 		}
 		FontColor = C_TMP;
 	}
@@ -347,6 +362,8 @@ void Font::PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color, u32 Size,
 	va_list va;
 	va_start(va, a);
 	vsnprintf(text, sizeof text, a, va);
+	va_end(va);
+	
 	size_t len = strlen(a);
 	if(len>0){
 		u32 C_TMP = FontColor;
@@ -374,6 +391,7 @@ void Font::PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color, u32 Size,
 			previous_glyph = glyph_index;
 			vec.x += slot->advance.x >> 6;
 			vec.y += slot->advance.y >> 6;
+			FT_Done_Glyph(glyph);
 		}
 		FontColor = C_TMP;
 		FT_Set_Pixel_Sizes(face,0,FontSize);
@@ -403,6 +421,8 @@ void Font::FontDrawBitmap(FT_Bitmap *bitmap, s32 offset, s32 top){
 				ptr[m->width * y + x] = ((color)*0x01010101)&FontColor;
 		}
 	}
+	
+	return;
 }
 
 
@@ -428,5 +448,6 @@ void Font::FontDrawBitmapToBitmap(FT_Bitmap *bitmap, NoRSX_Bitmap* bmap, s32 off
 				ptr[m->width * y + x] = ((color)*0x01010101)&FontColor;
 		}
 	}
+	return;
 }
 

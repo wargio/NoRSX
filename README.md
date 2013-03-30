@@ -12,6 +12,8 @@ Authors
 
 Changelog:
 ----------
+	- 0.3.0 -
+		Fixed Heap Overflow caused by Font.
 	- 0.2.9a -
 		Added Sperimental Software Rescaling (probably this will be rewritten with an SPU code)
 		Added RESOLUTION_AUTO flag to autodetect resolution with the NoRSX(int) & NoRSX(int,int) constructor.

@@ -246,6 +246,7 @@ void Image::ScaleLine(u32 *Target, u32 *Source, u32 SrcWidth, u32 TgtWidth){
 			Source++;
 		} /* if */
 	} /* while */
+	return;
 }
 
 pngData * Image::ResizeImage(pngData *png_in, u32 TgtWidth, u32 TgtHeight){
