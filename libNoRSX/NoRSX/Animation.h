@@ -21,9 +21,6 @@
 #include "Min.h"
 #include "Image.h"
 
-#define ANIMATION_ALPHA_CHROMAKEY	0x000000ff
-
-
 typedef struct {
 //ALL THESE VALUES ARE LOADED WHEN YOU WILL CALL LoadAnimation() FUNCTION
 
@@ -35,11 +32,10 @@ typedef struct {
 //DON'T CHANGE THE FOLLOWINGS VALUES IN YOUR CODE.
 
 	uint32_t chromakey;    //Chroma Key. you don't need it if you will use AlphaDrawAnimation
-	uint32_t bitmap_height;//the height of the bitmap (DO NOT CHANGE IT) this element is loaded automatically
-	uint32_t bitmap_width; //the width of the bitmap (DO NOT CHANGE IT) this element is loaded automatically
 	int load;              //check if something it's loaded
-	uint32_t elem_x;       //it is needed to calculate the frame. DO NOT CHANGE IT
-	uint32_t elem_y;       //it is needed to calculate the frame. DO NOT CHANGE IT
+	uint16_t bitmap_width;       //it is needed to calculate the frame. DO NOT CHANGE IT
+	uint16_t *elem_x;       //it is needed to calculate the frame. DO NOT CHANGE IT
+	uint16_t *elem_y;       //it is needed to calculate the frame. DO NOT CHANGE IT
 	uint32_t *bitmap;
 } NoRSX_Animation;
 
@@ -58,10 +54,10 @@ public:
 	void LoadAnimation (uint32_t Elem_num, uint32_t Elem_w, uint32_t Elem_h, uint32_t ChromaKey, jpgData* JPG, NoRSX_Animation *anim);
 
 //REMEMBER TO CLEAN THE NoRSX_Animation struct before the NoRSX_Exit() function.
-	void CleanAnimation(NoRSX_Animation *anim);
+	void ClearAnimation(NoRSX_Animation *anim);
 
-	void DrawAnimation (uint32_t X, uint32_t Y, uint32_t frame, NoRSX_Animation *anim);
-	void AlphaDrawAnimation (uint32_t X, uint32_t Y, uint32_t frame, NoRSX_Animation *anim);
+	void DrawAnimation (int X, int Y, uint32_t frame, NoRSX_Animation *anim);
+	void AlphaDrawAnimation (int X, int Y, uint32_t frame, NoRSX_Animation *anim);
 
 private:
 	Minimum *G;

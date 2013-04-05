@@ -18,6 +18,22 @@
 
 #include <NoRSX/Image.h>
 
+static u32 n, m, a, OxFF_A;
+static u32 *scr;
+static u32 *png;
+static u32 *jpg;
+static int NumPixels0 = 0;
+static int IntPart0 = 0;
+static int FractPart0 = 0;
+static int E0 = 0;
+static int NumPixels1 = 0;
+static int IntPart1 = 0;
+static int FractPart1 = 0;
+static int E1 = 0;
+static int height=0, width=0, stop_x = 0, stop_y = 0;
+
+static int error_x, error_y;
+
 void Image::LoadPNG(const char* filename, pngData *png){
 	pngLoadFromFile(filename, png);
 }
@@ -38,17 +54,36 @@ void Image::DrawIMG(int x, int y, pngData *png1){
 
 	if(png1->bmp_out){
 		u32 *scr = (u32 *)G->buffer;
-		u32 *png = (u32 *)(void *)png1->bmp_out;
+		u32 *png = (u32 *)png1->bmp_out;
 
+
+		if(x<0){
+			png = png-x;
+			error_x=-x;
+			x=0;
+		}else
+			error_x=0;
+			
+		if(y<0){
+			error_y=-y;
+			png = png + y*png1->width;
+			y=0;
+		}else
+			error_y=0;
+		
 		scr += y*G->width+x;
-		u32 height = png1->height;
+		int height = png1->height;
 		if((y+height) >= (u32)G->height)
-			height = G->height;
+			height = G->height-1-y;
 
-		u32 width = png1->width;
+		int width = png1->width;
 		if((x+width) >= (u32)G->width)
-			width = G->width;
+			width = G->width-x-1;
 
+		width-=error_x;
+		height-=error_y;
+		
+		if(width>0)
 		while(height>0){
 			memcpy(scr,png,width*sizeof(u32));
 			png+=png1->pitch>>2;
@@ -63,15 +98,32 @@ void Image::DrawIMG(int x, int y, jpgData *jpg1){
 		u32 *scr = (u32 *)G->buffer;
 		u32 *jpg = (u32 *)(void *)jpg1->bmp_out;
 
+
+		if(x<0){
+			jpg = jpg-x;
+			error_x=-x;
+			x=0;
+		}else
+			error_x=0;
+		if(y<0){
+			error_y=-y;
+			jpg = jpg + y*jpg1->width;
+			y=0;
+		}else
+			error_y=0;
+
 		scr += y*G->width+x;
-		u32 height = jpg1->height;
+		int height = jpg1->height;
 		if((y+height) >= (u32)G->height)
-			height = G->height;
+			height = G->height-1-y;
 
-		u32 width = jpg1->width;
+		int width = jpg1->width;
 		if((x+width) >= (u32)G->width)
-			width = G->width;
+			width = G->width-1-x;
 
+		width-=error_x;
+		height-=error_y;
+		if(width>0)
 		while(height>0){
 			memcpy(scr,jpg,width*sizeof(u32));
 			jpg+=jpg1->pitch>>2;
@@ -87,15 +139,33 @@ void Image::AlphaDrawIMG(int x, int y, pngData *png1){
 		u32 *png = (u32 *)(void *)png1->bmp_out;
 		unsigned int m;
 
+		if(x<0){
+			png = png-x;
+			error_x=-x;
+			x=0;
+		}else
+			error_x=0;
+		if(y<0){
+			error_y=-y;
+			png = png + y*png1->width;
+			y=0;
+		}else
+			error_y=0;
+
+		
 		scr += y*G->width+x;
-		u32 height = png1->height;
+		int height = png1->height;
 		if((y+height) >= (u32)G->height)
-			height = G->height;
+			height = G->height-1-y;
 
-		u32 width = png1->width;
+		int width = png1->width;
 		if((x+width) >= (u32)G->width)
-			width = G->width;
+			width = G->width-1-x;
 
+		width-=error_x;
+		height-=error_y;
+		
+		if(width>0)
 		while(height>0){
 			for(m=0;m < (u32)width;m++){
 				unsigned int a = png[m] >> 24;	 // alpha 
@@ -157,15 +227,33 @@ void Image::DrawIMGtoBitmap(int x, int y, pngData *png1, NoRSX_Bitmap *a){
 		u32 *scr = (u32 *)a->bitmap;
 		u32 *png = (u32 *)(void *)png1->bmp_out;
 
+		if(x<0){
+			png = png-x;
+			error_x=-x;
+			x=0;
+		}else
+			error_x=0;
+			
+		if(y<0){
+			error_y=-y;
+			png = png + y*png1->width;
+			y=0;
+		}else
+			error_y=0;
+		
 		scr += y*G->width+x;
-		u32 height = png1->height;
+		int height = png1->height;
 		if((y+height) >= (u32)G->height)
-			height = G->height;
+			height = G->height-1-y;
 
-		u32 width = png1->width;
+		int width = png1->width;
 		if((x+width) >= (u32)G->width)
-			width = G->width;
+			width = G->width-x-1;
 
+		width-=error_x;
+		height-=error_y;
+
+		if(width>0)
 		while(height>0){
 			memcpy(scr,png,width*sizeof(u32));
 			png+=png1->pitch>>2;
@@ -181,15 +269,34 @@ void Image::DrawIMGtoBitmap(int x, int y, jpgData *jpg1, NoRSX_Bitmap *a){
 		u32 *scr = (u32 *)a->bitmap;
 		u32 *jpg = (u32 *)(void *)jpg1->bmp_out;
 
+		if(x<0){
+			jpg = jpg-x;
+			error_x=-x;
+			x=0;
+		}else
+			error_x=0;
+			
+		if(y<0){
+			error_y=-y;
+			jpg = jpg + y*jpg1->width;
+			y=0;
+		}else
+			error_y=0;
+		
 		scr += y*G->width+x;
-		u32 height = jpg1->height;
+		int height = jpg1->height;
 		if((y+height) >= (u32)G->height)
-			height = G->height;
+			height = G->height-1-y;
 
-		u32 width = jpg1->width;
+		int width = jpg1->width;
 		if((x+width) >= (u32)G->width)
-			width = G->width;
+			width = G->width-1-x;
+			
+			
+		width-=error_x;
+		height-=error_y;
 
+		if(width>0)
 		while(height>0){
 			memcpy(scr,jpg,width*sizeof(u32));
 			jpg+=jpg1->pitch>>2;
@@ -204,17 +311,34 @@ void Image::AlphaDrawIMGtoBitmap(int x, int y, pngData *png1, NoRSX_Bitmap *a){
 	if(png1->bmp_out){
 		u32 *scr = (u32 *)a->bitmap;
 		u32 *png= (u32 *)(void *)png1->bmp_out;
-		unsigned int n, m;
+
+		if(x<0){
+			png = png-x;
+			error_x=-x;
+			x=0;
+		}else
+			error_x=0;
+			
+		if(y<0){
+			error_y=-y;
+			png = png + y*png1->width;
+			y=0;
+		}else
+			error_y=0;
 
 		scr += y*G->width+x;
-		u32 height = png1->height;
+		int height = png1->height;
 		if((y+height) >= (u32)G->height)
-			height = G->height;
+			height = G->height-1-y;
 
-		u32 width = png1->width;
+		int width = png1->width;
 		if((x+width) >= (u32)G->width)
-			width = G->width;
+			width = G->width-1-x;
 
+		width-=error_x;
+		height-=error_y;
+
+		if(width>0)
 		for(n=0;n < (u32)height;n++){
 			for(m=0;m < (u32)width;m++){
 				unsigned int a = png[m] >> 24;	 // alpha 
@@ -230,44 +354,46 @@ void Image::AlphaDrawIMGtoBitmap(int x, int y, pngData *png1, NoRSX_Bitmap *a){
 	}
 }
 
+
 void Image::ScaleLine(u32 *Target, u32 *Source, u32 SrcWidth, u32 TgtWidth){
  //Thanks to: http://www.compuphase.com/graphic/scale.htm
-	int NumPixels = TgtWidth;
-	int IntPart = SrcWidth / TgtWidth;
-	int FractPart = SrcWidth % TgtWidth;
-	int E = 0;
+	NumPixels1 = TgtWidth;
+	IntPart1 = SrcWidth / TgtWidth;
+	FractPart1 = SrcWidth % TgtWidth;
+	E1 = 0;
 
-	while (NumPixels-- > 0) {
+	while (NumPixels1-- > 0) {
 		*Target++ = *Source;
-		Source += IntPart;
-		E += FractPart;
-		if (E >= (int)TgtWidth) {
-			E -= TgtWidth;
+		Source += IntPart1;
+		E1 += FractPart1;
+		if (E1 >= TgtWidth) {
+			E1 -= TgtWidth;
 			Source++;
 		} /* if */
 	} /* while */
 	return;
 }
 
+
 pngData * Image::ResizeImage(pngData *png_in, u32 TgtWidth, u32 TgtHeight){
  //Thanks to: http://www.compuphase.com/graphic/scale.htm
 	if(png_in->bmp_out){
 		pngData *png_out = new pngData;
 		png_out->bmp_out = (u32 *) malloc(TgtHeight*TgtWidth*sizeof(u32));
-		u32 *Source = (u32 *)(void *)png_in->bmp_out;
-		u32 *Target = (u32 *)(void *)png_out->bmp_out;
+		static u32 *Source = (u32 *)(void *)png_in->bmp_out;
+		static u32 *Target = (u32 *)(void *)png_out->bmp_out;
 
 		png_out->height = TgtHeight;
 		png_out->width  = TgtWidth;
 		png_out->pitch  = TgtWidth*4;
 
-		int NumPixels = TgtHeight;
-		int IntPart = (png_in->height / TgtHeight) * png_in->width;
-		int FractPart = png_in->height % TgtHeight;
-		int E = 0;
-		u32 *PrevSource = NULL;
+		NumPixels0 = TgtHeight;
+		IntPart0 = (png_in->height / TgtHeight) * png_in->width;
+		FractPart0 = png_in->height % TgtHeight;
+		E0 = 0;
+		static u32 *PrevSource = NULL;
 
-		while (NumPixels-- > 0) {
+		while (NumPixels0-- > 0) {
 			if (Source == PrevSource) {
 				memcpy(Target, Target-TgtWidth, TgtWidth*sizeof(*Target));
 			} else {
@@ -275,10 +401,10 @@ pngData * Image::ResizeImage(pngData *png_in, u32 TgtWidth, u32 TgtHeight){
 				PrevSource = Source;
 			}
 			Target += TgtWidth;
-			Source += IntPart;
-			E += FractPart;
-			if (E >= (int)TgtHeight) {
-				E -= TgtHeight;
+			Source += IntPart0;
+			E0 += FractPart0;
+			if (E0 >= TgtHeight) {
+				E0 -= TgtHeight;
 				Source += png_in->width;
 			}
 		}
@@ -292,20 +418,20 @@ jpgData * Image::ResizeImage(jpgData *jpg_in, u32 TgtWidth, u32 TgtHeight){
 	if(jpg_in->bmp_out){
 		jpgData *jpg_out = new jpgData;
 		jpg_out->bmp_out = (u32 *) malloc(TgtHeight*TgtWidth*sizeof(u32));
-		u32 *Source = (u32 *)(void *)jpg_in->bmp_out;
-		u32 *Target = (u32 *)(void *)jpg_out->bmp_out;
+		static u32 *Source = (u32 *)(void *)jpg_in->bmp_out;
+		static u32 *Target = (u32 *)(void *)jpg_out->bmp_out;
 
 		jpg_out->height = TgtHeight;
 		jpg_out->width  = TgtWidth;
 		jpg_out->pitch  = TgtWidth*4;
 
-		int NumPixels = TgtHeight;
-		int IntPart = (jpg_in->height / TgtHeight) * jpg_in->width;
-		int FractPart = jpg_in->height % TgtHeight;
-		int E = 0;
-		u32 *PrevSource = NULL;
+		NumPixels0 = TgtHeight;
+		IntPart0 = (jpg_in->height / TgtHeight) * jpg_in->width;
+		FractPart0 = jpg_in->height % TgtHeight;
+		E0 = 0;
+		static u32 *PrevSource = NULL;
 
-		while (NumPixels-- > 0) {
+		while (NumPixels0-- > 0) {
 			if (Source == PrevSource) {
 				memcpy(Target, Target-TgtWidth, TgtWidth*sizeof(*Target));
 			} else {
@@ -313,10 +439,10 @@ jpgData * Image::ResizeImage(jpgData *jpg_in, u32 TgtWidth, u32 TgtHeight){
 				PrevSource = Source;
 			}
 			Target += TgtWidth;
-			Source += IntPart;
-			E += FractPart;
-			if (E >= (int)TgtHeight) {
-				E -= TgtHeight;
+			Source += IntPart0;
+			E0 += FractPart0;
+			if (E0 >= TgtHeight) {
+				E0 -= TgtHeight;
 				Source += jpg_in->width;
 			}
 		}

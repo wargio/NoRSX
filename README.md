@@ -12,6 +12,9 @@ Authors
 
 Changelog:
 ----------
+	- 0.3.1 -
+		Fixed some bugs in all the implementations in Image class.
+		Fixed some bugs in all the implementations in Animation class.
 	- 0.3.0 -
 		Fixed Heap Overflow caused by Font.
 	- 0.2.9a -
