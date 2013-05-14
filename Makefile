@@ -5,7 +5,7 @@
 #---------------------------------------------------------------------------------
 all:
 	@$(MAKE) -C libNoRSX --no-print-directory
-	@$(MAKE) -C NoRSX_Example pkg --no-print-directory
+##	@$(MAKE) -C NoRSX_Example pkg --no-print-directory
 
 clean:
 	@$(MAKE) -C libNoRSX clean --no-print-directory
