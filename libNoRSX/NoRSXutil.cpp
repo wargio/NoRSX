@@ -44,7 +44,7 @@ int flip(gcmContextData *context, s32 buffer){
 u32 *makeMemBuffer(u16 width, u16 height, u32 *buffer_size){
 	u32 size = width * height * sizeof(u32);
 	*buffer_size = size;
-	return (u32*) malloc(size);
+	return (u32*) rsxMalloc(size);
 }
 
 int makeBuffer(rsxBuffer * buffer, u16 width, u16 height, int id){

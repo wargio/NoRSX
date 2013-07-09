@@ -1,19 +1,23 @@
 /*
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
- 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- 
- You should have received a copy of the GNU General Public License
- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
- This program was created by Grazioli Giovanni Dante <wargio@libero.it>.
-
+ * Copyright (c) 2013, Giovanni Dante Grazioli (deroad)
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
 */
 
 #include <NoRSX/Image.h>
@@ -165,15 +169,20 @@ void Image::AlphaDrawIMG(int x, int y, pngData *png1){
 		width-=error_x;
 		height-=error_y;
 		
+		u32 a, OxFF_A;
+		
 		if(width>0)
 		while(height>0){
 			for(m=0;m < (u32)width;m++){
-				unsigned int a = png[m] >> 24;	 // alpha 
-				u32 OxFF_A = 0xff - a;
-				if (0 != a) 
+				a = png[m] >> 24;	 // alpha 
+				if (a == 0xff)
+					scr[m] = png[m];
+				else if (a != 0){
+					OxFF_A = 0xff - a;
 					scr[m] = (png[m] & 0xff000000) | ( (((((png[m] & 0x00ff00ff) * a) + ((scr[m] & 0x00ff00ff) *
 						 (OxFF_A))) & 0xff00ff00) | ((((png[m] & 0x0000ff00) * a) + ((scr[m] & 0x0000ff00) *
 						 (OxFF_A))) & 0x00ff0000)) >> 8);
+				}
 			}
 			png+=png1->pitch>>2;
 			scr+=G->width;
@@ -338,15 +347,20 @@ void Image::AlphaDrawIMGtoBitmap(int x, int y, pngData *png1, NoRSX_Bitmap *a){
 		width-=error_x;
 		height-=error_y;
 
+		u32 a, OxFF_A;
+
 		if(width>0)
 		for(n=0;n < (u32)height;n++){
 			for(m=0;m < (u32)width;m++){
-				unsigned int a = png[m] >> 24;	 // alpha 
-				u32 OxFF_A = 0xff - a;
-				if (0 != a) 
-					scr[m] = (png[m] & 0xff000000) | ( (((((png[m] & 0x00ff00ff) * a) + ((scr[m] & 0x00ff00ff) *
-						 (OxFF_A))) & 0xff00ff00) | ((((png[m] & 0x0000ff00) * a) + ((scr[m] & 0x0000ff00) *
-						 (OxFF_A))) & 0x00ff0000)) >> 8);
+				a = png[m] >> 24;	 // alpha 
+				if (a == 0xff)
+					scr[m] = png[m];
+				else if (0 != a){
+					OxFF_A = 0xff - a;
+					scr[m] = (png[m] & 0xff000000)  | ((((((png[m] & 0x00ff00ff) * a) + ((scr[m] & 0x00ff00ff) *
+						 OxFF_A)) & 0xff00ff00) | ((((png[m] & 0x0000ff00) * a) + ((scr[m] & 0x0000ff00) *
+						 OxFF_A)) & 0x00ff0000)) >> 8);
+				}
 			}
 			png+=png1->pitch>>2;
 			scr+=G->width;

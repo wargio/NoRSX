@@ -1,32 +1,37 @@
 /*
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
- 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- 
- You should have received a copy of the GNU General Public License
- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
- This program was created by Grazioli Giovanni Dante <wargio@libero.it>.
+ * Copyright (c) 2013, Giovanni Dante Grazioli (deroad)
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
 */
 
 #include <NoRSX/Bitmap.h>
 #include <NoRSX/NoRSXutil.h>
 
 void Bitmap::GenerateBitmap(NoRSX_Bitmap *a){
-	a->bitmap = new uint32_t[G->width * G->height];
+	a->bitmap = (u32*) rsxMalloc(G->width * G->height*sizeof(u32));
 	a->height = G->height;
 	a->width  = G->width;
 	a->load = 1;
 }
 
 void Bitmap::GenerateCustomBitmap(uint32_t width, uint32_t height, NoRSX_Bitmap *a){
-	a->bitmap = new uint32_t[width*height];
+	a->bitmap = (u32*)rsxMalloc(width*height*sizeof(u32));
 
 	a->height = height;
 	a->width  = width;
@@ -36,17 +41,17 @@ void Bitmap::GenerateCustomBitmap(uint32_t width, uint32_t height, NoRSX_Bitmap 
 
 void Bitmap::ClearBitmap(NoRSX_Bitmap *a){
 	if(a->load==1){
-		free(a->bitmap);
+		rsxFree(a->bitmap);
 		a->load = 0;
 	}
 }
 
 void Bitmap::RegenBitmap(NoRSX_Bitmap *a){
 	if(a->load==1){
-		free(a->bitmap);
-		a->bitmap = new uint32_t[(G->width * G->height)];
+		rsxFree(a->bitmap);
+		a->bitmap = (u32*)rsxMalloc(G->width * G->height*sizeof(u32));
 	}else{
-		a->bitmap = new uint32_t[(G->width * G->height)];
+		a->bitmap = (u32*)rsxMalloc(G->width * G->height*sizeof(u32));
 		a->load = 1;
 	}
 }

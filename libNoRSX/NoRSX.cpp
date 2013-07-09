@@ -1,19 +1,23 @@
 /*
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
- 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
- 
- You should have received a copy of the GNU General Public License
- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
- This program was created by Grazioli Giovanni Dante <wargio@libero.it>.
-
+ * Copyright (c) 2013, Giovanni Dante Grazioli (deroad)
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
 */
 
 #include <NoRSX.h>
@@ -111,8 +115,38 @@ NoRSX::NoRSX(int real_screen_type, int buffer_screen_type) : EventHandler(){
 		} break;
 		default:
 			getResolution(&width,&height);
-			buffers[0].width=width;buffers[0].height=height;
-			buffers[1].width=width;buffers[1].height=height;
+			switch(real_screen_type){
+				default:
+				case RESOLUTION_AUTO_LOWER_1080p: {
+					if(height>=1080){
+						real_screen_type = RESOLUTION_1280x720;
+						width=1280;height=720;
+						buffers[0].width=1280;buffers[0].height=720;
+						buffers[1].width=1280;buffers[1].height=720;
+					}else
+						real_screen_type = RESOLUTION_AUTO;
+				} break;
+				case RESOLUTION_AUTO_LOWER_720p: {
+					if(height>=720){
+						real_screen_type = RESOLUTION_720x576;
+						width=720;height=576;
+						buffers[0].width=720;buffers[0].height=576;
+						buffers[1].width=720;buffers[1].height=576;
+					}else
+						real_screen_type = RESOLUTION_AUTO;
+				} break;
+				case RESOLUTION_AUTO_LOWER_576p: {
+					if(height>=576){
+						real_screen_type = RESOLUTION_720x480;
+						width=720;height=480;
+						buffers[0].width=720;buffers[0].height=480;
+						buffers[1].width=720;buffers[1].height=480;
+					}else
+						real_screen_type = RESOLUTION_AUTO;
+				} break;
+					real_screen_type = RESOLUTION_AUTO;
+				break;
+			}
 		  break;
 	}
 	context = initScreen(host_addr, HOST_SIZE, real_screen_type, width, height);
@@ -176,9 +210,9 @@ void NoRSX::NoRSX_Exit(){
 	gcmSetWaitFlip(context);
 	for (int i=0;i<2;i++)
 		rsxFree (buffers[i].ptr);
+	rsxFree(buffer);
 	rsxFinish (context, 1);
 	free (host_addr);
-	free (buffer);
 	UnregisterCallBack(EVENT_SLOT0);
 	already_done=1;
 	return;
