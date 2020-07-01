@@ -161,113 +161,113 @@ inline void draw_image_partial(s32 x, s32 y, u32 s_width, u32 s_height, u32 e_wi
 	}
 }
 
-void Image::DrawIMG(s32 x, s32 y, pngData* img) {
-	if (!img->bmp_out) {
+void Image::DrawIMG(s32 x, s32 y, pngData* image) {
+	if (!image->bmp_out) {
 		return;
 	}
 	u32* scr        = (u32*)G->buffer;
 	u32  scr_width  = G->width;
 	u32  scr_height = G->height;
-	u32* img        = (u32*)img->bmp_out;
-	u32  img_width  = img->width;
-	u32  img_height = img->height;
-	u32  img_pitch  = img->pitch;
+	u32* img        = (u32*)image->bmp_out;
+	u32  img_width  = image->width;
+	u32  img_height = image->height;
+	u32  img_pitch  = image->pitch;
 	draw_image(x, y, scr, scr_width, scr_height, img, img_width, img_height, img_pitch);
 }
 
-void Image::DrawIMG(s32 x, s32 y, jpgData* img) {
-	if (!img->bmp_out) {
+void Image::DrawIMG(s32 x, s32 y, jpgData* image) {
+	if (!image->bmp_out) {
 		return;
 	}
 	u32* scr        = (u32*)G->buffer;
 	u32  scr_width  = G->width;
 	u32  scr_height = G->height;
-	u32* img        = (u32*)img->bmp_out;
-	u32  img_width  = img->width;
-	u32  img_height = img->height;
-	u32  img_pitch  = img->pitch;
+	u32* img        = (u32*)image->bmp_out;
+	u32  img_width  = image->width;
+	u32  img_height = image->height;
+	u32  img_pitch  = image->pitch;
 	draw_image(x, y, scr, scr_width, scr_height, img, img_width, img_height, img_pitch);
 }
 
-void Image::AlphaDrawIMG(s32 x, s32 y, pngData* img) {
-	if (!img->bmp_out) {
+void Image::AlphaDrawIMG(s32 x, s32 y, pngData* image) {
+	if (!image->bmp_out) {
 		return;
 	}
 	u32* scr        = (u32*)G->buffer;
 	u32  scr_width  = G->width;
 	u32  scr_height = G->height;
-	u32* img        = (u32*)img->bmp_out;
-	u32  img_width  = img->width;
-	u32  img_height = img->height;
-	u32  img_pitch  = img->pitch;
+	u32* img        = (u32*)image->bmp_out;
+	u32  img_width  = image->width;
+	u32  img_height = image->height;
+	u32  img_pitch  = image->pitch;
 	draw_image_alpha(x, y, scr, scr_width, scr_height, img, img_width, img_height, img_pitch);
 }
 
-void Image::DrawPartialImage(s32 x, s32 y, u32 s_width, u32 s_height, u32 e_width, u32 e_height, u32 bg, u32 color, pngData* img) {
-	if (!img->bmp_out) {
+void Image::DrawPartialImage(s32 x, s32 y, u32 s_width, u32 s_height, u32 e_width, u32 e_height, u32 bg, u32 color, pngData* image) {
+	if (!image->bmp_out) {
 		return;
 	}
 
 	u32* scr        = (u32*)G->buffer;
 	u32  scr_width  = G->width;
 	u32  scr_height = G->height;
-	u32* img        = (u32*)img->bmp_out;
-	u32  img_pitch  = img->pitch;
+	u32* img        = (u32*)image->bmp_out;
+	u32  img_pitch  = image->pitch;
 	draw_image_partial(x, y, s_width, s_height, e_width, e_height, bg, color, scr, scr_width, scr_height, img, img_pitch);
 }
 
-void Image::DrawPartialImage(s32 x, s32 y, u32 s_width, u32 s_height, u32 e_width, u32 e_height, u32 bg, u32 color, jpgData* img) {
-	if (!img->bmp_out) {
+void Image::DrawPartialImage(s32 x, s32 y, u32 s_width, u32 s_height, u32 e_width, u32 e_height, u32 bg, u32 color, jpgData* image) {
+	if (!image->bmp_out) {
 		return;
 	}
 
 	u32* scr        = (u32*)G->buffer;
 	u32  scr_width  = G->width;
 	u32  scr_height = G->height;
-	u32* img        = (u32*)img->bmp_out;
-	u32  img_pitch  = img->pitch;
+	u32* img        = (u32*)image->bmp_out;
+	u32  img_pitch  = image->pitch;
 	draw_image_partial(x, y, s_width, s_height, e_width, e_height, bg, color, scr, scr_width, scr_height, img, img_pitch);
 }
 
-void Image::DrawIMGtoBitmap(s32 x, s32 y, pngData* img, NoRSX_Bitmap* bm) {
-	if (!img->bmp_out) {
+void Image::DrawIMGtoBitmap(s32 x, s32 y, pngData* image, NoRSX_Bitmap* bm) {
+	if (!image->bmp_out) {
 		return;
 	}
 	u32* scr        = (u32*)bm->bitmap;
 	u32  scr_width  = bm->width;
 	u32  scr_height = bm->height;
-	u32* img        = (u32*)img->bmp_out;
-	u32  img_width  = img->width;
-	u32  img_height = img->height;
-	u32  img_pitch  = img->pitch;
+	u32* img        = (u32*)image->bmp_out;
+	u32  img_width  = image->width;
+	u32  img_height = image->height;
+	u32  img_pitch  = image->pitch;
 	draw_image(x, y, scr, scr_width, scr_height, img, img_width, img_height, img_pitch);
 }
 
-void Image::DrawIMGtoBitmap(s32 x, s32 y, jpgData* img, NoRSX_Bitmap* bm) {
-	if (!img->bmp_out) {
+void Image::DrawIMGtoBitmap(s32 x, s32 y, jpgData* image, NoRSX_Bitmap* bm) {
+	if (!image->bmp_out) {
 		return;
 	}
 	u32* scr        = (u32*)bm->bitmap;
 	u32  scr_width  = bm->width;
 	u32  scr_height = bm->height;
-	u32* img        = (u32*)img->bmp_out;
-	u32  img_width  = img->width;
-	u32  img_height = img->height;
-	u32  img_pitch  = img->pitch;
+	u32* img        = (u32*)image->bmp_out;
+	u32  img_width  = image->width;
+	u32  img_height = image->height;
+	u32  img_pitch  = image->pitch;
 	draw_image(x, y, scr, scr_width, scr_height, img, img_width, img_height, img_pitch);
 }
 
-void Image::AlphaDrawIMGtoBitmap(s32 x, s32 y, pngData* img, NoRSX_Bitmap* a) {
-	if (!img->bmp_out) {
+void Image::AlphaDrawIMGtoBitmap(s32 x, s32 y, pngData* image, NoRSX_Bitmap* a) {
+	if (!image->bmp_out) {
 		return;
 	}
 	u32* scr        = (u32*)bm->bitmap;
 	u32  scr_width  = bm->width;
 	u32  scr_height = bm->height;
-	u32* img        = (u32*)img->bmp_out;
-	u32  img_width  = img->width;
-	u32  img_height = img->height;
-	u32  img_pitch  = img->pitch;
+	u32* img        = (u32*)image->bmp_out;
+	u32  img_width  = image->width;
+	u32  img_height = image->height;
+	u32  img_pitch  = image->pitch;
 	draw_image_alpha(x, y, scr, scr_width, scr_height, img, img_width, img_height, img_pitch);
 }
 
@@ -299,7 +299,7 @@ inline resize_image(u32* source, u32* target, u32 in_width, u32 in_height, u32 t
 	s32 num_pixels0 = tgt_height;
 	s32 int_part0 = (in_height / tgt_height) * in_width;
 	s32 fract_part0 = in_height % tgt_height;
-	u32* prev_source = NULL;
+	u32* prev_source = nullptr;
 
 	while (num_pixels0-- > 0) {
 		if (source == prev_source) {
@@ -322,6 +322,9 @@ pngData* Image::ResizeImage(pngData* png_in, u32 tgt_width, u32 tgt_height) {
 	//Thanks to: http://www.compuphase.com/graphic/scale.htm
 	if (png_in->bmp_out) {
 		pngData* png_out = new pngData;
+		if (!png_out) {
+			return nullptr;
+		}
 		png_out->bmp_out = (u32*)malloc(tgt_height * tgt_width * sizeof(u32));
 		u32* source = (u32*)png_in->bmp_out;
 		u32* target = (u32*)png_out->bmp_out;
@@ -333,13 +336,16 @@ pngData* Image::ResizeImage(pngData* png_in, u32 tgt_width, u32 tgt_height) {
 		resize_image(source, target, png_in->width, png_in->height, tgt_width, tgt_height);
 		return png_out;
 	}
-	return NULL;
+	return nullptr;
 }
 
 jpgData* Image::ResizeImage(jpgData* jpg_in, u32 tgt_width, u32 tgt_height) {
 	//Thanks to: http://www.compuphase.com/graphic/scale.htm
 	if (jpg_in->bmp_out) {
 		jpgData* jpg_out = new jpgData;
+		if (!jpg_out) {
+			return nullptr;
+		}
 		jpg_out->bmp_out = (u32*)malloc(tgt_height * tgt_width * sizeof(u32));
 		u32* source = (u32*)jpg_in->bmp_out;
 		u32* target = (u32*)jpg_out->bmp_out;
@@ -351,5 +357,5 @@ jpgData* Image::ResizeImage(jpgData* jpg_in, u32 tgt_width, u32 tgt_height) {
 		resize_image(source, target, jpg_in->width, jpg_in->height, tgt_width, tgt_height);
 		return jpg_out;
 	}
-	return NULL;
+	return nullptr;
 }
