@@ -82,8 +82,9 @@ s32 main(s32 argc, const char* argv[]) {
 		ioPadGetInfo(&padinfo);
 		if (padinfo.status[0]) {
 			ioPadGetData(0, &paddata);
-			if (paddata.BTN_CROSS) {
+			if (paddata.BTN_TRIANGLE) {
 				GFX->AppExit();
+				break;
 			}
 			if (paddata.BTN_START) {
 				GFX->AppExit();
@@ -111,6 +112,7 @@ s32 main(s32 argc, const char* argv[]) {
 			ioPadGetData(0, &paddata);
 			if (paddata.BTN_TRIANGLE) {
 				GFX->AppExit();
+				break;
 			}
 			if (paddata.BTN_START) {
 				GFX->AppExit();
@@ -127,8 +129,9 @@ s32 main(s32 argc, const char* argv[]) {
 		GFX->RescaleFlip();
 		frame++;
 	}
-	if (GFX->ExitSignalStatus())
+	if (GFX->ExitSignalStatus()) {
 		goto end;
+	}
 
 	//You need to clean the Bitmap before exit
 	BMap.ClearBitmap(&Precalculated_Layer);
