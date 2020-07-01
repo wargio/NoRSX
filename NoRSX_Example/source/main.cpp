@@ -23,11 +23,9 @@
 #include "Sans_ttf.h"
 #include <time.h>
 
-const msgType MSG_OK = (msgType)(MSG_DIALOG_NORMAL | MSG_DIALOG_BTN_TYPE_OK | MSG_DIALOG_DISABLE_CANCEL_ON);
-
 typedef struct _timer {
 	time_t start;
-	u32    frame;
+	u32 frame;
 } counter_t;
 
 typedef struct _joypads {
@@ -35,7 +33,7 @@ typedef struct _joypads {
 	padData paddata;
 } joypads_t;
 
-double calculate_fps(counter_t *timer) {
+double calculate_fps(counter_t* timer) {
 	timer->frame++;
 	if (timer->start != 0) {
 		return timer->frame / difftime(time(NULL), timer->start);
@@ -44,7 +42,7 @@ double calculate_fps(counter_t *timer) {
 	return 1;
 }
 
-int handle_pad_event(joypads_t *joypads) {
+int handle_pad_event(joypads_t* joypads) {
 	ioPadGetInfo(&joypads->padinfo);
 	if (joypads->padinfo.status[0]) {
 		ioPadGetData(0, &joypads->paddata);
@@ -58,9 +56,9 @@ int handle_pad_event(joypads_t *joypads) {
 	return 0;
 }
 
-int test_bitmap(NoRSX *GFX) {
-	joypads_t joypads = {0};
-	counter_t timer = {0};
+int test_bitmap(NoRSX* GFX) {
+	joypads_t joypads = { 0 };
+	counter_t timer = { 0 };
 
 	Font F1(Sans_ttf, Sans_ttf_size, GFX); //Loaded from Memory
 	Font F2("/dev_flash/data/font/SCE-PS3-VR-R-LATIN2.TTF", GFX); //Loaded from File!
@@ -71,14 +69,14 @@ int test_bitmap(NoRSX *GFX) {
 	Object OBJ(GFX);
 
 	NoRSX_Bitmap Precalculated_Layer;
-	pngData *png = new pngData;
+	pngData* png = new pngData;
 
 	// Loading image from memory
 	IMG.LoadPNG_Buf(NoRSX_Image_png, NoRSX_Image_png_size, png);
 
-	pngData *newpng = IMG.ResizeImage(png, 500, 500); //pngData* IMG.ResizeImage(pngData*, new width, new height)
+	pngData* newpng = IMG.ResizeImage(png, 500, 500); //pngData* IMG.ResizeImage(pngData*, new width, new height)
 
-	u32 imgX = (GFX->width  / 2) - (newpng->width  / 2);
+	u32 imgX = (GFX->width / 2) - (newpng->width / 2);
 	u32 imgY = (GFX->height / 2) - (newpng->height / 2);
 
 	BMap.GenerateBitmap(&Precalculated_Layer); //Initialize the Bitmap
@@ -118,9 +116,9 @@ int test_bitmap(NoRSX *GFX) {
 	return 0;
 }
 
-int test_generic(NoRSX *GFX) {
-	joypads_t joypads = {0};
-	counter_t timer = {0};
+int test_generic(NoRSX* GFX) {
+	joypads_t joypads = { 0 };
+	counter_t timer = { 0 };
 
 	Font F1(Sans_ttf, Sans_ttf_size, GFX); //Loaded from Memory
 	Font F2("/dev_flash/data/font/SCE-PS3-VR-R-LATIN2.TTF", GFX); //Loaded from File!
@@ -128,7 +126,7 @@ int test_generic(NoRSX *GFX) {
 	Image IMG(GFX);
 	Background BG(GFX);
 
-	pngData *png = new pngData;
+	pngData* png = new pngData;
 	// Loading image from memory
 	IMG.LoadPNG_Buf(NoRSX_Image_png, NoRSX_Image_png_size, png);
 
@@ -158,15 +156,24 @@ int test_generic(NoRSX *GFX) {
 	return 0;
 }
 
-int test_single_bar(NoRSX *GFX) {
-	joypads_t joypads = {0};
-	int frame = 0;
+int test_error_dialog(NoRSX* GFX) {
+	const msgType MSG_OK = (msgType)(MSG_DIALOG_NORMAL | MSG_DIALOG_BTN_TYPE_OK | MSG_DIALOG_DISABLE_CANCEL_ON);
 
 	MsgDialog Msg(GFX);
 
 	Msg.TimerErrorDialog(0xdeadbeef, 5000.f);
 	Msg.TimerDialog(MSG_OK, "Timer Dialog!", 5000.f);
 	Msg.TimerErrorDialog(0xdeadbeef, 5000.f);
+
+	return 0;
+}
+
+int test_single_bar(NoRSX* GFX) {
+
+	joypads_t joypads = { 0 };
+	int frame = 0;
+
+	MsgDialog Msg(GFX);
 
 	int Bx = 0;
 	GFX->AppStart();
@@ -190,8 +197,8 @@ int test_single_bar(NoRSX *GFX) {
 	return 0;
 }
 
-int test_double_bar(NoRSX *GFX) {
-	joypads_t joypads = {0};
+int test_double_bar(NoRSX* GFX) {
+	joypads_t joypads = { 0 };
 	int frame = 0;
 
 	MsgDialog Msg(GFX);
@@ -237,6 +244,10 @@ s32 main(s32 argc, const char* argv[]) {
 	}
 
 	//if (test_generic(GFX) == 2 || GFX->ExitSignalStatus()) {
+	//	goto end;
+	//}
+
+	//if (test_error_dialog(GFX) == 2 || GFX->ExitSignalStatus()) {
 	//	goto end;
 	//}
 
