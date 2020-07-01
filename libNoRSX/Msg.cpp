@@ -24,38 +24,38 @@
 
 static vs32 dialog_action = 0;
 
-static int i=0;
+static int i = 0;
 
-static void dialog_handler(msgButton button, void *usrdata){
+static void dialog_handler(msgButton button, void *usrdata) {
 	dialog_action = button;
 }
 
-void sysutil_callback(u64 status, u64 param, void *usrdata){
+void sysutil_callback(u64 status, u64 param, void *usrdata) {
 }
 
 
-MsgDialog::MsgDialog(Minimum *g){
-	G=g;
+MsgDialog::MsgDialog(Minimum *g) {
+	G = g;
 	sysUtilRegisterCallback(SYSUTIL_EVENT_SLOT1, sysutil_callback, NULL);
 
 }
 
-MsgDialog::~MsgDialog(){
+MsgDialog::~MsgDialog() {
 	sysUtilUnregisterCallback(SYSUTIL_EVENT_SLOT1);
 }
 
-int MsgDialog::GetResponse(vs32 button){
-	if(dialog_action == button){
+int MsgDialog::GetResponse(vs32 button) {
+	if (dialog_action == button) {
 		return 1;
 	}
 	return -1;
 }
 
-void MsgDialog::Dialog(msgType md, const char *message){
+void MsgDialog::Dialog(msgType md, const char *message) {
 	msgDialogOpen2(md, message, dialog_handler, NULL, NULL);
-	i=0;
+	i = 0;
 	dialog_action = 0;
-	while(dialog_action == 0){
+	while (dialog_action == 0) {
 		sysUtilCheckCallback();
 		flip(G->context, i);
 		waitFlip();
@@ -66,11 +66,11 @@ void MsgDialog::Dialog(msgType md, const char *message){
 }
 
 
-void MsgDialog::ErrorDialog(u32 errorCode){
+void MsgDialog::ErrorDialog(u32 errorCode) {
 	msgDialogOpenErrorCode(errorCode,dialog_handler, NULL, NULL);
 
 	dialog_action = 0;
-	while(dialog_action == 0){
+	while (dialog_action == 0) {
 		sysUtilCheckCallback();
 		flip(G->context, i);
 		waitFlip();
@@ -80,12 +80,12 @@ void MsgDialog::ErrorDialog(u32 errorCode){
 	msgDialogAbort();
 }
 
-void MsgDialog::TimerDialog(msgType md, const char *message, u32 Milliseconds){
+void MsgDialog::TimerDialog(msgType md, const char *message, u32 Milliseconds) {
 	msgDialogOpen2(md, message, dialog_handler, NULL, NULL);
 	msgDialogClose(Milliseconds);
-	i=0;
+	i = 0;
 	dialog_action = 0;
-	while(dialog_action == 0){
+	while (dialog_action == 0) {
 		sysUtilCheckCallback();
 		flip(G->context, i);
 		waitFlip();
@@ -95,12 +95,12 @@ void MsgDialog::TimerDialog(msgType md, const char *message, u32 Milliseconds){
 	msgDialogAbort();
 }
 
-void MsgDialog::TimerErrorDialog(u32 errorCode, u32 Milliseconds){
+void MsgDialog::TimerErrorDialog(u32 errorCode, u32 Milliseconds) {
 	msgDialogOpenErrorCode(errorCode,dialog_handler, NULL, NULL);
 	msgDialogClose(Milliseconds);
-	i=0;
+	i = 0;
 	dialog_action = 0;
-	while(dialog_action == 0){
+	while (dialog_action == 0) {
 		sysUtilCheckCallback();
 		flip(G->context, i);
 		waitFlip();
@@ -110,20 +110,20 @@ void MsgDialog::TimerErrorDialog(u32 errorCode, u32 Milliseconds){
 	msgDialogAbort();
 }
 
-void MsgDialog::SingleProgressBarDialog(const char *dialog_message, const char* bar_message){
+void MsgDialog::SingleProgressBarDialog(const char *dialog_message, const char* bar_message) {
 	msgDialogOpen2((msgType)(MSG_DIALOG_SINGLE_PROGRESSBAR | MSG_DIALOG_DISABLE_CANCEL_ON), dialog_message, dialog_handler, NULL, NULL);
 	msgDialogProgressBarSetMsg(MSG_PROGRESSBAR_INDEX0,bar_message);
 	msgDialogProgressBarReset(MSG_PROGRESSBAR_INDEX0);
 	msgDialogProgressBarInc(MSG_PROGRESSBAR_INDEX0,0);
-	i=0;
+	i = 0;
 }
 
 
-void MsgDialog::SingleProgressBarDialogIncrease(u32 percent){
+void MsgDialog::SingleProgressBarDialogIncrease(u32 percent) {
 	msgDialogProgressBarInc(MSG_PROGRESSBAR_INDEX0,percent);
 }
 
-void MsgDialog::DoubleProgressBarDialog(const char *dialog_message, const char* bar1_message, const char* bar2_message){
+void MsgDialog::DoubleProgressBarDialog(const char *dialog_message, const char* bar1_message, const char* bar2_message) {
 	msgDialogOpen2((msgType)(MSG_DIALOG_DOUBLE_PROGRESSBAR | MSG_DIALOG_DISABLE_CANCEL_ON), dialog_message, dialog_handler, NULL, NULL);
 	msgDialogProgressBarSetMsg(MSG_PROGRESSBAR_INDEX0,bar1_message);
 	msgDialogProgressBarReset(MSG_PROGRESSBAR_INDEX0);
@@ -131,41 +131,41 @@ void MsgDialog::DoubleProgressBarDialog(const char *dialog_message, const char* 
 	msgDialogProgressBarReset(MSG_PROGRESSBAR_INDEX1);
 	msgDialogProgressBarInc(MSG_PROGRESSBAR_INDEX0,0);
 	msgDialogProgressBarInc(MSG_PROGRESSBAR_INDEX1,0);
-	i=0;
+	i = 0;
 }
 
-void MsgDialog::SingleProgressBarDialogChangeMessage(const char* bar_message){
+void MsgDialog::SingleProgressBarDialogChangeMessage(const char* bar_message) {
 	msgDialogProgressBarSetMsg(MSG_PROGRESSBAR_INDEX0,bar_message);
 }
 
-void MsgDialog::DoubleProgressBarDialogChangeMessageFirstBar(const char* bar_message){
+void MsgDialog::DoubleProgressBarDialogChangeMessageFirstBar(const char* bar_message) {
 	msgDialogProgressBarSetMsg(MSG_PROGRESSBAR_INDEX0,bar_message);
 }
 
-void MsgDialog::DoubleProgressBarDialogChangeMessageSecondBar(const char* bar_message){
+void MsgDialog::DoubleProgressBarDialogChangeMessageSecondBar(const char* bar_message) {
 	msgDialogProgressBarSetMsg(MSG_PROGRESSBAR_INDEX1,bar_message);
 }
 
-void MsgDialog::DoubleProgressBarDialogIncreaseFirstBar(u32 percent){
+void MsgDialog::DoubleProgressBarDialogIncreaseFirstBar(u32 percent) {
 	msgDialogProgressBarInc(MSG_PROGRESSBAR_INDEX0,percent);
 }
 
-void MsgDialog::DoubleProgressBarDialogResetFirstBar(){
+void MsgDialog::DoubleProgressBarDialogResetFirstBar() {
 	msgDialogProgressBarReset(MSG_PROGRESSBAR_INDEX0);
 }
 
-void MsgDialog::DoubleProgressBarDialogIncreaseSecondBar(u32 percent){
+void MsgDialog::DoubleProgressBarDialogIncreaseSecondBar(u32 percent) {
 	msgDialogProgressBarInc(MSG_PROGRESSBAR_INDEX1,percent);
 }
 
-void MsgDialog::ProgressBarDialogFlip(){
+void MsgDialog::ProgressBarDialogFlip() {
 	sysUtilCheckCallback();
 	flip(G->context, i);
 	waitFlip();
 	i = !i;
 }
 
-void MsgDialog::ProgressBarDialogAbort(){
+void MsgDialog::ProgressBarDialogAbort() {
 	msgDialogAbort();
 }
 
