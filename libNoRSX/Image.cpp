@@ -86,7 +86,7 @@ inline void draw_image_alpha(s32 x, s32 y, u32* scr, u32 scr_width, u32 scr_heig
 	u32 m, a, OxFF_A;
 	if (img) {
 		if (x < 0) {
-			png = png - x;
+			img = img - x;
 			error_x = -x;
 			x = 0;
 		} else {
@@ -95,7 +95,7 @@ inline void draw_image_alpha(s32 x, s32 y, u32* scr, u32 scr_width, u32 scr_heig
 
 		if (y < 0) {
 			error_y = -y;
-			png = png + y * img_width;
+			img = img + y * img_width;
 			y = 0;
 		} else {
 			error_y = 0;
@@ -117,17 +117,17 @@ inline void draw_image_alpha(s32 x, s32 y, u32* scr, u32 scr_width, u32 scr_heig
 
 		while (width > 0 && height > 0) {
 			for (m = 0; m < (u32)width; m++) {
-				a = png[m] >> 24; // alpha
+				a = img[m] >> 24; // alpha
 				if (a == 0xff) {
-					scr[m] = png[m];
+					scr[m] = img[m];
 				} else if (a != 0) {
 					OxFF_A = 0xff - a;
-					scr[m] = (png[m] & 0xff000000) | 
-						((((((png[m] & 0x00ff00ff) * a) + ((scr[m] & 0x00ff00ff) * (OxFF_A))) & 0xff00ff00) |
-						((((png[m] & 0x0000ff00) * a) + ((scr[m] & 0x0000ff00) * (OxFF_A))) & 0x00ff0000)) >> 8);
+					scr[m] = (img[m] & 0xff000000) | 
+						((((((img[m] & 0x00ff00ff) * a) + ((scr[m] & 0x00ff00ff) * (OxFF_A))) & 0xff00ff00) |
+						((((img[m] & 0x0000ff00) * a) + ((scr[m] & 0x0000ff00) * (OxFF_A))) & 0x00ff0000)) >> 8);
 				}
 			}
-			png += img_pitch >> 2;
+			img += img_pitch >> 2;
 			scr += scr_width;
 			height--;
 		}
@@ -140,7 +140,7 @@ inline void draw_image_partial(s32 x, s32 y, u32 s_width, u32 s_height, u32 e_wi
 		scr += y * scr_width + x;
 		if (s_height > 0) {
 			for (u32 i = 0; i < s_height; i++) {
-				png += img_pitch >> 2;
+				img += img_pitch >> 2;
 			}
 		}
 		for (n = s_height; n < e_height + s_height; n++) {
@@ -151,11 +151,11 @@ inline void draw_image_partial(s32 x, s32 y, u32 s_width, u32 s_height, u32 e_wi
 				if ((x + m) >= (u32)scr_width) {
 					break;
 				}
-				if (png[m] != bg) {
+				if (img[m] != bg) {
 					scr[m - s_width] = color;
 				}
 			}
-			png += img_pitch >> 2;
+			img += img_pitch >> 2;
 			scr += scr_width;
 		}
 	}
