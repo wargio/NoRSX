@@ -251,5 +251,7 @@ s32 main(s32 argc, const char* argv[]) {
 end:
 	GFX->NoRSX_Exit();
 	ioPadEnd();
+
+	delete GFX;
 	return 0;
 }
