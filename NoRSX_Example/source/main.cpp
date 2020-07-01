@@ -28,14 +28,14 @@ const msgType MSG_OK = (msgType)(MSG_DIALOG_NORMAL | MSG_DIALOG_BTN_TYPE_OK | MS
 typedef struct _timer {
 	time_t start;
 	u32    frame;
-} timer_t;
+} counter_t;
 
 typedef struct _joypads {
 	padInfo padinfo;
 	padData paddata;
 } joypads_t;
 
-double calculate_fps(timer_t *timer) {
+double calculate_fps(counter_t *timer) {
 	timer->frame++;
 	if (timer->start != 0) {
 		return timer->frame / difftime(time(NULL), timer->start);
@@ -60,16 +60,18 @@ int handle_pad_event(joypads_t *joypads) {
 
 int test_bitmap(NoRSX *GFX) {
 	joypads_t joypads = {0};
-	timer_t timer = {0};
+	counter_t timer = {0};
 
 	Font F1(Sans_ttf, Sans_ttf_size, GFX); //Loaded from Memory
+	Font F2("/dev_flash/data/font/SCE-PS3-VR-R-LATIN2.TTF", GFX); //Loaded from File!
+	Font F3(JPN, GFX); //I'm Using PS3 Original Fonts! These are the available on the ps3: LATIN2 | JPN | KOR | CGB | KANA
 	Bitmap BMap(GFX);
 	Background BG(GFX);
 	Image IMG(GFX);
 	Object OBJ(GFX);
 
 	NoRSX_Bitmap Precalculated_Layer;
-	pngData* png = new pngData;
+	pngData *png = new pngData;
 
 	BMap.GenerateBitmap(&Precalculated_Layer); //Initialize the Bitmap
 	BG.MonoBitmap(0xb4e83a, &Precalculated_Layer); //a green hex color (you can use hex colors insted of COLOR_XXXXXXX)
@@ -86,7 +88,7 @@ int test_bitmap(NoRSX *GFX) {
 	// Loading image from memory
 	IMG.LoadPNG_Buf(NoRSX_Image_png, NoRSX_Image_png_size, png);
 
-	newpng = IMG.ResizeImage(png, 500, 500); //pngData* IMG.ResizeImage(pngData*, new width, new height)
+	pngData *newpng = IMG.ResizeImage(png, 500, 500); //pngData* IMG.ResizeImage(pngData*, new width, new height)
 
 	u32 imgX = (GFX->width  / 2) - (newpng->width  / 2);
 	u32 imgY = (GFX->height / 2) - (newpng->height / 2);
@@ -120,7 +122,7 @@ int test_bitmap(NoRSX *GFX) {
 
 int test_generic(NoRSX *GFX) {
 	joypads_t joypads = {0};
-	timer_t timer = {0};
+	counter_t timer = {0};
 
 	Font F1(Sans_ttf, Sans_ttf_size, GFX); //Loaded from Memory
 	Font F2("/dev_flash/data/font/SCE-PS3-VR-R-LATIN2.TTF", GFX); //Loaded from File!
@@ -128,7 +130,7 @@ int test_generic(NoRSX *GFX) {
 	Image IMG(GFX);
 	Background BG(GFX);
 
-	pngData* png = new pngData;
+	pngData *png = new pngData;
 	// Loading image from memory
 	IMG.LoadPNG_Buf(NoRSX_Image_png, NoRSX_Image_png_size, png);
 
