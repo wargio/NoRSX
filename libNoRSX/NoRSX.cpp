@@ -34,8 +34,9 @@ NoRSX::NoRSX() : EventHandler(){
 	host_addr = memalign(1024*1024, HOST_SIZE);
 	getResolution(&width,&height);
 	context = initScreen(host_addr, HOST_SIZE,0, width, height);
-	for(int i=0;i<2;i++)
+	for(int i=0;i<2;i++) {
 		makeBuffer(&buffers[i],width,height,i);
+	}
 	buffer = makeMemBuffer(width,height,&buffer_size);
 	flip(context, 0);
 	setRenderTarget(context, &buffers[currentBuffer]);
@@ -182,8 +183,9 @@ NoRSX::NoRSX(int real_screen_type, int buffer_screen_type) : EventHandler(){
 }
 
 NoRSX::~NoRSX(){
-	if(already_done!=0)
+	if(already_done != 0) {
 		NoRSX_Exit();
+	}
 }
 
 void NoRSX::RescaleFlip(){
@@ -206,11 +208,12 @@ void NoRSX::Flip(){
 	return;
 }
 
-void NoRSX::NoRSX_Exit(){
+void NoRSX::NoRSX_Exit() {
 	gcmSetWaitFlip(context);
-	for (int i=0;i<2;i++)
+	for (int i=0;i<2;i++) {
 		rsxFree (buffers[i].ptr);
-	rsxFree(buffer);
+	}
+	rsxFree (buffer);
 	rsxFinish (context, 1);
 	free (host_addr);
 	UnregisterCallBack(EVENT_SLOT0);

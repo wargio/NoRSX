@@ -31,7 +31,7 @@ void Bitmap::GenerateBitmap(NoRSX_Bitmap *a){
 }
 
 void Bitmap::GenerateCustomBitmap(uint32_t width, uint32_t height, NoRSX_Bitmap *a){
-	a->bitmap = (u32*)rsxMalloc(width*height*sizeof(u32));
+	a->bitmap = (u32*) rsxMalloc(width*height*sizeof(u32));
 
 	a->height = height;
 	a->width  = width;
@@ -49,9 +49,9 @@ void Bitmap::ClearBitmap(NoRSX_Bitmap *a){
 void Bitmap::RegenBitmap(NoRSX_Bitmap *a){
 	if(a->load==1){
 		rsxFree(a->bitmap);
-		a->bitmap = (u32*)rsxMalloc(G->width * G->height*sizeof(u32));
+		a->bitmap = (u32*) rsxMalloc(G->width * G->height*sizeof(u32));
 	}else{
-		a->bitmap = (u32*)rsxMalloc(G->width * G->height*sizeof(u32));
+		a->bitmap = (u32*) rsxMalloc(G->width * G->height*sizeof(u32));
 		a->load = 1;
 	}
 }
