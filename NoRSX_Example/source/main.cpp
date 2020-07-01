@@ -239,9 +239,9 @@ s32 main(s32 argc, const char* argv[]) {
 	NoRSX GFX(RESOLUTION_AUTO, RESOLUTION_1280x720); //set defined screen resolution You can change it to:
 	//RESOLUTION_720x480 | RESOLUTION_720x576 | RESOLUTION_1280x720 | RESOLUTION_1920x1080
 
-	if (test_bitmap(&GFX) == 2 || GFX.ExitSignalStatus()) {
-		goto end;
-	}
+	//if (test_bitmap(&GFX) == 2 || GFX.ExitSignalStatus()) {
+	//	goto end;
+	//}
 
 	//if (test_generic(&GFX) == 2 || GFX.ExitSignalStatus()) {
 	//	goto end;
