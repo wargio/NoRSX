@@ -134,7 +134,7 @@ inline void draw_image_alpha(s32 x, s32 y, u32* scr, u32 scr_width, u32 scr_heig
 	}
 }
 
-inline void draw_image_partial(s32 x, s32 y, u32 s_width, u32 s_height, u32 e_width, u32 e_height, u32 bg, u32 color, u32* scr, u32 scr_width, u32* img, u32 img_pitch) {
+inline void draw_image_partial(s32 x, s32 y, u32 s_width, u32 s_height, u32 e_width, u32 e_height, u32 bg, u32 color, u32* scr, u32 scr_width, u32 scr_height, u32* img, u32 img_pitch) {
 	u32 n, m;
 	if (img) {
 		scr += y * scr_width + x;
@@ -210,9 +210,10 @@ void Image::DrawPartialImage(s32 x, s32 y, u32 s_width, u32 s_height, u32 e_widt
 
 	u32* scr        = (u32*)G->buffer;
 	u32  scr_width  = G->width;
+	u32  scr_height = G->height;
 	u32* img        = (u32*)img->bmp_out;
 	u32  img_pitch  = img->pitch;
-	draw_image_partial(x, y, s_width, s_height, e_width, e_height, bg, color, scr, scr_width, u32* img, u32 img_pitch);
+	draw_image_partial(x, y, s_width, s_height, e_width, e_height, bg, color, scr, scr_width, scr_height, img, img_pitch);
 }
 
 void Image::DrawPartialImage(s32 x, s32 y, u32 s_width, u32 s_height, u32 e_width, u32 e_height, u32 bg, u32 color, jpgData* img) {
@@ -222,9 +223,10 @@ void Image::DrawPartialImage(s32 x, s32 y, u32 s_width, u32 s_height, u32 e_widt
 
 	u32* scr        = (u32*)G->buffer;
 	u32  scr_width  = G->width;
+	u32  scr_height = G->height;
 	u32* img        = (u32*)img->bmp_out;
 	u32  img_pitch  = img->pitch;
-	draw_image_partial(x, y, s_width, s_height, e_width, e_height, bg, color, scr, scr_width, u32* img, u32 img_pitch);
+	draw_image_partial(x, y, s_width, s_height, e_width, e_height, bg, color, scr, scr_width, scr_height, img, img_pitch);
 }
 
 void Image::DrawIMGtoBitmap(s32 x, s32 y, pngData* img, NoRSX_Bitmap* bm) {
