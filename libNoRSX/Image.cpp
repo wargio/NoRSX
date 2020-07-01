@@ -38,7 +38,7 @@ void Image::LoadJPG_Buf(const void* name, u32 name_size, jpgData* jpg) {
 	jpgLoadFromBuffer(name, name_size, jpg);
 }
 
-inline void draw_image(s32 x, s32 y, u32* scr, u32 scr_width, u32 src_height, u32* img, u32 img_width, u32 img_height, u32 img_pitch) {
+inline void draw_image(s32 x, s32 y, u32* scr, u32 scr_width, u32 scr_height, u32* img, u32 img_width, u32 img_height, u32 img_pitch) {
 	s32 error_x, error_y;
 	if (img) {
 		if (x < 0) {
@@ -81,7 +81,7 @@ inline void draw_image(s32 x, s32 y, u32* scr, u32 scr_width, u32 src_height, u3
 	}
 }
 
-inline void draw_image_alpha(s32 x, s32 y, u32* scr, u32 scr_width, u32 src_height, u32* img, u32 img_width, u32 img_height, u32 img_pitch) {
+inline void draw_image_alpha(s32 x, s32 y, u32* scr, u32 scr_width, u32 scr_height, u32* img, u32 img_width, u32 img_height, u32 img_pitch) {
 	s32 error_x, error_y;
 	u32 m, a, OxFF_A;
 	if (img) {
