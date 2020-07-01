@@ -73,18 +73,6 @@ int test_bitmap(NoRSX *GFX) {
 	NoRSX_Bitmap Precalculated_Layer;
 	pngData *png = new pngData;
 
-	BMap.GenerateBitmap(&Precalculated_Layer); //Initialize the Bitmap
-	BG.MonoBitmap(0xb4e83a, &Precalculated_Layer); //a green hex color (you can use hex colors insted of COLOR_XXXXXXX)
-
-	IMG.DrawIMGtoBitmap(imgX, imgY, png, &Precalculated_Layer);
-
-	OBJ.CircleToBitmap(500, 500, 50, COLOR_YELLOW, &Precalculated_Layer);
-
-	F1.PrintfToBitmap(150, 200, &Precalculated_Layer, COLOR_RED, "Screen %d x %d", GFX->width, GFX->height);
-	F1.PrintfToBitmap(150, 250, &Precalculated_Layer, COLOR_BLUE, 35, "Press X to exit! (Start to skip Message Dialogs and exit)");
-	F2.PrintfToBitmap(150, 300, &Precalculated_Layer, COLOR_GREEN, 60, "FreeType2 with TTF support :)");
-	F3.PrintfToBitmap(150, 500, &Precalculated_Layer, "Written by deroad");
-
 	// Loading image from memory
 	IMG.LoadPNG_Buf(NoRSX_Image_png, NoRSX_Image_png_size, png);
 
@@ -93,6 +81,17 @@ int test_bitmap(NoRSX *GFX) {
 	u32 imgX = (GFX->width  / 2) - (newpng->width  / 2);
 	u32 imgY = (GFX->height / 2) - (newpng->height / 2);
 
+	BMap.GenerateBitmap(&Precalculated_Layer); //Initialize the Bitmap
+	BG.MonoBitmap(0xb4e83a, &Precalculated_Layer); //a green hex color (you can use hex colors insted of COLOR_XXXXXXX)
+
+	IMG.DrawIMGtoBitmap(imgX, imgY, newpng, &Precalculated_Layer);
+
+	OBJ.CircleToBitmap(500, 500, 50, COLOR_YELLOW, &Precalculated_Layer);
+
+	F1.PrintfToBitmap(150, 200, &Precalculated_Layer, COLOR_RED, "Screen %d x %d", GFX->width, GFX->height);
+	F1.PrintfToBitmap(150, 250, &Precalculated_Layer, COLOR_BLUE, 35, "Press X to exit! (Start to skip Message Dialogs and exit)");
+	F2.PrintfToBitmap(150, 300, &Precalculated_Layer, COLOR_GREEN, 60, "FreeType2 with TTF support :)");
+	F3.PrintfToBitmap(150, 500, &Precalculated_Layer, "Written by deroad");
 	GFX->AppStart();
 	while (GFX->GetAppStatus()) {
 
@@ -105,7 +104,6 @@ int test_bitmap(NoRSX *GFX) {
 		}
 
 		BMap.DrawBitmap(&Precalculated_Layer);
-		IMG.DrawIMG(imgX, imgY, newpng);
 		F1.Printf(150, 100, COLOR_RED, 60, "FPS %f", fps);
 
 		GFX->Flip();
