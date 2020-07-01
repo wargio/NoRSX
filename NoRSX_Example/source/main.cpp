@@ -89,7 +89,7 @@ int test_bitmap(NoRSX *GFX) {
 	OBJ.CircleToBitmap(500, 500, 50, COLOR_YELLOW, &Precalculated_Layer);
 
 	F1.PrintfToBitmap(150, 200, &Precalculated_Layer, COLOR_RED, "Screen %d x %d", GFX->width, GFX->height);
-	F1.PrintfToBitmap(150, 250, &Precalculated_Layer, COLOR_BLUE, 35, "Press X to exit! (Start to skip Message Dialogs and exit)");
+	F1.PrintfToBitmap(150, 250, &Precalculated_Layer, COLOR_BLUE, 35, "Press /\\ to exit! (Start to skip Message Dialogs and exit)");
 	F2.PrintfToBitmap(150, 300, &Precalculated_Layer, COLOR_GREEN, 60, "FreeType2 with TTF support :)");
 	F3.PrintfToBitmap(150, 500, &Precalculated_Layer, "Written by deroad");
 	GFX->AppStart();
@@ -236,17 +236,17 @@ s32 main(s32 argc, const char* argv[]) {
 		goto end;
 	}
 
-	if (test_generic(GFX) == 2 || GFX->ExitSignalStatus()) {
-		goto end;
-	}
+	//if (test_generic(GFX) == 2 || GFX->ExitSignalStatus()) {
+	//	goto end;
+	//}
 
-	if (test_single_bar(GFX) == 2 || GFX->ExitSignalStatus()) {
-		goto end;
-	}
+	//if (test_single_bar(GFX) == 2 || GFX->ExitSignalStatus()) {
+	//	goto end;
+	//}
 
-	if (test_double_bar(GFX) == 2 || GFX->ExitSignalStatus()) {
-		goto end;
-	}
+	//if (test_double_bar(GFX) == 2 || GFX->ExitSignalStatus()) {
+	//	goto end;
+	//}
 
 end:
 	GFX->NoRSX_Exit();
