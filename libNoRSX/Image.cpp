@@ -257,7 +257,7 @@ void Image::DrawIMGtoBitmap(s32 x, s32 y, jpgData* image, NoRSX_Bitmap* bm) {
 	draw_image(x, y, scr, scr_width, scr_height, img, img_width, img_height, img_pitch);
 }
 
-void Image::AlphaDrawIMGtoBitmap(s32 x, s32 y, pngData* image, NoRSX_Bitmap* a) {
+void Image::AlphaDrawIMGtoBitmap(s32 x, s32 y, pngData* image, NoRSX_Bitmap* bm) {
 	if (!image->bmp_out) {
 		return;
 	}
@@ -272,21 +272,17 @@ void Image::AlphaDrawIMGtoBitmap(s32 x, s32 y, pngData* image, NoRSX_Bitmap* a) 
 }
 
 inline void scaleline(u32* target, u32* source, u32 src_width, u32 tgt_width) {
-	s32 num_pixels1 = 0;
-	s32 int_part1 = 0;
-	s32 fract_part1 = 0;
-	s32 e1 = 0;
 	//Thanks to: http://www.compuphase.com/graphic/scale.htm
-	num_pixels1 = tgt_width;
-	int_part1 = src_width / tgt_width;
-	fract_part1 = src_width % tgt_width;
-	e1 = 0;
+	s32 num_pixels1 = tgt_width;
+	s32 int_part1 = src_width / tgt_width;
+	s32 fract_part1 = src_width % tgt_width;
+	s32 e1 = 0;
 
 	while (num_pixels1-- > 0) {
 		*target++ = *source;
 		source += int_part1;
 		e1 += fract_part1;
-		if (e1 >= tgt_width) {
+		if (e1 >= (s32)tgt_width) {
 			e1 -= tgt_width;
 			source++;
 		}
@@ -311,7 +307,7 @@ inline resize_image(u32* source, u32* target, u32 in_width, u32 in_height, u32 t
 		target += tgt_width;
 		source += int_part0;
 		e0 += fract_part0;
-		if (e0 >= tgt_height) {
+		if (e0 >= (s32)tgt_height) {
 			e0 -= tgt_height;
 			source += in_width;
 		}
