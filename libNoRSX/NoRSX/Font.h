@@ -24,12 +24,11 @@
 #define __NORSX__FONT_H__
 
 #include <ft2build.h>
-//#include <freetype2/freetype/freetype.h>
+
 #include <NoRSX/Min.h>
 #include <NoRSX/Colors.h>
 #include <NoRSX/Bitmap.h>
 #include <NoRSX/NoRSXutil.h>
-
 
 #include FT_FREETYPE_H
 #include FT_GLYPH_H
@@ -37,14 +36,14 @@
 #include FT_SYNTHESIS_H
 #include FT_STROKER_H
 
-#define CHROMAKEY		0x00000000
-#define DEFAULT_FONT_SIZE	40
+#define CHROMAKEY          0x00000000
+#define DEFAULT_FONT_SIZE  40
 
-#define LATIN2			0
-#define JPN			1
-#define KOR			2
-#define CGB			3
-#define KANA			4
+#define LATIN2  0
+#define JPN     1
+#define KOR     2
+#define CGB     3
+#define KANA    4
 
 class Font{
 public:
@@ -54,21 +53,21 @@ public:
 	Font(u32 Size, const char *Font_Path, Minimum *min);
 	Font(const void *MemFont, u32 MemFont_size, Minimum *min);
 	Font(const char *Font_Path, Minimum *min);
-	Font(const int ID, Minimum *min);
+	Font(const int system_font, Minimum *min);
 	~Font();
 
 	void ChangeFontColor(u32 color);
 	void ChangeFontSize(u32 size);
 
 
-	void Printf(u32 x, u32 y,const char *a, ...);
-	void Printf(u32 x, u32 y, u32 Color,const char *a, ...);
-	void Printf(u32 x, u32 y, u32 Color, u32 Size,const char *a, ...);
+	void Printf(u32 x, u32 y, const char *a, ...);
+	void Printf(u32 x, u32 y, u32 Color, const char *a, ...);
+	void Printf(u32 x, u32 y, u32 Color, u32 Size, const char *a, ...);
 	void Disable_Fonts();
 
-	void PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap,const char *a, ...);
-	void PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color,const char *a, ...);
-	void PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color, u32 Size,const char *a, ...);
+	void PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, const char *a, ...);
+	void PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color, const char *a, ...);
+	void PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color, u32 Size, const char *a, ...);
 
 protected:
 	bool Kerning;
