@@ -50,26 +50,22 @@ public:
 	void LoadPNG_Buf(const void* name, u32 name_size, pngData *png);
 	void LoadJPG_Buf(const void* name, u32 name_size, jpgData *jpg);
 
-	void DrawIMG(int x, int y, pngData *png1);
-	void DrawIMG(int x, int y, jpgData *jpg1);
-	void AlphaDrawIMG(int x, int y, pngData *png1);
+	void DrawIMG(s32 x, s32 y, pngData *png);
+	void DrawIMG(s32 x, s32 y, jpgData *jpg);
+	void AlphaDrawIMG(s32 x, s32 y, pngData *png);
 
-	void DrawIMGtoBitmap(int x, int y, pngData *png1, NoRSX_Bitmap *a);
-	void DrawIMGtoBitmap(int x, int y, jpgData *jpg1, NoRSX_Bitmap *a);
-	void AlphaDrawIMGtoBitmap(int x, int y, pngData *png1, NoRSX_Bitmap *a);
+	void DrawIMGtoBitmap(s32 x, s32 y, pngData *png, NoRSX_Bitmap *bmap);
+	void DrawIMGtoBitmap(s32 x, s32 y, jpgData *jpg, NoRSX_Bitmap *bmap);
+	void AlphaDrawIMGtoBitmap(s32 x, s32 y, pngData *png, NoRSX_Bitmap *bmap);
 
-	pngData *ResizeImage(pngData *png_in, u32 TgtWidth, u32 TgtHeight);
-	jpgData *ResizeImage(jpgData *jpg_in, u32 TgtWidth, u32 TgtHeight);
+	pngData *ResizeImage(pngData *png_in, u32 tgt_width, u32 tgt_height);
+	jpgData *ResizeImage(jpgData *jpg_in, u32 tgt_width, u32 tgt_height);
 
 protected:
 	Minimum *G;
-	void DrawPartialImage(int x, int y, unsigned int s_width, unsigned int s_height, unsigned int e_width, unsigned int e_height, unsigned int bg, unsigned int color, pngData *png1); 
-	void DrawPartialImage(int x, int y, unsigned int s_width, unsigned int s_height, unsigned int e_width, unsigned int e_height, unsigned int bg, unsigned int color, jpgData *jpg1); 
-
-	void ScaleLine(u32 *Target, u32 *Source, u32 SrcWidth, u32 TgtWidth);
+	void DrawPartialImage(s32 x, s32 y, u32 s_width, u32 s_height, u32 e_width, u32 e_height, u32 bg, u32 color, pngData *png); 
+	void DrawPartialImage(s32 x, s32 y, u32 s_width, u32 s_height, u32 e_width, u32 e_height, u32 bg, u32 color, jpgData *jpg); 
 
 };
-
-unsigned int AlphaBlend(const unsigned int bg, const unsigned int src);
 
 #endif
