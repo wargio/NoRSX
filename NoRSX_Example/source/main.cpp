@@ -74,7 +74,6 @@ s32 main(s32 argc, const char* argv[])
 	F3.PrintfToBitmap(150,500,&Precalculated_Layer,"Written by deroad");
 
 	int frame=0;
-	/*
 	// Bitmap
 	
 	GFX->AppStart();
@@ -101,7 +100,7 @@ s32 main(s32 argc, const char* argv[])
 		GFX->Flip();
 		frame ++;
 	}
-	*/
+
 	GFX->AppStart();
 	while(GFX->GetAppStatus()){
 		static time_t starttime = 0;
