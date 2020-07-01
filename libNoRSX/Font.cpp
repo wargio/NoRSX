@@ -172,7 +172,7 @@ void Font::Printf(u32 x, u32 y, const char* a, ...) {
 	char text[1024];
 	va_list va;
 	va_start(va, a);
-	vsnprintf(text, sizeof text, a, va);
+	vsnprintf(text, sizeof(text), a, va);
 	va_end(va);
 
 	size_t len = strlen(a);
@@ -185,7 +185,7 @@ void Font::Printf(u32 x, u32 y, const char* a, ...) {
 		FT_UInt previous_glyph = 0;
 		Kerning = FT_HAS_KERNING(face);
 
-		for (unsigned int i = 0; i < len; i++) {
+		for (u32 i = 0; i < len; i++) {
 			glyph_index = FT_Get_Char_Index(face, text[i]);
 			if (Kerning && previous_glyph && glyph_index) {
 				FT_Vector delta;
@@ -208,7 +208,7 @@ void Font::Printf(u32 x, u32 y, u32 Color, const char* a, ...) {
 	char text[1024];
 	va_list va;
 	va_start(va, a);
-	vsnprintf(text, sizeof text, a, va);
+	vsnprintf(text, sizeof(text), a, va);
 	va_end(va);
 
 	size_t len = strlen(a);
@@ -223,7 +223,7 @@ void Font::Printf(u32 x, u32 y, u32 Color, const char* a, ...) {
 		FT_UInt previous_glyph = 0;
 		Kerning = FT_HAS_KERNING(face);
 
-		for (unsigned int i = 0; i < len; i++) {
+		for (u32 i = 0; i < len; i++) {
 			glyph_index = FT_Get_Char_Index(face, text[i]);
 			if (Kerning && previous_glyph && glyph_index) {
 				FT_Vector delta;
@@ -247,7 +247,7 @@ void Font::Printf(u32 x, u32 y, u32 Color, u32 Size, const char* a, ...) {
 	char text[1024];
 	va_list va;
 	va_start(va, a);
-	vsnprintf(text, sizeof text, a, va);
+	vsnprintf(text, sizeof(text), a, va);
 	va_end(va);
 
 	size_t len = strlen(a);
@@ -263,7 +263,7 @@ void Font::Printf(u32 x, u32 y, u32 Color, u32 Size, const char* a, ...) {
 		FT_UInt previous_glyph = 0;
 		Kerning = FT_HAS_KERNING(face);
 
-		for (unsigned int i = 0; i < len; i++) {
+		for (u32 i = 0; i < len; i++) {
 			glyph_index = FT_Get_Char_Index(face, text[i]);
 			if (Kerning && previous_glyph && glyph_index) {
 				FT_Vector delta;
@@ -288,7 +288,7 @@ void Font::PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, const char* a, ...) 
 	char text[1024];
 	va_list va;
 	va_start(va, a);
-	vsnprintf(text, sizeof text, a, va);
+	vsnprintf(text, sizeof(text), a, va);
 	va_end(va);
 
 	size_t len = strlen(a);
@@ -301,7 +301,7 @@ void Font::PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, const char* a, ...) 
 		FT_UInt previous_glyph = 0;
 		Kerning = FT_HAS_KERNING(face);
 
-		for (unsigned int i = 0; i < len; i++) {
+		for (u32 i = 0; i < len; i++) {
 			glyph_index = FT_Get_Char_Index(face, text[i]);
 			if (Kerning && previous_glyph && glyph_index) {
 				FT_Vector delta;
@@ -324,7 +324,7 @@ void Font::PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color, const cha
 	char text[1024];
 	va_list va;
 	va_start(va, a);
-	vsnprintf(text, sizeof text, a, va);
+	vsnprintf(text, sizeof(text), a, va);
 	va_end(va);
 
 	size_t len = strlen(a);
@@ -339,7 +339,7 @@ void Font::PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color, const cha
 		FT_UInt previous_glyph = 0;
 		Kerning = FT_HAS_KERNING(face);
 
-		for (unsigned int i = 0; i < len; i++) {
+		for (u32 i = 0; i < len; i++) {
 			glyph_index = FT_Get_Char_Index(face, text[i]);
 			if (Kerning && previous_glyph && glyph_index) {
 				FT_Vector delta;
@@ -363,7 +363,7 @@ void Font::PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color, u32 Size,
 	char text[1024];
 	va_list va;
 	va_start(va, a);
-	vsnprintf(text, sizeof text, a, va);
+	vsnprintf(text, sizeof(text), a, va);
 	va_end(va);
 
 	size_t len = strlen(a);
@@ -379,7 +379,7 @@ void Font::PrintfToBitmap(u32 x, u32 y, NoRSX_Bitmap* bmap, u32 Color, u32 Size,
 		FT_UInt previous_glyph = 0;
 		Kerning = FT_HAS_KERNING(face);
 
-		for (unsigned int i = 0; i < len; i++) {
+		for (u32 i = 0; i < len; i++) {
 			glyph_index = FT_Get_Char_Index(face, text[i]);
 			if (Kerning && previous_glyph && glyph_index) {
 				FT_Vector delta;
@@ -410,16 +410,20 @@ void Font::FontDrawBitmap(FT_Bitmap* bitmap, s32 offset, s32 top) {
 
 	u32* ptr = m->buffer;
 
-	if (y_max >= (s32)M_height)
+	if (y_max >= (s32)M_height){
 		y_max = M_height;
-	if (x_max >= (s32)M_width)
+	}
+
+	if (x_max >= (s32)M_width){
 		x_max = M_width;
+	}
 
 	for (x = offset, i = 0; x < x_max; x++, i++) {
 		for (y = top, j = 0; y < y_max; y++, j++) {
 			u32 color = bitmap->buffer[bitmap->width * j + i];
-			if (color > 0)
+			if (color > 0) {
 				ptr[m->width * y + x] = ((color)*0x01010101) & FontColor;
+			}
 		}
 	}
 
@@ -436,16 +440,21 @@ void Font::FontDrawBitmapToBitmap(FT_Bitmap* bitmap, NoRSX_Bitmap* bmap, s32 off
 
 	u32 M_width = m->width;
 	u32 M_height = m->height;
-	if (y_max >= (s32)M_height)
+
+	if (y_max >= (s32)M_height){
 		y_max = M_height;
-	if (x_max >= (s32)M_width)
+	}
+
+	if (x_max >= (s32)M_width){
 		x_max = M_width;
+	}
 
 	for (x = offset, i = 0; x < x_max; x++, i++) {
 		for (y = top, j = 0; y < y_max; y++, j++) {
 			u32 color = bitmap->buffer[bitmap->width * j + i];
-			if (color > 0)
+			if (color > 0) {
 				ptr[m->width * y + x] = ((color)*0x01010101) & FontColor;
+			}
 		}
 	}
 	return;
