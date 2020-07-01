@@ -216,7 +216,7 @@ int test_double_bar(NoRSX* GFX) {
 		}
 
 		Msg.ProgressBarDialogFlip();
-		if (frame % 55 == 0) {
+		if (frame % 15 == 0) {
 			Bx += 10;
 			Msg.DoubleProgressBarDialogIncreaseFirstBar(10);
 		}
