@@ -45,9 +45,9 @@ double calculate_fps(counter_t *timer) {
 }
 
 int handle_pad_event(joypads_t *joypads) {
-	ioPadGetInfo(joypads->padinfo);
+	ioPadGetInfo(&joypads->padinfo);
 	if (joypads->padinfo.status[0]) {
-		ioPadGetData(0, joypads->paddata);
+		ioPadGetData(0, &joypads->paddata);
 		if (joypads->paddata.BTN_TRIANGLE) {
 			return 1;
 		}
@@ -230,8 +230,6 @@ int test_double_bar(NoRSX *GFX) {
 
 s32 main(s32 argc, const char* argv[]) {
 	ioPadInit(7);
-
-	pngData* png = new pngData;
 
 	NoRSX* GFX = new NoRSX(RESOLUTION_AUTO, RESOLUTION_1280x720); //set defined screen resolution You can change it to:
 	//RESOLUTION_720x480 | RESOLUTION_720x576 | RESOLUTION_1280x720 | RESOLUTION_1920x1080
