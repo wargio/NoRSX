@@ -289,7 +289,7 @@ inline void scaleline(u32* target, u32* source, u32 src_width, u32 tgt_width) {
 	}
 }
 
-inline resize_image(u32* source, u32* target, u32 in_width, u32 in_height, u32 tgt_width, u32 tgt_height) {
+inline void resize_image(u32* source, u32* target, u32 in_width, u32 in_height, u32 tgt_width, u32 tgt_height) {
 	s32 e0 = 0;
 	s32 num_pixels0 = tgt_height;
 	s32 int_part0 = (in_height / tgt_height) * in_width;
