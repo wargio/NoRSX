@@ -55,21 +55,21 @@ int Spu::GetSpuError() const{
 
 void Spu::SpuAttrubute(NoRSX_Spu *spus, const char *text){
 	if(spus->loaded_attr != NORSX_SPU_LOADED){
-		spus->attr.nameAddress = ptr2ea(text);
-		spus->attr.nameSize    = strlen(text)+1;
-		spus->attr.attribute   = SPU_THREAD_ATTR_NONE;
-		spus->loaded_attr      = NORSX_SPU_LOADED;
+		spus->attr.name 	= text;
+		spus->attr.nsize    = strlen(text)+1;
+		spus->attr.option   = SPU_THREAD_ATTR_NONE;
+		spus->loaded_attr   = NORSX_SPU_LOADED;
 	}
 }
 
 void Spu::SpuGroupAttribute(NoRSX_Spu *spus, const char* text, u32 group_type, u32 mem_container){
 	if(spus->loaded_grp_attr != NORSX_SPU_LOADED){
-		spus->group_attr.nameAddress  = ptr2ea(text);
-		spus->group_attr.nameSize     = strlen(text)+1;
-		spus->group_attr.groupType    = group_type;
-		spus->group_attr.memContainer = mem_container;
-		spus->group_num               = 1;
-		spus->loaded_grp_attr         = NORSX_SPU_LOADED;
+		spus->group_attr.name	    = text;
+		spus->group_attr.nsize      = strlen(text)+1;
+		spus->group_attr.type       = group_type;
+		spus->group_attr.option.ct 	= mem_container;
+		spus->group_num             = 1;
+		spus->loaded_grp_attr       = NORSX_SPU_LOADED;
 	}
 }
 
