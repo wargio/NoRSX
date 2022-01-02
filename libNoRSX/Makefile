@@ -69,7 +69,7 @@ ppu:
 	@$(MAKE) PLATFORM=ppu lib -C ppu -f $(CURDIR)/Makefile
 
 #---------------------------------------------------------------------------------
-install:
+install: ppu
 #---------------------------------------------------------------------------------
 	@[ -d $(PORTLIBS)/lib ] || mkdir -p $(PORTLIBS)/lib
 	@cp -frv $(CURDIR)/lib/ppu/*.a $(PORTLIBS)/lib
